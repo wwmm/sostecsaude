@@ -58,7 +58,7 @@ class AddFragment : Fragment() {
                                 Snackbar.make(
                                     main_layout_add, "Dados Inseridos!",
                                     Snackbar.LENGTH_SHORT
-                                ).show();
+                                ).show()
                             }
                         }
                     }

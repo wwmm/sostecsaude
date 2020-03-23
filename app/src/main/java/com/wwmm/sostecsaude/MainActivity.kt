@@ -10,14 +10,9 @@ import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.bottomnavigation.BottomNavigationView
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
-import org.jetbrains.exposed.sql.*
-import org.jetbrains.exposed.sql.transactions.transaction
+import org.jetbrains.exposed.sql.Database
 
 class MainActivity : AppCompatActivity() {
-    private lateinit var mSqldb: SQLHelper
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -39,8 +34,6 @@ class MainActivity : AppCompatActivity() {
 
         navView.setupWithNavController(navController)
 
-        mSqldb = SQLHelper(this)
-
         Database.connect(
             "jdbc:mysql://remotemysql.com/mQe0EBGW7O",
             driver = "com.mysql.jdbc.Driver",
@@ -60,39 +53,10 @@ class MainActivity : AppCompatActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
             R.id.upload_db -> {
-                GlobalScope.launch(Dispatchers.IO) {
-                    val cursor = mSqldb.dbQuery(
-                        "select * from ${SQLHelper.DB_TABLE_NAME}")
-
-                    if (cursor.count != 0) {
-                        cursor.moveToFirst()
-
-                        do {
-                            val local = cursor.getString(cursor.getColumnIndex(
-                                SQLHelper.DB_LOCAL))
-
-                            val equipamento = cursor.getString(cursor.getColumnIndex(
-                                SQLHelper.DB_EQUIPAMENTO))
-
-                            val defeito = cursor.getString(cursor.getColumnIndex(
-                                SQLHelper.DB_DEFEITO))
-
-                            val quantidade = cursor.getString(cursor.getColumnIndex(
-                                SQLHelper.DB_QUANTIDADE)).toInt()
-
-
-                        } while (cursor.moveToNext())
-                    }
-                }
-
                 true
             }
 
             R.id.reset_db -> {
-                deleteDatabase(SQLHelper.DB_NAME)
-
-                mSqldb = SQLHelper(this)
-
                 true
             }
 

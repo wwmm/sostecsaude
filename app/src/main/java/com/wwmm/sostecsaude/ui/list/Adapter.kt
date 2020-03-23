@@ -59,7 +59,7 @@ class Adapter(private val lines: ArrayList<ResultRow>, private val progressBar: 
 
                     lines.remove(line)
 
-                    notifyItemRemoved (position)
+                    notifyItemRemoved(position)
                 }
             }
         }
