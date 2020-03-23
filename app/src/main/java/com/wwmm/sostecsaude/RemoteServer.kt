@@ -4,6 +4,7 @@ import org.jetbrains.exposed.sql.Table
 
 object Equipamentos : Table("equipamentos") {
     val id = Equipamentos.integer("id").autoIncrement()
+    val unidade_saude = Equipamentos.varchar("unidade_saude", 255)
     val local = Equipamentos.varchar("local", 255)
     val equipamento = Equipamentos.varchar("equipamento", 255)
     val defeito = Equipamentos.varchar("defeito", 255)

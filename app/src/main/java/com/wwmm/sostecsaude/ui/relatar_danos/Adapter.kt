@@ -34,11 +34,13 @@ class Adapter(private val lines: ArrayList<ResultRow>, private val progressBar: 
         val line = lines[position]
 
         val id = line[Equipamentos.id]
+        var unidadeSaude = line[Equipamentos.unidade_saude]
         var local = line[Equipamentos.local]
         var equipamento = line[Equipamentos.equipamento]
         var defeito = line[Equipamentos.defeito]
         var quantidade = line[Equipamentos.quantidade]
 
+        holder.view.editText_unidade_saude.setText(unidadeSaude)
         holder.view.editText_local.setText(local)
         holder.view.editText_equipamento.setText(equipamento)
         holder.view.editText_defeito.setText(defeito)
@@ -65,6 +67,7 @@ class Adapter(private val lines: ArrayList<ResultRow>, private val progressBar: 
         }
 
         holder.view.button_update.setOnClickListener {
+            unidadeSaude = holder.view.editText_unidade_saude.text.toString()
             local = holder.view.editText_local.text.toString()
             equipamento = holder.view.editText_equipamento.text.toString()
             defeito = holder.view.editText_defeito.text.toString()
@@ -75,6 +78,7 @@ class Adapter(private val lines: ArrayList<ResultRow>, private val progressBar: 
             GlobalScope.launch(Dispatchers.IO) {
                 transaction {
                     Equipamentos.update({ Equipamentos.id eq id }) {
+                        it[Equipamentos.unidade_saude] = unidadeSaude
                         it[Equipamentos.local] = local
                         it[Equipamentos.equipamento] = equipamento
                         it[Equipamentos.defeito] = defeito

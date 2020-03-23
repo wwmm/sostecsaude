@@ -33,9 +33,19 @@ class AddFragment : Fragment() {
         progressBar.visibility = View.GONE
 
         button_add.setOnClickListener {
+            val unidadeSaude = editText_unidade_saude.text.toString()
             val local = editText_local.text.toString()
             val equipamento = editText_equipamento.text.toString()
             val defeito = editText_defeito.text.toString()
+
+            val imm =
+                requireActivity().getSystemService(Context.INPUT_METHOD_SERVICE) as
+                        InputMethodManager?
+
+            imm?.hideSoftInputFromWindow(
+                requireActivity().currentFocus?.windowToken,
+                0
+            )
 
             if (local.isNotEmpty() && equipamento.isNotEmpty() && defeito.isNotEmpty() &&
                 editText_quantidade.text.isNotEmpty()
@@ -56,6 +66,7 @@ class AddFragment : Fragment() {
                     transaction {
                         if (!connection.isClosed) {
                             Equipamentos.insertIgnore {
+                                it[Equipamentos.unidade_saude] = unidadeSaude
                                 it[Equipamentos.local] = local
                                 it[Equipamentos.equipamento] = equipamento
                                 it[Equipamentos.defeito] = defeito
@@ -66,15 +77,6 @@ class AddFragment : Fragment() {
 
                             GlobalScope.launch(Dispatchers.Main) {
                                 progressBar.visibility = View.GONE
-
-                                val imm =
-                                    requireActivity().getSystemService(Context.INPUT_METHOD_SERVICE) as
-                                            InputMethodManager?
-
-                                imm?.hideSoftInputFromWindow(
-                                    requireActivity().currentFocus?.windowToken,
-                                    0
-                                )
 
                                 Snackbar.make(
                                     main_layout_add, "Dados Inseridos!",

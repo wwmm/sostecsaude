@@ -1,11 +1,11 @@
 <resources>
     <string name="app_name">SOSTecSaúde</string>
-    <string name="title_add">Adicionar</string>
+    <string name="title_add">Enviar</string>
     <string name="title_list">Submissões</string>
     <string name="title_remove">Remover</string>
-    <string name="title_export">Exportar PDF</string>
+    <string name="title_unidade_saude">Unidade de Saúde</string>
 
-    <string name="title_local">Local</string>
+    <string name="title_local">Localização</string>
     <string name="title_equipamento">Equipamento ou Peça</string>
     <string name="title_defeito">Defeito</string>
     <string name="title_quantidade">Quantidade</string>
