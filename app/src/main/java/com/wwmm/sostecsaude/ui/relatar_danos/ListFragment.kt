@@ -12,10 +12,7 @@ import kotlinx.android.synthetic.main.fragment_list.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
-import org.jetbrains.exposed.sql.ResultRow
-import org.jetbrains.exposed.sql.StdOutSqlLogger
-import org.jetbrains.exposed.sql.addLogger
-import org.jetbrains.exposed.sql.selectAll
+import org.jetbrains.exposed.sql.*
 import org.jetbrains.exposed.sql.transactions.transaction
 
 class ListFragment : Fragment() {
@@ -37,6 +34,14 @@ class ListFragment : Fragment() {
             layoutManager = LinearLayoutManager(requireContext())
         }
 
+        val prefs = requireActivity().getSharedPreferences(
+            "UserInfo",
+            0
+        )
+
+        val name = prefs.getString("Name", "")!!
+        val email = prefs.getString("Email", "")!!
+
         GlobalScope.launch(Dispatchers.IO) {
             transaction {
                 addLogger(StdOutSqlLogger)
@@ -44,7 +49,12 @@ class ListFragment : Fragment() {
                 if (!connection.isClosed) {
                     val lines = ArrayList<ResultRow>()
 
-                    for (line in Equipamentos.selectAll()) {
+                    val query = Equipamentos.select {
+                        Equipamentos.profissional.eq(name) and
+                                Equipamentos.email.eq(email)
+                    }
+
+                    for (line in query) {
                         lines.add(line)
                     }
 

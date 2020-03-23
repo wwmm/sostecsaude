@@ -8,6 +8,8 @@ object Equipamentos : Table("equipamentos") {
     val equipamento = Equipamentos.varchar("equipamento", 255)
     val defeito = Equipamentos.varchar("defeito", 255)
     val quantidade = Equipamentos.integer("quantidade")
+    val profissional = Equipamentos.varchar("profissional", 255)
+    val email = Equipamentos.varchar("email", 255)
 
     override val primaryKey = PrimaryKey(id)
 }
