@@ -11,9 +11,4 @@
         android:icon="@drawable/ic_view_list"
         android:title="@string/title_list" />
 
-    <item
-        android:id="@+id/navigation_export"
-        android:icon="@drawable/ic_pdf"
-        android:title="@string/title_export" />
-
 </menu>

@@ -37,10 +37,6 @@ class RelatarDanosFragment : Fragment() {
                     requireActivity().title = getString(R.string.title_ver_danos)
                 }
 
-                R.id.navigation_export -> {
-                    requireActivity().title = getString(R.string.title_export)
-                }
-
                 else -> {
                 }
             }

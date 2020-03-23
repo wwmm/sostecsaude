@@ -16,10 +16,4 @@
         android:name="com.wwmm.sostecsaude.ui.relatar_danos.ListFragment"
         android:label="@string/app_name"
         tools:layout="@layout/fragment_list" />
-
-    <fragment
-        android:id="@+id/navigation_export"
-        android:name="com.wwmm.sostecsaude.ui.relatar_danos.ExportFragment"
-        android:label="@string/app_name"
-        tools:layout="@layout/fragment_export" />
 </navigation>
