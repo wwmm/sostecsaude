@@ -12,6 +12,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import org.jetbrains.exposed.sql.ResultRow
+import org.jetbrains.exposed.sql.deleteWhere
 import org.jetbrains.exposed.sql.transactions.transaction
 import org.jetbrains.exposed.sql.update
 
@@ -44,9 +45,23 @@ class Adapter(private val lines: ArrayList<ResultRow>, private val progressBar: 
         holder.view.editText_quantidade.setText(quantidade.toString())
 
         holder.view.button_remove.setOnClickListener {
-            println(id)
+            progressBar.visibility = View.VISIBLE
 
-            notifyItemRemoved(position)
+            GlobalScope.launch(Dispatchers.IO) {
+                transaction {
+                    Equipamentos.deleteWhere {
+                        Equipamentos.id eq id
+                    }
+                }
+
+                GlobalScope.launch(Dispatchers.Main) {
+                    progressBar.visibility = View.GONE
+
+                    lines.remove(line)
+
+                    notifyItemRemoved (position)
+                }
+            }
         }
 
         holder.view.button_update.setOnClickListener {

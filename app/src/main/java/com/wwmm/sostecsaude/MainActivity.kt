@@ -80,18 +80,7 @@ class MainActivity : AppCompatActivity() {
                             val quantidade = cursor.getString(cursor.getColumnIndex(
                                 SQLHelper.DB_QUANTIDADE)).toInt()
 
-                            transaction {
-                                addLogger(StdOutSqlLogger)
 
-                                if (!connection.isClosed) {
-                                    Equipamentos.insertIgnore {
-                                        it[Equipamentos.local] = local
-                                        it[Equipamentos.equipamento] = equipamento
-                                        it[Equipamentos.defeito] = defeito
-                                        it[Equipamentos.quantidade] = quantidade
-                                    }
-                                }
-                            }
                         } while (cursor.moveToNext())
                     }
                 }
