@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/upload_db"
+        android:title="@string/title_upload_db" />
+
+    <item
+        android:id="@+id/reset_db"
+        android:title="@string/title_reset" />
+</menu>

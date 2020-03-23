@@ -1,0 +1,17 @@
+<resources>
+    <string name="app_name">SOSTecSaúde</string>
+    <string name="title_add">Adicionar</string>
+    <string name="title_list">Lista</string>
+    <string name="title_remove">Remover</string>
+    <string name="title_export">Exportar PDF</string>
+
+    <string name="title_local">Local</string>
+    <string name="title_equipamento">Equipamento ou Peça</string>
+    <string name="title_defeito">Defeito</string>
+    <string name="title_quantidade">Quantidade</string>
+
+    <string name="title_update">Atualizar</string>
+
+    <string name="title_reset">Reset</string>
+    <string name="title_upload_db">Enviar Dados Para O Servidor</string>
+</resources>
