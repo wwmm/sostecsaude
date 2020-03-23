@@ -27,4 +27,6 @@
 
     <string name="title_nome">Nome</string>
     <string name="title_email">Email</string>
+    <string name="title_contato">Contato</string>
+    <string name="title_setor">Setor</string>
 </resources>

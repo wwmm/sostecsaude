@@ -49,7 +49,7 @@ class ListFragment : Fragment() {
                     }
 
                     GlobalScope.launch(Dispatchers.Main) {
-                        if(isAdded) {
+                        if (isAdded) {
                             recyclerview.apply {
                                 adapter =
                                     Adapter(

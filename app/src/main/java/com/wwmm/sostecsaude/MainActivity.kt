@@ -1,10 +1,8 @@
 package com.wwmm.sostecsaude
 
 import android.os.Bundle
-import android.view.Menu
-import android.view.MenuInflater
-import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
+import com.wwmm.sostecsaude.ui.empresas.EmpresasFragment
 import com.wwmm.sostecsaude.ui.home.HomeFragment
 import com.wwmm.sostecsaude.ui.profissionais.ContatoFragment
 import com.wwmm.sostecsaude.ui.profissionais.ProfissionaisFragment
@@ -17,6 +15,7 @@ class MainActivity : AppCompatActivity(), HomeFragment.Listener, ProfissionaisFr
     private lateinit var mProfissionaisFragment: ProfissionaisFragment
     private lateinit var mRelatarDanosFragment: RelatarDanosFragment
     private lateinit var mContatoFragment: ContatoFragment
+    private lateinit var mEmpresasFragment: EmpresasFragment
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -26,6 +25,7 @@ class MainActivity : AppCompatActivity(), HomeFragment.Listener, ProfissionaisFr
         mProfissionaisFragment = ProfissionaisFragment()
         mRelatarDanosFragment = RelatarDanosFragment()
         mContatoFragment = ContatoFragment()
+        mEmpresasFragment = EmpresasFragment()
 
         loadHome()
 
@@ -46,14 +46,14 @@ class MainActivity : AppCompatActivity(), HomeFragment.Listener, ProfissionaisFr
         val name = prefs.getString("Name", "")
         val email = prefs.getString("Email", "")
 
-        title = if(name.isNullOrBlank() || email.isNullOrBlank()){
+        title = if (name.isNullOrBlank() || email.isNullOrBlank()) {
             mContatoFragment.mLoadHome = true
 
             supportFragmentManager.beginTransaction().replace(R.id.mainFrame, mContatoFragment)
                 .commit()
 
             getString(R.string.title_profissional_contato)
-        }else {
+        } else {
             supportFragmentManager.beginTransaction()
                 .replace(R.id.mainFrame, mProfissionaisFragment)
                 .commit()
@@ -63,6 +63,10 @@ class MainActivity : AppCompatActivity(), HomeFragment.Listener, ProfissionaisFr
     }
 
     override fun loadEmpresas() {
+        supportFragmentManager.beginTransaction().replace(R.id.mainFrame, mEmpresasFragment)
+            .commit()
+
+        title = getString(R.string.title_empresas)
     }
 
     override fun loadRelatarDano() {
@@ -102,28 +106,6 @@ class MainActivity : AppCompatActivity(), HomeFragment.Listener, ProfissionaisFr
             else -> {
                 loadHome()
             }
-        }
-    }
-
-    override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        val inflater: MenuInflater = menuInflater
-
-        inflater.inflate(R.menu.main_menu, menu)
-
-        return true
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        return when (item.itemId) {
-            R.id.upload_db -> {
-                true
-            }
-
-            R.id.reset_db -> {
-                true
-            }
-
-            else -> super.onOptionsItemSelected(item)
         }
     }
 }

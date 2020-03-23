@@ -11,3 +11,13 @@ object Equipamentos : Table("equipamentos") {
 
     override val primaryKey = PrimaryKey(id)
 }
+
+object Empresas : Table("empresas") {
+    val id = Empresas.integer("id").autoIncrement()
+    val nome = Empresas.varchar("nome", 255)
+    val setor = Empresas.varchar("setor", 255)
+    val local = Empresas.varchar("local", 255)
+    val contato = Empresas.varchar("contato", 255)
+
+    override val primaryKey = PrimaryKey(id)
+}
