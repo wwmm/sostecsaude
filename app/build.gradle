@@ -54,4 +54,5 @@ dependencies {
     implementation 'org.jetbrains.exposed:exposed-dao:0.22.1'
 
     implementation 'mysql:mysql-connector-java:5.1.48'
+    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
 }

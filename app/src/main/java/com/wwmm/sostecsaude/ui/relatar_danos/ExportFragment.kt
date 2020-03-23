@@ -1,4 +1,4 @@
-package com.wwmm.sostecsaude.ui.export
+package com.wwmm.sostecsaude.ui.relatar_danos
 
 import android.Manifest
 import android.app.Activity
@@ -25,7 +25,10 @@ class ExportFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        requestPermissions(permissions, REQUEST_PERMISSION_CODE)
+        requestPermissions(
+            permissions,
+            REQUEST_PERMISSION_CODE
+        )
     }
 
     override fun onCreateView(
@@ -39,7 +42,10 @@ class ExportFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val table = MyTable(requireContext(), tablelayout)
+        val table = MyTable(
+            requireContext(),
+            tablelayout
+        )
 
         table.build("select * from ${SQLHelper.DB_TABLE_NAME}")
 
@@ -66,7 +72,10 @@ class ExportFragment : Fragment() {
             putExtra(Intent.EXTRA_TITLE, "equipamentos.pdf")
         }
 
-        startActivityForResult(intent, SAVE_PDF)
+        startActivityForResult(
+            intent,
+            SAVE_PDF
+        )
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, resultData: Intent?) {

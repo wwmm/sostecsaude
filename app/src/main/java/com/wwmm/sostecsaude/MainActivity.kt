@@ -5,34 +5,26 @@ import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
-import androidx.navigation.findNavController
-import androidx.navigation.ui.AppBarConfiguration
-import androidx.navigation.ui.setupActionBarWithNavController
-import androidx.navigation.ui.setupWithNavController
-import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.wwmm.sostecsaude.ui.home.HomeFragment
+import com.wwmm.sostecsaude.ui.profissionais.ProfissionaisFragment
+import com.wwmm.sostecsaude.ui.relatar_danos.RelatarDanosFragment
 import org.jetbrains.exposed.sql.Database
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), HomeFragment.Listener, ProfissionaisFragment.Listener {
+    private lateinit var mHomeFragment: HomeFragment
+    private lateinit var mProfissionaisFragment: ProfissionaisFragment
+    private lateinit var mRelatarDanosFragment: RelatarDanosFragment
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        val navView: BottomNavigationView = findViewById(R.id.nav_view)
+        mHomeFragment = HomeFragment()
+        mProfissionaisFragment = ProfissionaisFragment()
+        mRelatarDanosFragment = RelatarDanosFragment()
 
-        val navController = findNavController(R.id.nav_host_fragment)
-
-        // Passing each menu ID as a set of Ids because each
-        // menu should be considered as top level destinations.
-        val appBarConfiguration = AppBarConfiguration(
-            setOf(
-                R.id.navigation_add, R.id.navigation_list, R.id.navigation_export
-            )
-        )
-
-        setupActionBarWithNavController(navController, appBarConfiguration)
-
-        navView.setupWithNavController(navController)
+        // default fragment
+        supportFragmentManager.beginTransaction().replace(R.id.mainFrame, mHomeFragment).commit()
 
         Database.connect(
             "jdbc:mysql://remotemysql.com/mQe0EBGW7O",
@@ -40,6 +32,46 @@ class MainActivity : AppCompatActivity() {
             user = "mQe0EBGW7O",
             password = "azsZegvXg6"
         )
+    }
+
+    override fun loadProfissionais() {
+        supportFragmentManager.beginTransaction().replace(R.id.mainFrame, mProfissionaisFragment)
+            .commit()
+
+        title = getString(R.string.title_profissionais)
+    }
+
+    override fun loadEmpresas() {
+    }
+
+    override fun loadRelatarDano() {
+        supportFragmentManager.beginTransaction().replace(R.id.mainFrame, mRelatarDanosFragment)
+            .commit()
+    }
+
+    override fun loadContato() {
+    }
+
+    override fun onBackPressed() {
+        when {
+            mHomeFragment.isAdded -> {
+                super.onBackPressed()
+            }
+
+            mRelatarDanosFragment.isAdded -> {
+                supportFragmentManager.beginTransaction()
+                    .replace(R.id.mainFrame, mProfissionaisFragment).commit()
+
+                title = getString(R.string.title_profissionais)
+            }
+
+            else -> {
+                supportFragmentManager.beginTransaction().replace(R.id.mainFrame, mHomeFragment)
+                    .commit()
+
+                title = getString(R.string.app_name)
+            }
+        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {

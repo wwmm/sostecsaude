@@ -1,4 +1,4 @@
-package com.wwmm.sostecsaude.ui.add
+package com.wwmm.sostecsaude.ui.relatar_danos
 
 import android.os.Bundle
 import android.view.LayoutInflater

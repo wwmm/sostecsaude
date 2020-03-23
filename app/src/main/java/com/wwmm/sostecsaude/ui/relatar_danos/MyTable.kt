@@ -1,4 +1,4 @@
-package com.wwmm.sostecsaude.ui.export
+package com.wwmm.sostecsaude.ui.relatar_danos
 
 import android.content.Context
 import android.database.Cursor

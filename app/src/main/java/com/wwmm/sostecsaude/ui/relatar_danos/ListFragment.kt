@@ -1,4 +1,4 @@
-package com.wwmm.sostecsaude.ui.list
+package com.wwmm.sostecsaude.ui.relatar_danos
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -49,11 +49,17 @@ class ListFragment : Fragment() {
                     }
 
                     GlobalScope.launch(Dispatchers.Main) {
-                        recyclerview.apply {
-                            adapter = Adapter(lines, progressBar)
-                        }
+                        if(isAdded) {
+                            recyclerview.apply {
+                                adapter =
+                                    Adapter(
+                                        lines,
+                                        progressBar
+                                    )
+                            }
 
-                        progressBar.visibility = View.GONE
+                            progressBar.visibility = View.GONE
+                        }
                     }
                 }
             }
