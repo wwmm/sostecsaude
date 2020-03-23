@@ -11,6 +11,7 @@
     <string name="title_quantidade">Quantidade</string>
 
     <string name="title_update">Atualizar</string>
+    <string name="title_save">Salvar</string>
 
     <string name="title_reset">Reset</string>
     <string name="title_upload_db">Enviar Dados Para O Servidor</string>
@@ -21,8 +22,9 @@
     <string name="title_setor_manutencao">Manutencao</string>
 
     <string name="title_relatar_danos">Relatar Danos Em Equipamentos</string>
+    <string name="title_ver_danos">Seus Relatos</string>
     <string name="title_profissional_contato">Seu Contato</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="title_nome">Nome</string>
+    <string name="title_email">Email</string>
 </resources>

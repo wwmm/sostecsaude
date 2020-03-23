@@ -6,14 +6,17 @@ import android.view.MenuInflater
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import com.wwmm.sostecsaude.ui.home.HomeFragment
+import com.wwmm.sostecsaude.ui.profissionais.ContatoFragment
 import com.wwmm.sostecsaude.ui.profissionais.ProfissionaisFragment
 import com.wwmm.sostecsaude.ui.relatar_danos.RelatarDanosFragment
 import org.jetbrains.exposed.sql.Database
 
-class MainActivity : AppCompatActivity(), HomeFragment.Listener, ProfissionaisFragment.Listener {
+class MainActivity : AppCompatActivity(), HomeFragment.Listener, ProfissionaisFragment.Listener,
+    ContatoFragment.Listener {
     private lateinit var mHomeFragment: HomeFragment
     private lateinit var mProfissionaisFragment: ProfissionaisFragment
     private lateinit var mRelatarDanosFragment: RelatarDanosFragment
+    private lateinit var mContatoFragment: ContatoFragment
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -22,9 +25,9 @@ class MainActivity : AppCompatActivity(), HomeFragment.Listener, ProfissionaisFr
         mHomeFragment = HomeFragment()
         mProfissionaisFragment = ProfissionaisFragment()
         mRelatarDanosFragment = RelatarDanosFragment()
+        mContatoFragment = ContatoFragment()
 
-        // default fragment
-        supportFragmentManager.beginTransaction().replace(R.id.mainFrame, mHomeFragment).commit()
+        loadHome()
 
         Database.connect(
             "jdbc:mysql://remotemysql.com/mQe0EBGW7O",
@@ -35,10 +38,28 @@ class MainActivity : AppCompatActivity(), HomeFragment.Listener, ProfissionaisFr
     }
 
     override fun loadProfissionais() {
-        supportFragmentManager.beginTransaction().replace(R.id.mainFrame, mProfissionaisFragment)
-            .commit()
+        val prefs = getSharedPreferences(
+            "UserInfo",
+            0
+        )
 
-        title = getString(R.string.title_profissionais)
+        val name = prefs.getString("Name", "")
+        val email = prefs.getString("Email", "")
+
+        title = if(name.isNullOrBlank() || email.isNullOrBlank()){
+            mContatoFragment.mLoadHome = true
+
+            supportFragmentManager.beginTransaction().replace(R.id.mainFrame, mContatoFragment)
+                .commit()
+
+            getString(R.string.title_profissional_contato)
+        }else {
+            supportFragmentManager.beginTransaction()
+                .replace(R.id.mainFrame, mProfissionaisFragment)
+                .commit()
+
+            getString(R.string.title_profissionais)
+        }
     }
 
     override fun loadEmpresas() {
@@ -47,9 +68,22 @@ class MainActivity : AppCompatActivity(), HomeFragment.Listener, ProfissionaisFr
     override fun loadRelatarDano() {
         supportFragmentManager.beginTransaction().replace(R.id.mainFrame, mRelatarDanosFragment)
             .commit()
+
+        title = getString(R.string.title_relatar_danos)
     }
 
     override fun loadContato() {
+        supportFragmentManager.beginTransaction().replace(R.id.mainFrame, mContatoFragment)
+            .commit()
+
+        title = getString(R.string.title_profissional_contato)
+    }
+
+    override fun loadHome() {
+        supportFragmentManager.beginTransaction().replace(R.id.mainFrame, mHomeFragment)
+            .commit()
+
+        title = getString(R.string.app_name)
     }
 
     override fun onBackPressed() {
@@ -58,7 +92,7 @@ class MainActivity : AppCompatActivity(), HomeFragment.Listener, ProfissionaisFr
                 super.onBackPressed()
             }
 
-            mRelatarDanosFragment.isAdded -> {
+            mRelatarDanosFragment.isAdded || mContatoFragment.isAdded -> {
                 supportFragmentManager.beginTransaction()
                     .replace(R.id.mainFrame, mProfissionaisFragment).commit()
 
@@ -66,10 +100,7 @@ class MainActivity : AppCompatActivity(), HomeFragment.Listener, ProfissionaisFr
             }
 
             else -> {
-                supportFragmentManager.beginTransaction().replace(R.id.mainFrame, mHomeFragment)
-                    .commit()
-
-                title = getString(R.string.app_name)
+                loadHome()
             }
         }
     }

@@ -30,14 +30,15 @@ class RelatarDanosFragment : Fragment() {
         navController.addOnDestinationChangedListener { _, destination, _ ->
             when (destination.id) {
                 R.id.navigation_add -> {
-                    requireActivity().title = "Relatar Defeito"
+                    requireActivity().title = getString(R.string.title_relatar_danos)
                 }
 
                 R.id.navigation_list -> {
+                    requireActivity().title = getString(R.string.title_ver_danos)
                 }
 
                 R.id.navigation_export -> {
-                    println("oi")
+                    requireActivity().title = getString(R.string.title_export)
                 }
 
                 else -> {
