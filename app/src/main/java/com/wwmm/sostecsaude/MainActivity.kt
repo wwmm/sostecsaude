@@ -84,7 +84,7 @@ class MainActivity : AppCompatActivity() {
                                 addLogger(StdOutSqlLogger)
 
                                 if (!connection.isClosed) {
-                                    RemoteServer.Equipamentos.insertIgnore {
+                                    Equipamentos.insertIgnore {
                                         it[Equipamentos.local] = local
                                         it[Equipamentos.equipamento] = equipamento
                                         it[Equipamentos.defeito] = defeito
