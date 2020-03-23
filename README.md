@@ -1,2 +1,1 @@
-# Com Defeito
 # SOSTecSaúde
