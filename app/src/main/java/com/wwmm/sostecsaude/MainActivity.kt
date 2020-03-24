@@ -29,11 +29,18 @@ class MainActivity : AppCompatActivity(), HomeFragment.Listener, ProfissionaisFr
 
         loadHome()
 
+//        Database.connect(
+//            "jdbc:mysql://remotemysql.com/mQe0EBGW7O",
+//            driver = "com.mysql.jdbc.Driver",
+//            user = "mQe0EBGW7O",
+//            password = "azsZegvXg6"
+//        )
+
         Database.connect(
-            "jdbc:mysql://remotemysql.com/mQe0EBGW7O",
+            "jdbc:mysql://albali.eic.cefet-rj.br/sostecsaude",
             driver = "com.mysql.jdbc.Driver",
-            user = "mQe0EBGW7O",
-            password = "azsZegvXg6"
+            user = "sostecsaude",
+            password = "Covid19.fap"
         )
     }
 
