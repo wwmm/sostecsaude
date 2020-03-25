@@ -47,8 +47,8 @@ class AddFragment : Fragment() {
                 0
             )
 
-            if (local.isNotEmpty() && equipamento.isNotEmpty() && defeito.isNotEmpty() &&
-                editText_quantidade.text.isNotEmpty()
+            if (local.isNotBlank() && equipamento.isNotBlank() && defeito.isNotBlank() &&
+                editText_quantidade.text.isNotBlank()
             ) {
                 val quantidade = editText_quantidade.text.toString().toInt()
 
