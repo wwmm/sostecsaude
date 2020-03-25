@@ -44,7 +44,7 @@ class ListFragment : Fragment() {
 
         GlobalScope.launch(Dispatchers.IO) {
             transaction {
-                addLogger(StdOutSqlLogger)
+//                addLogger(StdOutSqlLogger)
 
                 if (!connection.isClosed) {
                     val lines = ArrayList<ResultRow>()
