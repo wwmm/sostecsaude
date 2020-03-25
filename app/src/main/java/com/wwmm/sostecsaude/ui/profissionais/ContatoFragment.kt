@@ -47,25 +47,32 @@ class ContatoFragment : Fragment() {
         editText_email.setText(email)
 
         button_save.setOnClickListener {
-            val editor = prefs.edit()
-
-            editor.putString("Name", editText_nome.text.toString())
-            editor.putString("Email", editText_email.text.toString())
-
-            editor.apply()
-
             val imm = requireActivity().getSystemService(INPUT_METHOD_SERVICE) as
                     InputMethodManager?
 
             imm?.hideSoftInputFromWindow(requireActivity().currentFocus?.windowToken, 0)
 
-            Snackbar.make(
-                main_layout_contato, "Dados Salvos!",
-                Snackbar.LENGTH_SHORT
-            ).show()
+            if(editText_nome.text.isNotBlank() && editText_email.text.isNotBlank()){
+                val editor = prefs.edit()
 
-            if (mLoadHome) {
-                mListener?.loadHome()
+                editor.putString("Name", editText_nome.text.toString())
+                editor.putString("Email", editText_email.text.toString())
+
+                editor.apply()
+
+                Snackbar.make(
+                    main_layout_contato, "Dados Salvos!",
+                    Snackbar.LENGTH_SHORT
+                ).show()
+
+                if (mLoadHome) {
+                    mListener?.loadHome()
+                }
+            }else{
+                Snackbar.make(
+                    main_layout_contato, "Preencha todos os campos!",
+                    Snackbar.LENGTH_SHORT
+                ).show()
             }
         }
     }
