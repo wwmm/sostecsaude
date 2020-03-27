@@ -7,11 +7,10 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
 import androidx.fragment.app.Fragment
-import androidx.navigation.fragment.findNavController
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.snackbar.Snackbar
 import com.wwmm.sostecsaude.R
-import kotlinx.android.synthetic.main.fragment_contatos_unidadesaude.*
+import kotlinx.android.synthetic.main.fragment_contatos_unidade_saude.*
 
 
 class UnidadeSaude : Fragment() {
@@ -19,7 +18,7 @@ class UnidadeSaude : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.fragment_contatos_unidadesaude, container, false)
+        return inflater.inflate(R.layout.fragment_contatos_unidade_saude, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

@@ -1,4 +1,4 @@
-package com.wwmm.sostecsaude.ui.empresas
+package com.wwmm.sostecsaude.ui.contatos
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -8,21 +8,21 @@ import androidx.fragment.app.Fragment
 import com.google.android.material.snackbar.Snackbar
 import com.wwmm.sostecsaude.Empresas
 import com.wwmm.sostecsaude.R
-import kotlinx.android.synthetic.main.fragment_empresas.*
+import kotlinx.android.synthetic.main.fragment_contatos_unidade_manutencao.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import org.jetbrains.exposed.sql.insertIgnore
 import org.jetbrains.exposed.sql.transactions.transaction
 
-class EmpresasFragment : Fragment() {
+class UnidadeManutencao : Fragment() {
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_empresas, container, false)
+        return inflater.inflate(R.layout.fragment_contatos_unidade_manutencao, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
