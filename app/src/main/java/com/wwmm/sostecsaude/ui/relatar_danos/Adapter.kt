@@ -48,25 +48,25 @@ class Adapter(private val lines: ArrayList<ResultRow>, private val progressBar: 
         holder.view.editText_defeito.setText(defeito)
         holder.view.editText_quantidade.setText(quantidade.toString())
 
-        holder.view.button_remove.setOnClickListener {
-            progressBar.visibility = View.VISIBLE
-
-            GlobalScope.launch(Dispatchers.IO) {
-                transaction {
-                    Equipamentos.deleteWhere {
-                        Equipamentos.id eq id
-                    }
-                }
-
-                GlobalScope.launch(Dispatchers.Main) {
-                    progressBar.visibility = View.GONE
-
-                    lines.remove(line)
-
-                    notifyItemRemoved(position)
-                }
-            }
-        }
+//        holder.view.button_remove.setOnClickListener {
+//            progressBar.visibility = View.VISIBLE
+//
+//            GlobalScope.launch(Dispatchers.IO) {
+//                transaction {
+//                    Equipamentos.deleteWhere {
+//                        Equipamentos.id eq id
+//                    }
+//                }
+//
+//                GlobalScope.launch(Dispatchers.Main) {
+//                    progressBar.visibility = View.GONE
+//
+//                    lines.remove(line)
+//
+//                    notifyItemRemoved(position)
+//                }
+//            }
+//        }
 
         holder.view.button_update.setOnClickListener {
             equipamento = holder.view.editText_equipamento.text.toString()
