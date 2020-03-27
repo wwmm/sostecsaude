@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.navigation.Navigation
+import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
 import com.wwmm.sostecsaude.R
 import kotlinx.android.synthetic.main.fragment_relatar_danos.*
@@ -22,26 +23,49 @@ class RelatarDanosFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val navController = Navigation.findNavController(
-            requireActivity(),
-            R.id.nav_host_fragment
-        )
+//        val fragmentContainer = view.findViewById<View>(R.id.nav_host_relatar)
 
-        navController.addOnDestinationChangedListener { _, destination, _ ->
-            when (destination.id) {
-                R.id.navigation_add -> {
-                    requireActivity().title = getString(R.string.title_relatar_danos)
-                }
+//        val navController = Navigation.findNavController(fragmentContainer)
 
-                R.id.navigation_list -> {
-                    requireActivity().title = getString(R.string.title_ver_danos)
-                }
+//        val navController = childFragmentManager.findFragmentById(R.id.nav_host_relatar) as NavHostFragment
 
-                else -> {
-                }
-            }
-        }
+//        navController.addOnDestinationChangedListener { _, destination, _ ->
+//            when (destination.id) {
+//                R.id.navigation_add -> {
+//                    requireActivity().title = getString(R.string.title_relatar_danos)
+//                }
+//
+//                R.id.navigation_list -> {
+//                    requireActivity().title = getString(R.string.title_ver_danos)
+//                }
+//
+//                R.id.navigation_contato -> {
+//                    requireActivity().title = getString(R.string.title_contato)
+//                }
+//
+//                else -> {
+//                }
+//            }
+//        }
 
-        nav_view.setupWithNavController(navController)
+//        nav_view.setupWithNavController(navController.navController)
+
+//        nav_view.setOnNavigationItemSelectedListener {
+//            when(it.itemId){
+//                R.id.navigation_add -> {
+//                    requireActivity().title = getString(R.string.title_relatar_danos)
+//                }
+//
+//                R.id.navigation_list -> {
+//                    requireActivity().title = getString(R.string.title_ver_danos)
+//                }
+//
+//                R.id.navigation_contato -> {
+//                    requireActivity().title = getString(R.string.title_contato)
+//                }
+//            }
+//
+//            true
+//        }
     }
 }
