@@ -7,7 +7,7 @@ import android.widget.ProgressBar
 import androidx.recyclerview.widget.RecyclerView
 import com.wwmm.sostecsaude.Equipamentos
 import com.wwmm.sostecsaude.R
-import kotlinx.android.synthetic.main.recyclerview_contents.view.*
+import kotlinx.android.synthetic.main.recyclerview_relatar_danos_contents.view.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -25,7 +25,7 @@ class Adapter(private val lines: ArrayList<ResultRow>, private val progressBar: 
         viewType: Int
     ): ViewHolder {
         val view = LayoutInflater.from(parent.context)
-            .inflate(R.layout.recyclerview_contents, parent, false)
+            .inflate(R.layout.recyclerview_relatar_danos_contents, parent, false)
 
         return ViewHolder(view)
     }
@@ -34,14 +34,10 @@ class Adapter(private val lines: ArrayList<ResultRow>, private val progressBar: 
         val line = lines[position]
 
         val id = line[Equipamentos.id]
-        var unidadeSaude = line[Equipamentos.unidade_saude]
-        var local = line[Equipamentos.local]
         var equipamento = line[Equipamentos.equipamento]
         var defeito = line[Equipamentos.defeito]
         var quantidade = line[Equipamentos.quantidade]
 
-        holder.view.editText_unidade_saude.setText(unidadeSaude)
-        holder.view.editText_local.setText(local)
         holder.view.editText_equipamento.setText(equipamento)
         holder.view.editText_defeito.setText(defeito)
         holder.view.editText_quantidade.setText(quantidade.toString())
@@ -67,8 +63,6 @@ class Adapter(private val lines: ArrayList<ResultRow>, private val progressBar: 
         }
 
         holder.view.button_update.setOnClickListener {
-            unidadeSaude = holder.view.editText_unidade_saude.text.toString()
-            local = holder.view.editText_local.text.toString()
             equipamento = holder.view.editText_equipamento.text.toString()
             defeito = holder.view.editText_defeito.text.toString()
             quantidade = holder.view.editText_quantidade.text.toString().toInt()
@@ -78,8 +72,6 @@ class Adapter(private val lines: ArrayList<ResultRow>, private val progressBar: 
             GlobalScope.launch(Dispatchers.IO) {
                 transaction {
                     Equipamentos.update({ Equipamentos.id eq id }) {
-                        it[Equipamentos.unidade_saude] = unidadeSaude
-                        it[Equipamentos.local] = local
                         it[Equipamentos.equipamento] = equipamento
                         it[Equipamentos.defeito] = defeito
                         it[Equipamentos.quantidade] = quantidade

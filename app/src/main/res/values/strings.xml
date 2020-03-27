@@ -9,6 +9,9 @@
     <string name="title_equipamento">Equipamento</string>
     <string name="title_defeito">Defeito</string>
     <string name="title_quantidade">Quantidade</string>
+    <string name="title_fabricante">Fabricante</string>
+    <string name="title_modelo">Modelo</string>
+    <string name="title_numero_serie">Número de Série</string>
 
     <string name="title_update">Atualizar</string>
     <string name="title_save">Salvar</string>

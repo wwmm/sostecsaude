@@ -12,7 +12,9 @@ import kotlinx.android.synthetic.main.fragment_relatar_danos_ver_pedidos.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
-import org.jetbrains.exposed.sql.*
+import org.jetbrains.exposed.sql.ResultRow
+import org.jetbrains.exposed.sql.and
+import org.jetbrains.exposed.sql.select
 import org.jetbrains.exposed.sql.transactions.transaction
 
 class VerPedidos : Fragment() {
@@ -35,10 +37,11 @@ class VerPedidos : Fragment() {
         }
 
         val prefs = requireActivity().getSharedPreferences(
-            "UserInfo",
+            "UnidadeSaude",
             0
         )
 
+        val unidadeSaude = prefs.getString("Unidade", "")!!
         val name = prefs.getString("Name", "")!!
         val email = prefs.getString("Email", "")!!
 
@@ -51,7 +54,8 @@ class VerPedidos : Fragment() {
 
                     val query = Equipamentos.select {
                         Equipamentos.profissional.eq(name) and
-                                Equipamentos.email.eq(email)
+                                Equipamentos.email.eq(email) and
+                                Equipamentos.unidade_saude.eq(unidadeSaude)
                     }
 
                     for (line in query) {

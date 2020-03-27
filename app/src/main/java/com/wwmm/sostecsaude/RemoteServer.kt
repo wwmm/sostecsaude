@@ -6,11 +6,14 @@ object Equipamentos : Table("equipamentos") {
     val id = Equipamentos.integer("id").autoIncrement()
     val unidade_saude = Equipamentos.varchar("unidade_saude", 255)
     val local = Equipamentos.varchar("local", 255)
-    val equipamento = Equipamentos.varchar("equipamento", 255)
-    val defeito = Equipamentos.varchar("defeito", 255)
-    val quantidade = Equipamentos.integer("quantidade")
     val profissional = Equipamentos.varchar("profissional", 255)
     val email = Equipamentos.varchar("email", 255)
+    val equipamento = Equipamentos.varchar("equipamento", 255)
+    val fabricante = Equipamentos.varchar("fabricante", 255)
+    val modelo = Equipamentos.varchar("modelo", 255)
+    val numero_serie = Equipamentos.varchar("numero_serie", 255)
+    val defeito = Equipamentos.varchar("defeito", 255)
+    val quantidade = Equipamentos.integer("quantidade")
 
     override val primaryKey = PrimaryKey(id)
 }

@@ -40,6 +40,9 @@ class Relatar : Fragment() {
 
             button_add.setOnClickListener {
                 val equipamento = editText_equipamento.text.toString()
+                val fabricante = editText_fabricante.text.toString()
+                val modelo = editText_modelo.text.toString()
+                val numeroSerie = editText_numero_serie.text.toString()
                 val defeito = editText_defeito.text.toString()
 
                 val imm =
@@ -51,7 +54,8 @@ class Relatar : Fragment() {
                     0
                 )
 
-                if (equipamento.isNotBlank() && defeito.isNotBlank() &&
+                if (equipamento.isNotBlank() && fabricante.isNotBlank() && modelo.isNotBlank()
+                    && numeroSerie.isNotBlank() && defeito.isNotBlank() &&
                     editText_quantidade.text.isNotBlank()) {
                     val quantidade = editText_quantidade.text.toString().toInt()
 
@@ -73,11 +77,14 @@ class Relatar : Fragment() {
                                 Equipamentos.insertIgnore {
                                     it[Equipamentos.unidade_saude] = unidadeSaude
                                     it[Equipamentos.local] = local
-                                    it[Equipamentos.equipamento] = equipamento
-                                    it[Equipamentos.defeito] = defeito
-                                    it[Equipamentos.quantidade] = quantidade
                                     it[Equipamentos.profissional] = name
                                     it[Equipamentos.email] = email
+                                    it[Equipamentos.equipamento] = equipamento
+                                    it[Equipamentos.fabricante] = fabricante
+                                    it[Equipamentos.modelo] = modelo
+                                    it[Equipamentos.numero_serie] = numeroSerie
+                                    it[Equipamentos.defeito] = defeito
+                                    it[Equipamentos.quantidade] = quantidade
                                 }
 
                                 GlobalScope.launch(Dispatchers.Main) {
