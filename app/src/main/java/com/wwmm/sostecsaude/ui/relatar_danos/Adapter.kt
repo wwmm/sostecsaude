@@ -35,10 +35,16 @@ class Adapter(private val lines: ArrayList<ResultRow>, private val progressBar: 
 
         val id = line[Equipamentos.id]
         var equipamento = line[Equipamentos.equipamento]
+        var fabricante = line[Equipamentos.fabricante]
+        var modelo = line[Equipamentos.modelo]
+        var numeroSerie = line[Equipamentos.numero_serie]
         var defeito = line[Equipamentos.defeito]
         var quantidade = line[Equipamentos.quantidade]
 
         holder.view.editText_equipamento.setText(equipamento)
+        holder.view.editText_fabricante.setText(fabricante)
+        holder.view.editText_modelo.setText(modelo)
+        holder.view.editText_numero_serie.setText(numeroSerie)
         holder.view.editText_defeito.setText(defeito)
         holder.view.editText_quantidade.setText(quantidade.toString())
 
@@ -64,6 +70,9 @@ class Adapter(private val lines: ArrayList<ResultRow>, private val progressBar: 
 
         holder.view.button_update.setOnClickListener {
             equipamento = holder.view.editText_equipamento.text.toString()
+            fabricante = holder.view.editText_fabricante.text.toString()
+            modelo = holder.view.editText_modelo.text.toString()
+            numeroSerie = holder.view.editText_numero_serie.text.toString()
             defeito = holder.view.editText_defeito.text.toString()
             quantidade = holder.view.editText_quantidade.text.toString().toInt()
 
@@ -73,6 +82,9 @@ class Adapter(private val lines: ArrayList<ResultRow>, private val progressBar: 
                 transaction {
                     Equipamentos.update({ Equipamentos.id eq id }) {
                         it[Equipamentos.equipamento] = equipamento
+                        it[Equipamentos.fabricante] = fabricante
+                        it[Equipamentos.modelo] = modelo
+                        it[Equipamentos.numero_serie] = numeroSerie
                         it[Equipamentos.defeito] = defeito
                         it[Equipamentos.quantidade] = quantidade
                     }
