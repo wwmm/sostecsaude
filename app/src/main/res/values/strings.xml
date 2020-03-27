@@ -26,7 +26,8 @@
 
     <string name="title_seu_nome">Seu Nome</string>
     <string name="title_seu_email">Seu Email</string>
-    <string name="title_contato">Seus Dados</string>
+    <string name="title_seus_dados">Seus Dados</string>
+    <string name="title_contato">Contato</string>
     <string name="title_setor">Setor</string>
 
     <string name="title_interesses">Escolha uma atividade</string>

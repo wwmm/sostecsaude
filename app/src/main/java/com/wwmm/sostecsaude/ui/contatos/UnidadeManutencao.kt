@@ -30,11 +30,26 @@ class UnidadeManutencao : Fragment() {
 
         progressBar.visibility = View.GONE
 
+        val prefs = requireActivity().getSharedPreferences(
+            "UnidadeManutencao",
+            0
+        )
+
+        var nome = prefs.getString("Nome", "")!!
+        var setor = prefs.getString("Setor", "")!!
+        var local = prefs.getString("Local", "")!!
+        var contato = prefs.getString("Contato", "")!!
+
+        editText_nome.setText(nome)
+        editText_setor.setText(setor)
+        editText_local.setText(local)
+        editText_contato.setText(contato)
+
         button_empresa_contato.setOnClickListener {
-            val nome = editText_nome.text.toString()
-            val setor = editText_setor.text.toString()
-            val local = editText_local.text.toString()
-            val contato = editText_contato.text.toString()
+            nome = editText_nome.text.toString()
+            setor = editText_setor.text.toString()
+            local = editText_local.text.toString()
+            contato = editText_contato.text.toString()
 
             if (nome.isBlank() || setor.isBlank() || local.isBlank() || contato.isBlank()) {
                 Snackbar.make(
@@ -44,6 +59,15 @@ class UnidadeManutencao : Fragment() {
 
             } else {
                 progressBar.visibility = View.VISIBLE
+
+                val editor = prefs.edit()
+
+                editor.putString("Nome", nome)
+                editor.putString("Setor", setor)
+                editor.putString("Local", local)
+                editor.putString("Contato", contato)
+
+                editor.apply()
 
                 GlobalScope.launch(Dispatchers.IO) {
                     transaction {

@@ -23,7 +23,7 @@
         <fragment
             android:id="@+id/unidadeSaude"
             android:name="com.wwmm.sostecsaude.ui.contatos.UnidadeSaude"
-            android:label="@string/title_contato"
+            android:label="@string/title_seus_dados"
             tools:layout="@layout/fragment_contatos_unidade_saude">
             <action
                 android:id="@+id/action_unidadeSaude_to_addFragment"
@@ -55,7 +55,7 @@
         <fragment
             android:id="@+id/unidadeManutencao"
             android:name="com.wwmm.sostecsaude.ui.contatos.UnidadeManutencao"
-            android:label="@string/title_contato"
+            android:label="@string/title_seus_dados"
             tools:layout="@layout/fragment_contatos_unidade_manutencao" />
         <fragment
             android:id="@+id/empresasVerPedidos"

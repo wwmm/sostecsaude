@@ -23,7 +23,7 @@ import org.jetbrains.exposed.sql.deleteWhere
 import org.jetbrains.exposed.sql.transactions.transaction
 import org.jetbrains.exposed.sql.update
 
-class Adapter(private val lines: ArrayList<ResultRow>, private val progressBar: ProgressBar) :
+class Adapter(private val lines: ArrayList<ResultRow>) :
     RecyclerView.Adapter<Adapter.ViewHolder>() {
     class ViewHolder(val view: View) : RecyclerView.ViewHolder(view)
 

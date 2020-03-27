@@ -9,6 +9,6 @@
     <item
         android:id="@+id/menu_bottomnav_unidade_manutencao_contato"
         android:icon="@drawable/ic_contact_mail"
-        android:title="@string/title_contato" />
+        android:title="@string/title_seus_dados" />
 
 </menu>

@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.wwmm.sostecsaude.Equipamentos
 
@@ -36,32 +37,47 @@ class EmpresasVerPedidos : Fragment() {
             layoutManager = LinearLayoutManager(requireContext())
         }
 
-        GlobalScope.launch(Dispatchers.IO) {
-            transaction {
-//                addLogger(StdOutSqlLogger)
+        val controller = findNavController()
 
-                if (!connection.isClosed) {
-                    val lines = ArrayList<ResultRow>()
+        if(!hasUserInfo()){
+            controller.navigate(R.id.action_global_unidadeManutencao)
+        }else {
+            GlobalScope.launch(Dispatchers.IO) {
+                transaction {
+                    if (!connection.isClosed) {
+                        val lines = ArrayList<ResultRow>()
 
-                    for (line in Equipamentos.selectAll()) {
-                        lines.add(line)
-                    }
+                        for (line in Equipamentos.selectAll()) {
+                            lines.add(line)
+                        }
 
-                    GlobalScope.launch(Dispatchers.Main) {
-                        if (isAdded) {
-                            recyclerview.apply {
-                                adapter =
-                                    Adapter(
-                                        lines,
-                                        progressBar
-                                    )
+                        GlobalScope.launch(Dispatchers.Main) {
+                            if (isAdded) {
+                                recyclerview.apply {
+                                    adapter =
+                                        Adapter(lines)
+                                }
+
+                                progressBar.visibility = View.GONE
                             }
-
-                            progressBar.visibility = View.GONE
                         }
                     }
                 }
             }
         }
+    }
+
+    private fun hasUserInfo(): Boolean {
+        val prefs = requireActivity().getSharedPreferences(
+            "UnidadeManutencao",
+            0
+        )
+
+        val nome = prefs.getString("Nome", "")!!
+        val setor = prefs.getString("Setor", "")!!
+        val local = prefs.getString("Local", "")!!
+        val contato = prefs.getString("Contato", "")!!
+
+        return !(nome.isBlank() || setor.isBlank() || local.isBlank() || contato.isBlank())
     }
 }
