@@ -34,8 +34,6 @@ class InteressesFragment : Fragment() {
 
             bottomNav.visibility = View.VISIBLE
 
-            bottomNav.setupWithNavController(controller)
-
             bottomNav.setOnNavigationItemSelectedListener(null)
 
             bottomNav.setOnNavigationItemSelectedListener {
@@ -57,6 +55,32 @@ class InteressesFragment : Fragment() {
             }
 
             controller.navigate(R.id.action_interessesFragment_to_nested_graph_relatar)
+        }
+
+        button_fazer_reparos.setOnClickListener {
+            bottomNav.menu.clear()
+
+            bottomNav.inflateMenu(R.menu.menu_bottom_nav_unidade_manutencao)
+
+            bottomNav.visibility = View.VISIBLE
+
+            bottomNav.setOnNavigationItemSelectedListener(null)
+
+            bottomNav.setOnNavigationItemSelectedListener {
+                when (it.itemId) {
+                    R.id.menu_bottomnav_unidade_manutencao_pedidos -> {
+                        controller.navigate(R.id.action_global_empresasVerPedidos)
+                    }
+
+                    R.id.menu_bottomnav_unidade_manutencao_contato -> {
+                        controller.navigate(R.id.action_global_unidadeManutencao)
+                    }
+                }
+
+                true
+            }
+
+            controller.navigate(R.id.action_interessesFragment_to_nested_graph_unidade_manutencao)
         }
 
         controller.addOnDestinationChangedListener { _, destination, _ ->

@@ -17,8 +17,8 @@
     <string name="title_save">Salvar</string>
 
     <string name="title_empresas">Empresas</string>
-    <string name="title_setor_enfermagem">Enfermagem</string>
-    <string name="title_setor_manutencao">Manutencao</string>
+    <string name="title_equipamentos">Equipamentos</string>
+    <string name="title_equipamentos_danificados">Equipamentos Danificados</string>
 
     <string name="title_relatar_danos">Descrição do Equipamento</string>
     <string name="title_ver_danos">Pedidos Realizados</string>

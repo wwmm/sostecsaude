@@ -13,6 +13,9 @@
         <action
             android:id="@+id/action_interessesFragment_to_nested_graph_relatar"
             app:destination="@id/nested_graph_relatar" />
+        <action
+            android:id="@+id/action_interessesFragment_to_nested_graph_unidade_manutencao"
+            app:destination="@id/nested_graph_unidade_manutencao" />
     </fragment>
     <navigation
         android:id="@+id/nested_graph_relatar"
@@ -45,5 +48,25 @@
         <action
             android:id="@+id/action_global_addFragment"
             app:destination="@id/addFragment" />
+    </navigation>
+    <navigation
+        android:id="@+id/nested_graph_unidade_manutencao"
+        app:startDestination="@id/empresasVerPedidos" >
+        <fragment
+            android:id="@+id/unidadeManutencao"
+            android:name="com.wwmm.sostecsaude.ui.contatos.UnidadeManutencao"
+            android:label="@string/title_contato"
+            tools:layout="@layout/fragment_contatos_unidade_manutencao" />
+        <fragment
+            android:id="@+id/empresasVerPedidos"
+            android:name="com.wwmm.sostecsaude.ui.empresas.EmpresasVerPedidos"
+            android:label="@string/title_equipamentos_danificados"
+            tools:layout="@layout/fragment_empresas_ver_pedidos" />
+        <action
+            android:id="@+id/action_global_empresasVerPedidos"
+            app:destination="@id/empresasVerPedidos" />
+        <action
+            android:id="@+id/action_global_unidadeManutencao"
+            app:destination="@id/unidadeManutencao" />
     </navigation>
 </navigation>
