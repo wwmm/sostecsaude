@@ -8,21 +8,21 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.wwmm.sostecsaude.Equipamentos
 import com.wwmm.sostecsaude.R
-import kotlinx.android.synthetic.main.fragment_list.*
+import kotlinx.android.synthetic.main.fragment_relatar_danos_ver_pedidos.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import org.jetbrains.exposed.sql.*
 import org.jetbrains.exposed.sql.transactions.transaction
 
-class ListFragment : Fragment() {
+class VerPedidos : Fragment() {
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.fragment_list, container, false)
+        return inflater.inflate(R.layout.fragment_relatar_danos_ver_pedidos, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

@@ -20,22 +20,22 @@
         <fragment
             android:id="@+id/unidadeSaude"
             android:name="com.wwmm.sostecsaude.ui.contatos.UnidadeSaude"
-            android:label="fragment_contatos_unidadesaude"
-            tools:layout="@layout/fragment_contatos_unidadesaude" >
+            android:label="@string/title_contato"
+            tools:layout="@layout/fragment_contatos_unidadesaude">
             <action
                 android:id="@+id/action_unidadeSaude_to_addFragment"
                 app:destination="@id/addFragment" />
         </fragment>
         <fragment
             android:id="@+id/listFragment2"
-            android:name="com.wwmm.sostecsaude.ui.relatar_danos.ListFragment"
+            android:name="com.wwmm.sostecsaude.ui.relatar_danos.VerPedidos"
             android:label="@string/title_ver_danos"
-            tools:layout="@layout/fragment_list" />
+            tools:layout="@layout/fragment_relatar_danos_ver_pedidos" />
         <fragment
             android:id="@+id/addFragment"
-            android:name="com.wwmm.sostecsaude.ui.relatar_danos.AddFragment"
+            android:name="com.wwmm.sostecsaude.ui.relatar_danos.Relatar"
             android:label="@string/title_relatar_danos"
-            tools:layout="@layout/fragment_add" />
+            tools:layout="@layout/fragment_relatar_danos_relatar" />
         <action
             android:id="@+id/action_global_listFragment"
             app:destination="@id/listFragment2" />

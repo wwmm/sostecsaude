@@ -11,21 +11,21 @@ import androidx.navigation.fragment.findNavController
 import com.google.android.material.snackbar.Snackbar
 import com.wwmm.sostecsaude.Equipamentos
 import com.wwmm.sostecsaude.R
-import kotlinx.android.synthetic.main.fragment_add.*
+import kotlinx.android.synthetic.main.fragment_relatar_danos_relatar.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import org.jetbrains.exposed.sql.insertIgnore
 import org.jetbrains.exposed.sql.transactions.transaction
 
-class AddFragment : Fragment() {
+class Relatar : Fragment() {
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.fragment_add, container, false)
+        return inflater.inflate(R.layout.fragment_relatar_danos_relatar, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -39,8 +39,6 @@ class AddFragment : Fragment() {
             progressBar.visibility = View.GONE
 
             button_add.setOnClickListener {
-                val unidadeSaude = editText_unidade_saude.text.toString()
-                val local = editText_local.text.toString()
                 val equipamento = editText_equipamento.text.toString()
                 val defeito = editText_defeito.text.toString()
 
@@ -53,18 +51,19 @@ class AddFragment : Fragment() {
                     0
                 )
 
-                if (local.isNotBlank() && equipamento.isNotBlank() && defeito.isNotBlank() &&
-                    editText_quantidade.text.isNotBlank()
-                ) {
+                if (equipamento.isNotBlank() && defeito.isNotBlank() &&
+                    editText_quantidade.text.isNotBlank()) {
                     val quantidade = editText_quantidade.text.toString().toInt()
 
                     progressBar.visibility = View.VISIBLE
 
                     val prefs = requireActivity().getSharedPreferences(
-                        "UserInfo",
+                        "UnidadeSaude",
                         0
                     )
 
+                    val unidadeSaude = prefs.getString("Unidade", "")!!
+                    val local = prefs.getString("Local", "")!!
                     val name = prefs.getString("Name", "")!!
                     val email = prefs.getString("Email", "")!!
 
@@ -99,13 +98,15 @@ class AddFragment : Fragment() {
 
     private fun hasUserInfo(): Boolean {
         val prefs = requireActivity().getSharedPreferences(
-            "UserInfo",
+            "UnidadeSaude",
             0
         )
 
+        val unidadeSaude = prefs.getString("Unidade", "")!!
+        val local = prefs.getString("Local", "")!!
         val name = prefs.getString("Name", "")!!
         val email = prefs.getString("Email", "")!!
 
-        return !(name.isBlank() || email.isBlank())
+        return !(name.isBlank() || email.isBlank() || unidadeSaude.isBlank() || local.isBlank())
     }
 }

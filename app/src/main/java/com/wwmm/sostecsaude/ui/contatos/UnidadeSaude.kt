@@ -7,8 +7,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
 import androidx.fragment.app.Fragment
-import androidx.navigation.Navigation
 import androidx.navigation.fragment.findNavController
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.snackbar.Snackbar
 import com.wwmm.sostecsaude.R
 import kotlinx.android.synthetic.main.fragment_contatos_unidadesaude.*
@@ -25,16 +25,18 @@ class UnidadeSaude : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val controller = findNavController()
-
         val prefs = requireActivity().getSharedPreferences(
-            "UserInfo",
+            "UnidadeSaude",
             0
         )
 
+        val unidadeSaude = prefs.getString("Unidade", "")
+        val local = prefs.getString("Local", "")
         val name = prefs.getString("Name", "")
         val email = prefs.getString("Email", "")
 
+        editText_unidade_saude.setText(unidadeSaude)
+        editText_local.setText(local)
         editText_nome.setText(name)
         editText_email.setText(email)
 
@@ -47,6 +49,8 @@ class UnidadeSaude : Fragment() {
             if (editText_nome.text.isNotBlank() && editText_email.text.isNotBlank()) {
                 val editor = prefs.edit()
 
+                editor.putString("Unidade", editText_unidade_saude.text.toString())
+                editor.putString("Local", editText_local.text.toString())
                 editor.putString("Name", editText_nome.text.toString())
                 editor.putString("Email", editText_email.text.toString())
 
@@ -57,7 +61,10 @@ class UnidadeSaude : Fragment() {
                     Snackbar.LENGTH_SHORT
                 ).show()
 
-                controller.navigate(R.id.action_unidadeSaude_to_addFragment)
+                val bottomNav = requireActivity().findViewById(R.id.bottom_nav) as
+                        BottomNavigationView
+
+                bottomNav.selectedItemId = R.id.menu_bottomnav_relatar_danos_add
             } else {
                 Snackbar.make(
                     main_layout_contato, "Preencha todos os campos!",

@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.wwmm.sostecsaude.R
 import kotlinx.android.synthetic.main.fragment_interesses.*
@@ -28,23 +29,26 @@ class InteressesFragment : Fragment() {
 
         button_pedir_reparo.setOnClickListener {
             bottomNav.menu.clear()
+
             bottomNav.inflateMenu(R.menu.menu_bottom_nav_relatar)
 
             bottomNav.visibility = View.VISIBLE
+
+            bottomNav.setupWithNavController(controller)
 
             bottomNav.setOnNavigationItemSelectedListener(null)
 
             bottomNav.setOnNavigationItemSelectedListener {
                 when (it.itemId) {
-                    R.id.navigation_add -> {
+                    R.id.menu_bottomnav_relatar_danos_add -> {
                         controller.navigate(R.id.action_global_addFragment)
                     }
 
-                    R.id.navigation_list -> {
+                    R.id.menu_bottomnav_relatar_danos_submissoes -> {
                         controller.navigate(R.id.action_global_listFragment)
                     }
 
-                    R.id.navigation_contato -> {
+                    R.id.menu_bottomnav_relatar_danos_contato -> {
                         controller.navigate(R.id.action_global_unidadeSaude)
                     }
                 }

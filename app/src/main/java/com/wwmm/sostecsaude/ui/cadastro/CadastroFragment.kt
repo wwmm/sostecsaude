@@ -71,7 +71,7 @@ class CadastroFragment : Fragment() {
 
             if(goAhead){
                 val prefs = requireActivity().getSharedPreferences(
-                    "UserInfo",
+                    "UnidadeSaude",
                     0
                 )
 
