@@ -7,12 +7,11 @@ import android.widget.ProgressBar
 import androidx.recyclerview.widget.RecyclerView
 import com.wwmm.sostecsaude.Equipamentos
 import com.wwmm.sostecsaude.R
-import kotlinx.android.synthetic.main.recyclerview_relatar_danos_contents.view.*
+import kotlinx.android.synthetic.main.recyclerview_relatar_danos.view.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import org.jetbrains.exposed.sql.ResultRow
-import org.jetbrains.exposed.sql.deleteWhere
 import org.jetbrains.exposed.sql.transactions.transaction
 import org.jetbrains.exposed.sql.update
 
@@ -25,7 +24,7 @@ class Adapter(private val lines: ArrayList<ResultRow>, private val progressBar: 
         viewType: Int
     ): ViewHolder {
         val view = LayoutInflater.from(parent.context)
-            .inflate(R.layout.recyclerview_relatar_danos_contents, parent, false)
+            .inflate(R.layout.recyclerview_relatar_danos, parent, false)
 
         return ViewHolder(view)
     }

@@ -1,11 +1,13 @@
 <resources>
     <string name="app_name">SOSTecSaúde</string>
-    <string name="title_add">Registrar Pedido</string>
-    <string name="title_list">Submissões</string>
+    <string name="title_add">Registrar</string>
+    <string name="title_pedidos">Pedidos</string>
     <string name="title_remove">Remover</string>
     <string name="title_unidade_saude">Unidade de Saúde</string>
 
+    <string name="title_endereco">Endereço</string>
     <string name="title_endereco_unidade">Endereço da Unidade</string>
+
     <string name="title_equipamento">Equipamento</string>
     <string name="title_defeito">Defeito</string>
     <string name="title_quantidade">Quantidade</string>
@@ -17,6 +19,7 @@
     <string name="title_save">Salvar</string>
 
     <string name="title_empresas">Empresas</string>
+    <string name="title_empresa">Empresa</string>
     <string name="title_equipamentos">Equipamentos</string>
     <string name="title_equipamentos_danificados">Equipamentos Danificados</string>
     <string name="title_quantidade_com_defeito">Quantidade de Equipamentos Danificados</string>
@@ -25,6 +28,7 @@
     <string name="title_relatar_danos">Descrição do Equipamento</string>
     <string name="title_ver_danos">Pedidos Realizados</string>
     <string name="title_profissional_contato">Seus Dados</string>
+    <string name="title_oficinas">Oficinas</string>
 
     <string name="title_seu_nome">Seu Nome</string>
     <string name="title_seu_email">Seu Email</string>
@@ -40,7 +44,5 @@
     <string name="title_entrar">Entrar</string>
 
     <string name="title_unidade">Unidade</string>
-
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="title_unidades_manutencao">Unidades de Manutenção</string>
 </resources>

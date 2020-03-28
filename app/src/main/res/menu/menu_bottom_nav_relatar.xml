@@ -9,7 +9,12 @@
     <item
         android:id="@+id/menu_bottomnav_relatar_danos_submissoes"
         android:icon="@drawable/ic_view_list"
-        android:title="@string/title_list" />
+        android:title="@string/title_pedidos" />
+
+    <item
+        android:id="@+id/menu_bottomnav_relatar_danos_oficinas"
+        android:icon="@drawable/ic_build"
+        android:title="@string/title_oficinas" />
 
     <item
         android:id="@+id/menu_bottomnav_relatar_danos_contato"

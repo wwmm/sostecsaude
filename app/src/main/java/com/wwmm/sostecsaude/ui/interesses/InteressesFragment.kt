@@ -46,6 +46,10 @@ class InteressesFragment : Fragment() {
                         controller.navigate(R.id.action_global_listFragment)
                     }
 
+                    R.id.menu_bottomnav_relatar_danos_oficinas -> {
+                        controller.navigate(R.id.action_global_verOficinas)
+                    }
+
                     R.id.menu_bottomnav_relatar_danos_contato -> {
                         controller.navigate(R.id.action_global_unidadeSaude)
                     }
