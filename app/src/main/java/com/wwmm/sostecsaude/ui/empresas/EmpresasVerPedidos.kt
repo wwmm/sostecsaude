@@ -55,7 +55,7 @@ class EmpresasVerPedidos : Fragment() {
                             if (isAdded) {
                                 recyclerview.apply {
                                     adapter =
-                                        Adapter(lines)
+                                        Adapter(requireParentFragment(), lines)
                                 }
 
                                 progressBar.visibility = View.GONE

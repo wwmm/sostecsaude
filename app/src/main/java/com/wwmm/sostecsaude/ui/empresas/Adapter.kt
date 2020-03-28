@@ -1,29 +1,64 @@
 package com.wwmm.sostecsaude.ui.empresas
 
+import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ProgressBar
+import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
+import androidx.viewpager2.adapter.FragmentStateAdapter
+import com.google.android.material.tabs.TabLayoutMediator
 import com.wwmm.sostecsaude.Equipamentos
 import com.wwmm.sostecsaude.R
 import kotlinx.android.synthetic.main.recyclerview_empresa_ver_pedidos_contents.view.*
-import kotlinx.android.synthetic.main.recyclerview_relatar_danos_contents.view.*
-import kotlinx.android.synthetic.main.recyclerview_relatar_danos_contents.view.editText_defeito
-import kotlinx.android.synthetic.main.recyclerview_relatar_danos_contents.view.editText_equipamento
-import kotlinx.android.synthetic.main.recyclerview_relatar_danos_contents.view.editText_fabricante
-import kotlinx.android.synthetic.main.recyclerview_relatar_danos_contents.view.editText_modelo
-import kotlinx.android.synthetic.main.recyclerview_relatar_danos_contents.view.editText_numero_serie
-import kotlinx.android.synthetic.main.recyclerview_relatar_danos_contents.view.editText_quantidade
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
 import org.jetbrains.exposed.sql.ResultRow
-import org.jetbrains.exposed.sql.deleteWhere
-import org.jetbrains.exposed.sql.transactions.transaction
-import org.jetbrains.exposed.sql.update
 
-class Adapter(private val lines: ArrayList<ResultRow>) :
+class ViewPager2Adapter(fragment: Fragment, private val line: ResultRow) :
+    FragmentStateAdapter(fragment) {
+
+    override fun getItemCount(): Int = 3
+
+    override fun createFragment(position: Int): Fragment {
+        when (position) {
+            0 -> {
+                val fragment = TabEquipamento()
+
+                fragment.arguments = Bundle().apply {
+                    putString("Equipamento", line[Equipamentos.equipamento])
+                    putString("Fabricante", line[Equipamentos.fabricante])
+                    putString("Modelo", line[Equipamentos.modelo])
+                    putString("NumeroSerie", line[Equipamentos.numero_serie])
+                }
+
+                return fragment
+            }
+
+            1 -> {
+                val fragment = TabDefeito()
+
+                fragment.arguments = Bundle().apply {
+                    putString("Defeito", line[Equipamentos.defeito])
+                    putString("Quantidade", line[Equipamentos.quantidade].toString())
+                }
+
+                return fragment
+            }
+
+            else -> {
+                val fragment = TabUnidadeSaude()
+
+                fragment.arguments = Bundle().apply {
+                    putString("Nome", line[Equipamentos.unidade_saude])
+                    putString("Local", line[Equipamentos.local])
+                }
+
+                return fragment
+            }
+        }
+    }
+}
+
+class Adapter(private val fragment: Fragment, private val lines: ArrayList<ResultRow>) :
     RecyclerView.Adapter<Adapter.ViewHolder>() {
     class ViewHolder(val view: View) : RecyclerView.ViewHolder(view)
 
@@ -40,23 +75,26 @@ class Adapter(private val lines: ArrayList<ResultRow>) :
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val line = lines[position]
 
-        val unidadeSaude = line[Equipamentos.unidade_saude]
-        val local = line[Equipamentos.local]
-        val equipamento = line[Equipamentos.equipamento]
-        val fabricante = line[Equipamentos.fabricante]
-        val modelo = line[Equipamentos.modelo]
-        val numeroSerie = line[Equipamentos.numero_serie]
-        val defeito = line[Equipamentos.defeito]
-        val quantidade = line[Equipamentos.quantidade]
+        holder.view.viewpager.adapter = ViewPager2Adapter(fragment, line)
 
-        holder.view.editText_unidade_saude.setText(unidadeSaude)
-        holder.view.editText_local.setText(local)
-        holder.view.editText_equipamento.setText(equipamento)
-        holder.view.editText_fabricante.setText(fabricante)
-        holder.view.editText_modelo.setText(modelo)
-        holder.view.editText_numero_serie.setText(numeroSerie)
-        holder.view.editText_defeito.setText(defeito)
-        holder.view.editText_quantidade.setText(quantidade.toString())
+        TabLayoutMediator(holder.view.tab_layout, holder.view.viewpager) { tab, tabIdx ->
+            when(tabIdx){
+                0 -> {
+                    tab.text = fragment.getString(R.string.title_equipamento)
+                    tab.setIcon(R.drawable.ic_scanner)
+                }
+
+                1 -> {
+                    tab.text = fragment.getString(R.string.title_defeito)
+                    tab.setIcon(R.drawable.ic_build)
+                }
+
+                2 -> {
+                    tab.text = fragment.getString(R.string.title_local)
+                    tab.setIcon(R.drawable.ic_home_black_24dp)
+                }
+            }
+        }.attach()
     }
 
     override fun getItemCount() = lines.size
