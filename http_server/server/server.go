@@ -102,7 +102,13 @@ func cadastrar(w http.ResponseWriter, r *http.Request) {
 
 	mydb.Cadastrar(perfil, email, string(senhaHash[:]))
 
-	fmt.Fprintf(w, "Cadastro Realizado!")
+	if perfil == "unidade_saude" {
+		fmt.Fprintf(w, cfg.UnidadeSaudeLogin+"<&>"+cfg.UnidadeSaudePassword)
+	} else if perfil == "unidade_manutencao" {
+		fmt.Fprintf(w, cfg.UnidadeManutencaoLogin+"<&>"+cfg.UnidadeManutencaoPassword)
+	} else if perfil == "unidade_transporte" {
+		fmt.Fprintf(w, cfg.UnidadeTransporteLogin+"<&>"+cfg.UnidadeTransportePassword)
+	}
 }
 
 // Start http and websockets server

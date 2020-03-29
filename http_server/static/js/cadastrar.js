@@ -12,6 +12,6 @@ document.getElementById("form_cadastrar").addEventListener("submit", event => {
     })
         .then(response => response.text())
         .then(text => {
-            Android.showToast(text);
+            Android.credentials(text);
         });
 });
