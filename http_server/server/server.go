@@ -41,7 +41,9 @@ func cadastrar(w http.ResponseWriter, r *http.Request) {
 		log.Fatal(logTag + err.Error())
 	}
 
-	senha, senhaConfirmacao := r.FormValue("senha"), r.FormValue("senha_confirmacao")
+	email, senha, senhaConfirmacao := r.FormValue("email"), r.FormValue("senha"), r.FormValue("senha_confirmacao")
+
+	log.Println(email)
 
 	if senha != senhaConfirmacao {
 		fmt.Fprintf(w, "As senhas digitadas são diferentes!")
