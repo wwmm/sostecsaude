@@ -32,12 +32,10 @@ class UnidadeSaude : Fragment() {
         val unidadeSaude = prefs.getString("Unidade", "")
         val local = prefs.getString("Local", "")
         val name = prefs.getString("Name", "")
-        val email = prefs.getString("Email", "")
 
         editText_unidade_saude.setText(unidadeSaude)
         editText_local.setText(local)
         editText_nome.setText(name)
-        editText_email.setText(email)
 
         button_save.setOnClickListener {
             val imm = requireActivity().getSystemService(INPUT_METHOD_SERVICE) as
@@ -45,13 +43,13 @@ class UnidadeSaude : Fragment() {
 
             imm?.hideSoftInputFromWindow(requireActivity().currentFocus?.windowToken, 0)
 
-            if (editText_nome.text.isNotBlank() && editText_email.text.isNotBlank()) {
+            if (editText_nome.text.isNotBlank() && editText_local.text.isNotBlank()
+                && editText_unidade_saude.text.isNotBlank()) {
                 val editor = prefs.edit()
 
                 editor.putString("Unidade", editText_unidade_saude.text.toString())
                 editor.putString("Local", editText_local.text.toString())
                 editor.putString("Name", editText_nome.text.toString())
-                editor.putString("Email", editText_email.text.toString())
 
                 editor.apply()
 

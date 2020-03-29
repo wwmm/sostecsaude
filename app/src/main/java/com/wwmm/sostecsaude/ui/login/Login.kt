@@ -21,8 +21,10 @@ import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import org.jetbrains.exposed.sql.Database
 
-class WebAppInterface(private val mContext: Context, private val controller: NavController,
-                      private val bottomNav: BottomNavigationView) {
+class WebAppInterface(
+    private val mContext: Context, private val controller: NavController,
+    private val bottomNav: BottomNavigationView
+) {
 
     @JavascriptInterface
     fun showToast(toast: String) {
@@ -33,7 +35,7 @@ class WebAppInterface(private val mContext: Context, private val controller: Nav
     fun credentials(msg: String) {
         val tmp = msg.split("<&>")
 
-        if(tmp.size > 1){
+        if (tmp.size > 1) {
             val perfil = tmp[0]
             val login = tmp[1]
             val senha = tmp[2]
@@ -46,8 +48,8 @@ class WebAppInterface(private val mContext: Context, private val controller: Nav
                 password = senha
             )
 
-            when(perfil){
-                "unidade_saude" ->{
+            when (perfil) {
+                "unidade_saude" -> {
                     val prefs = mContext.getSharedPreferences(
                         "UnidadeSaude",
                         0
@@ -62,7 +64,7 @@ class WebAppInterface(private val mContext: Context, private val controller: Nav
                     loadUnidadeSaude()
                 }
 
-                "unidade_manutencao" ->{
+                "unidade_manutencao" -> {
                     val prefs = mContext.getSharedPreferences(
                         "UnidadeManutencao",
                         0
@@ -77,12 +79,12 @@ class WebAppInterface(private val mContext: Context, private val controller: Nav
                     loadUnidadeManutencao()
                 }
             }
-        }else{
+        } else {
             Toast.makeText(mContext, msg, Toast.LENGTH_SHORT).show()
         }
     }
 
-    private fun loadUnidadeSaude(){
+    private fun loadUnidadeSaude() {
         GlobalScope.launch(Dispatchers.Main) {
             bottomNav.inflateMenu(R.menu.menu_bottom_nav_relatar)
 
@@ -116,7 +118,7 @@ class WebAppInterface(private val mContext: Context, private val controller: Nav
         }
     }
 
-    private fun loadUnidadeManutencao(){
+    private fun loadUnidadeManutencao() {
         GlobalScope.launch(Dispatchers.Main) {
             bottomNav.inflateMenu(R.menu.menu_bottom_nav_unidade_manutencao)
 
@@ -162,8 +164,10 @@ class Login : Fragment() {
 
         webview.settings.javaScriptEnabled = true
 
-        webview.addJavascriptInterface(WebAppInterface(requireContext(), controller, bottomNav),
-            "Android")
+        webview.addJavascriptInterface(
+            WebAppInterface(requireContext(), controller, bottomNav),
+            "Android"
+        )
 
         webview.webViewClient = object : WebViewClient() {
             override fun shouldOverrideUrlLoading(view: WebView?, url: String?): Boolean {

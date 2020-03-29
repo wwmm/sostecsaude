@@ -38,20 +38,18 @@ class UnidadeManutencao : Fragment() {
         var nome = prefs.getString("Nome", "")!!
         var setor = prefs.getString("Setor", "")!!
         var local = prefs.getString("Local", "")!!
-        var contato = prefs.getString("Contato", "")!!
+        val contato = prefs.getString("Email", "")!!
 
         editText_nome.setText(nome)
         editText_setor.setText(setor)
         editText_local.setText(local)
-        editText_contato.setText(contato)
 
         button_empresa_contato.setOnClickListener {
             nome = editText_nome.text.toString()
             setor = editText_setor.text.toString()
             local = editText_local.text.toString()
-            contato = editText_contato.text.toString()
 
-            if (nome.isBlank() || setor.isBlank() || local.isBlank() || contato.isBlank()) {
+            if (nome.isBlank() || setor.isBlank() || local.isBlank()) {
                 Snackbar.make(
                     main_layout_empresa_contato, "Preencha todos os campos!",
                     Snackbar.LENGTH_SHORT
@@ -65,7 +63,6 @@ class UnidadeManutencao : Fragment() {
                 editor.putString("Nome", nome)
                 editor.putString("Setor", setor)
                 editor.putString("Local", local)
-                editor.putString("Contato", contato)
 
                 editor.apply()
 
