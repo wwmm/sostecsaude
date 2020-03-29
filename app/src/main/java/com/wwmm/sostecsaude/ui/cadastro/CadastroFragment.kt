@@ -1,13 +1,12 @@
 package com.wwmm.sostecsaude.ui.cadastro
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import androidx.navigation.Navigation
 import com.google.android.material.snackbar.Snackbar
-
 import com.wwmm.sostecsaude.R
 import kotlinx.android.synthetic.main.fragment_cadastro.*
 
@@ -53,14 +52,14 @@ class CadastroFragment : Fragment() {
             var goAhead = checkBox_hospital.isChecked || checkBox_manutencao.isChecked
                     || checkBox_transporte.isChecked
 
-            if(!goAhead){
+            if (!goAhead) {
                 Snackbar.make(
                     main_layout_cadastro, "Escolha ao menos 1 interesse!",
                     Snackbar.LENGTH_SHORT
                 ).show()
             }
 
-            if(goAhead && (editText_nome.text.isBlank() || editText_email.text.isBlank())){
+            if (goAhead && (editText_nome.text.isBlank() || editText_email.text.isBlank())) {
                 goAhead = false
 
                 Snackbar.make(
@@ -69,7 +68,7 @@ class CadastroFragment : Fragment() {
                 ).show()
             }
 
-            if(goAhead){
+            if (goAhead) {
                 val prefs = requireActivity().getSharedPreferences(
                     "UnidadeSaude",
                     0
@@ -85,9 +84,9 @@ class CadastroFragment : Fragment() {
 
                 editor.apply()
 
-                if(!checkBox_manutencao.isChecked && !checkBox_transporte.isChecked){
+                if (!checkBox_manutencao.isChecked && !checkBox_transporte.isChecked) {
 //                    controller.navigate(R.id.relatarDanosFragment)
-                }else {
+                } else {
                     controller.navigate(R.id.interessesFragment)
                 }
             }

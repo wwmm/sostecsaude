@@ -33,9 +33,9 @@ class Relatar : Fragment() {
 
         val controller = findNavController()
 
-        if(!hasUserInfo()){
+        if (!hasUserInfo()) {
             controller.navigate(R.id.action_global_unidadeSaude)
-        }else {
+        } else {
             progressBar.visibility = View.GONE
 
             button_add.setOnClickListener {
@@ -56,7 +56,8 @@ class Relatar : Fragment() {
 
                 if (equipamento.isNotBlank() && fabricante.isNotBlank() && modelo.isNotBlank()
                     && numeroSerie.isNotBlank() && defeito.isNotBlank() &&
-                    editText_quantidade.text.isNotBlank()) {
+                    editText_quantidade.text.isNotBlank()
+                ) {
                     val quantidade = editText_quantidade.text.toString().toInt()
 
                     progressBar.visibility = View.VISIBLE

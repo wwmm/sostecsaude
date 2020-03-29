@@ -78,7 +78,7 @@ class Adapter(private val fragment: Fragment, private val lines: ArrayList<Resul
         holder.view.viewpager.adapter = ViewPager2Adapter(fragment, line)
 
         TabLayoutMediator(holder.view.tab_layout, holder.view.viewpager) { tab, tabIdx ->
-            when(tabIdx){
+            when (tabIdx) {
                 0 -> {
                     tab.text = fragment.getString(R.string.title_equipamento)
                     tab.setIcon(R.drawable.ic_scanner)

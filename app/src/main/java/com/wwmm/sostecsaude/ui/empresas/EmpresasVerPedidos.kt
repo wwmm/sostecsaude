@@ -1,14 +1,13 @@
 package com.wwmm.sostecsaude.ui.empresas
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.wwmm.sostecsaude.Equipamentos
-
 import com.wwmm.sostecsaude.R
 import kotlinx.android.synthetic.main.fragment_empresas_ver_pedidos.*
 import kotlinx.coroutines.Dispatchers
@@ -39,9 +38,9 @@ class EmpresasVerPedidos : Fragment() {
 
         val controller = findNavController()
 
-        if(!hasUserInfo()){
+        if (!hasUserInfo()) {
             controller.navigate(R.id.action_global_unidadeManutencao)
-        }else {
+        } else {
             GlobalScope.launch(Dispatchers.IO) {
                 transaction {
                     if (!connection.isClosed) {
