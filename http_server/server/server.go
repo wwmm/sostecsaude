@@ -51,7 +51,15 @@ func login(w http.ResponseWriter, r *http.Request) {
 			return
 		}
 
-		fmt.Fprintf(w, "welcome!")
+		perfil := mydb.GetPerfil(email)
+
+		if perfil == "unidade_saude" {
+			fmt.Fprintf(w, cfg.UnidadeSaudeLogin+"<&>"+cfg.UnidadeSaudePassword)
+		} else if perfil == "unidade_manutencao" {
+			fmt.Fprintf(w, cfg.UnidadeManutencaoLogin+"<&>"+cfg.UnidadeManutencaoPassword)
+		} else if perfil == "unidade_transporte" {
+			fmt.Fprintf(w, cfg.UnidadeTransporteLogin+"<&>"+cfg.UnidadeTransportePassword)
+		}
 	}
 }
 

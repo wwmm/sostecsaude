@@ -12,7 +12,7 @@ document.getElementById("form_login").addEventListener("submit", event => {
     })
         .then(response => response.text())
         .then(text => {
-            Android.showToast(text);
+            Android.credentials(text);
         });
 });
 

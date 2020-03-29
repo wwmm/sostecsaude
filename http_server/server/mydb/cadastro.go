@@ -50,6 +50,23 @@ func GetSenha(email string) string {
 	return senha
 }
 
+//GetPerfil pega o perfil correspondente ao email dado como argumento
+func GetPerfil(email string) string {
+	queryStr := "select perfil from usuarios where email=?"
+
+	row := db.QueryRow(queryStr, email)
+
+	var perfil string
+
+	err := row.Scan(&perfil)
+
+	if err != nil {
+		log.Fatal(err.Error())
+	}
+
+	return perfil
+}
+
 //Cadastrar adiciona o usuário no banco de dados
 func Cadastrar(perfil string, email string, senha string) {
 	queryStr := "insert or ignore into usuarios values (null,?,?,?)"

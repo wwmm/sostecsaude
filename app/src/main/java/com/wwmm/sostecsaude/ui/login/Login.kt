@@ -20,6 +20,20 @@ class WebAppInterface(private val mContext: Context) {
     fun showToast(toast: String) {
         Toast.makeText(mContext, toast, Toast.LENGTH_SHORT).show()
     }
+
+    @JavascriptInterface
+    fun credentials(msg: String) {
+        val tmp = msg.split("<&>")
+
+        if(tmp.size > 1){
+            val login = tmp[0]
+            val senha = tmp[1]
+
+            Toast.makeText(mContext, "$login e $senha", Toast.LENGTH_SHORT).show()
+        }else{
+            Toast.makeText(mContext, msg, Toast.LENGTH_SHORT).show()
+        }
+    }
 }
 
 class Login : Fragment() {
