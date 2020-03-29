@@ -54,11 +54,11 @@ func login(w http.ResponseWriter, r *http.Request) {
 		perfil := mydb.GetPerfil(email)
 
 		if perfil == "unidade_saude" {
-			fmt.Fprintf(w, cfg.UnidadeSaudeLogin+"<&>"+cfg.UnidadeSaudePassword)
+			fmt.Fprintf(w, perfil+"<&>"+cfg.UnidadeSaudeLogin+"<&>"+cfg.UnidadeSaudePassword+"<&>"+email)
 		} else if perfil == "unidade_manutencao" {
-			fmt.Fprintf(w, cfg.UnidadeManutencaoLogin+"<&>"+cfg.UnidadeManutencaoPassword)
+			fmt.Fprintf(w, perfil+"<&>"+cfg.UnidadeManutencaoLogin+"<&>"+cfg.UnidadeManutencaoPassword+"<&>"+email)
 		} else if perfil == "unidade_transporte" {
-			fmt.Fprintf(w, cfg.UnidadeTransporteLogin+"<&>"+cfg.UnidadeTransportePassword)
+			fmt.Fprintf(w, perfil+"<&>"+cfg.UnidadeTransporteLogin+"<&>"+cfg.UnidadeTransportePassword+"<&>"+email)
 		}
 	}
 }
@@ -103,11 +103,11 @@ func cadastrar(w http.ResponseWriter, r *http.Request) {
 	mydb.Cadastrar(perfil, email, string(senhaHash[:]))
 
 	if perfil == "unidade_saude" {
-		fmt.Fprintf(w, cfg.UnidadeSaudeLogin+"<&>"+cfg.UnidadeSaudePassword)
+		fmt.Fprintf(w, perfil+"<&>"+cfg.UnidadeSaudeLogin+"<&>"+cfg.UnidadeSaudePassword+"<&>"+email)
 	} else if perfil == "unidade_manutencao" {
-		fmt.Fprintf(w, cfg.UnidadeManutencaoLogin+"<&>"+cfg.UnidadeManutencaoPassword)
+		fmt.Fprintf(w, perfil+"<&>"+cfg.UnidadeManutencaoLogin+"<&>"+cfg.UnidadeManutencaoPassword+"<&>"+email)
 	} else if perfil == "unidade_transporte" {
-		fmt.Fprintf(w, cfg.UnidadeTransporteLogin+"<&>"+cfg.UnidadeTransportePassword)
+		fmt.Fprintf(w, perfil+"<&>"+cfg.UnidadeTransporteLogin+"<&>"+cfg.UnidadeTransportePassword+"<&>"+email)
 	}
 }
 

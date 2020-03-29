@@ -5,18 +5,6 @@
     android:id="@+id/nav_graph_main"
     app:startDestination="@id/login">
 
-    <fragment
-        android:id="@+id/interessesFragment"
-        android:name="com.wwmm.sostecsaude.ui.interesses.InteressesFragment"
-        android:label="@string/title_interesses"
-        tools:layout="@layout/fragment_interesses">
-        <action
-            android:id="@+id/action_interessesFragment_to_nested_graph_relatar"
-            app:destination="@id/nested_graph_relatar" />
-        <action
-            android:id="@+id/action_interessesFragment_to_nested_graph_unidade_manutencao"
-            app:destination="@id/nested_graph_unidade_manutencao" />
-    </fragment>
     <navigation
         android:id="@+id/nested_graph_relatar"
         app:startDestination="@id/relatarDano">
@@ -81,5 +69,16 @@
         android:id="@+id/login"
         android:name="com.wwmm.sostecsaude.ui.login.Login"
         android:label="@string/app_name"
-        tools:layout="@layout/fragment_login" />
+        tools:layout="@layout/fragment_login" >
+        <action
+            android:id="@+id/action_login_to_nested_graph_relatar"
+            app:destination="@id/nested_graph_relatar"
+            app:popUpTo="@id/login"
+            app:popUpToInclusive="true" />
+        <action
+            android:id="@+id/action_login_to_nested_graph_unidade_manutencao"
+            app:destination="@id/nested_graph_unidade_manutencao"
+            app:popUpTo="@id/login"
+            app:popUpToInclusive="true" />
+    </fragment>
 </navigation>

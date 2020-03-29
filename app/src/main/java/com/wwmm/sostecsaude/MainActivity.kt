@@ -20,19 +20,5 @@ class MainActivity : AppCompatActivity() {
         toolbar.setupWithNavController(controller)
 
         bottom_nav.setupWithNavController(controller)
-
-//        Database.connect(
-//            "jdbc:mysql://remotemysql.com/mQe0EBGW7O",
-//            driver = "com.mysql.jdbc.Driver",
-//            user = "mQe0EBGW7O",
-//            password = "azsZegvXg6"
-//        )
-
-        Database.connect(
-            "jdbc:mysql://albali.eic.cefet-rj.br/sostecsaude",
-            driver = "com.mysql.jdbc.Driver",
-            user = "sostecsaude",
-            password = "Covid19.fap"
-        )
     }
 }
