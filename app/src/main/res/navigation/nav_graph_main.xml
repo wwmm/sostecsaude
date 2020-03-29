@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph_main"
-    app:startDestination="@id/interessesFragment">
+    app:startDestination="@id/login">
 
     <fragment
         android:id="@+id/interessesFragment"
@@ -77,4 +77,9 @@
             android:id="@+id/action_global_unidadeManutencao"
             app:destination="@id/unidadeManutencao" />
     </navigation>
+    <fragment
+        android:id="@+id/login"
+        android:name="com.wwmm.sostecsaude.ui.login.Login"
+        android:label="@string/app_name"
+        tools:layout="@layout/fragment_login" />
 </navigation>
