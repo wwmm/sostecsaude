@@ -25,7 +25,8 @@ func OpenDB() {
 
 //InitTables creates tables if they do not exists
 func InitTables() {
-	queryStr := "create table if not exists usuarios (id integer primary key, email text, key text, unique(email));"
+	queryStr := "create table if not exists usuarios (id integer primary key, email text, perfil text, key text, "
+	queryStr += "unique(email));"
 
 	_, err := db.Exec(queryStr)
 
