@@ -49,9 +49,9 @@ func login(w http.ResponseWriter, r *http.Request) {
 			fmt.Fprintf(w, "Senha inválida!")
 
 			return
-		} else {
-			fmt.Fprintf(w, "welcome!")
 		}
+
+		fmt.Fprintf(w, "welcome!")
 	}
 }
 
