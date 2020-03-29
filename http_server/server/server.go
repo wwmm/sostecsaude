@@ -1,6 +1,7 @@
 package server
 
 import (
+	"crypto/sha256"
 	"fmt"
 	"log"
 	"net/http"
@@ -19,12 +20,6 @@ func login(w http.ResponseWriter, r *http.Request) {
 		if err != nil {
 			log.Fatal(logTag + err.Error())
 		}
-
-		// if cfg.AdminPassword == r.Form["password"][0] {
-		// 	http.ServeFile(w, r, "static/html/admin/admin.html")
-		// } else {
-		// 	http.ServeFile(w, r, "static/html/admin/login.html")
-		// }
 	}
 }
 
@@ -41,28 +36,33 @@ func cadastrar(w http.ResponseWriter, r *http.Request) {
 		log.Fatal(logTag + err.Error())
 	}
 
-	email, senha, senhaConfirmacao := r.FormValue("email"), r.FormValue("senha"), r.FormValue("senha_confirmacao")
-
-	log.Println(email)
+	senha, senhaConfirmacao := r.FormValue("senha"), r.FormValue("senha_confirmacao")
 
 	if senha != senhaConfirmacao {
 		fmt.Fprintf(w, "As senhas digitadas são diferentes!")
+
+		return
 	}
 
-	// 	if atual == cfg.AdminPassword {
-	// 		if novo == confirmacao {
-	// 			cfg.AdminPassword = novo
-	// 			saveConfig()
-	// 			fmt.Fprintf(w, "Senha atualizada com sucesso!")
-	// 		} else {
-	// 			fmt.Fprintf(w, "Nova senha e repetição não conferem!")
-	// 		}
-	// 	} else {
-	// 		fmt.Fprintf(w, "Senha atual não confere!")
-	// 	}
-	// } else {
-	// 	fmt.Fprintf(w, "Sessão expirada! Faça login novamente!")
-	// }
+	email := r.FormValue("email")
+
+	emails := mydb.GetEmails()
+
+	for _, dbEmail := range emails {
+		if dbEmail == email {
+			fmt.Fprintf(w, "Escolha um outro email!")
+
+			return
+		}
+	}
+
+	perfil := r.FormValue("perfil")
+
+	senhaHash := sha256.Sum256([]byte(senha))
+
+	mydb.Cadastrar(perfil, email, string(senhaHash[:]))
+
+	fmt.Fprintf(w, "Cadastro Realizado!")
 }
 
 // Start http and websockets server
