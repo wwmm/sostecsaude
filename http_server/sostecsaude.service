@@ -1,0 +1,10 @@
+[Unit]
+Description=SOSTecSaude
+Requires=network.target
+
+[Service]
+WorkingDirectory=/home/dbrandao/sostecsaude
+ExecStart=/home/dbrandao/sostecsaude/main
+
+[Install]
+WantedBy=multi-user.target
