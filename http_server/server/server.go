@@ -15,10 +15,42 @@ func login(w http.ResponseWriter, r *http.Request) {
 	if r.Method == "GET" {
 		http.ServeFile(w, r, "static/html/admin/login.html")
 	} else if r.Method == "POST" {
-		err := r.ParseForm()
+		err := r.ParseMultipartForm(0)
 
 		if err != nil {
 			log.Fatal(logTag + err.Error())
+		}
+
+		email, senha := r.FormValue("email"), r.FormValue("senha")
+
+		emails := mydb.GetEmails()
+
+		validCredentials := false
+
+		for _, dbEmail := range emails {
+			if dbEmail == email {
+				validCredentials = true
+
+				break
+			}
+		}
+
+		if !validCredentials {
+			fmt.Fprintf(w, "Email inválido!")
+
+			return
+		}
+
+		dbSenha := mydb.GetSenha(email)
+
+		senhaHash := sha256.Sum256([]byte(senha))
+
+		if dbSenha != string(senhaHash[:]) {
+			fmt.Fprintf(w, "Senha inválida!")
+
+			return
+		} else {
+			fmt.Fprintf(w, "welcome!")
 		}
 	}
 }
