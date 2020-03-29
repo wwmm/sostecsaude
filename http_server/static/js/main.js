@@ -3,8 +3,6 @@
  * @module main.js
  */
 
-import * as util from "./util.js";
-
 document.getElementById("form_login").addEventListener("submit", event => {
     event.preventDefault();
 
@@ -14,7 +12,7 @@ document.getElementById("form_login").addEventListener("submit", event => {
     })
         .then(response => response.text())
         .then(text => {
-            util.feedback(text);
+            Android.showToast(text);
         });
 });
 
