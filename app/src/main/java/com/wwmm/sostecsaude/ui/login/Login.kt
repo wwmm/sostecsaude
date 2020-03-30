@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.webkit.CookieManager
 import android.webkit.JavascriptInterface
 import android.webkit.WebView
 import android.webkit.WebViewClient
@@ -14,6 +15,7 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.wwmm.sostecsaude.MainActivity
 import com.wwmm.sostecsaude.R
 import kotlinx.android.synthetic.main.fragment_login.*
 import kotlinx.coroutines.Dispatchers
@@ -146,6 +148,13 @@ class WebAppInterface(
 }
 
 class Login : Fragment() {
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+
+        val activity = context as MainActivity
+
+        activity.mLogin = this
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -160,7 +169,8 @@ class Login : Fragment() {
 
         val controller = findNavController()
 
-        val bottomNav = requireActivity().findViewById(R.id.bottom_nav) as BottomNavigationView
+        val bottomNav = requireActivity().findViewById(R.id.bottom_nav) as
+                BottomNavigationView
 
         webview.settings.javaScriptEnabled = true
 
@@ -175,6 +185,14 @@ class Login : Fragment() {
             }
         }
 
-        webview.loadUrl("http://albali.eic.cefet-rj.br:7077")
+        CookieManager.getInstance().setAcceptCookie(true)
+
+        webview.loadUrl("http://albali.eic.cefet-rj.br:8081")
+    }
+
+    fun goBack(){
+        if(webview.canGoBack()){
+            webview.goBack()
+        }
     }
 }

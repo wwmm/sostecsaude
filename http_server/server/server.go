@@ -5,7 +5,10 @@ import (
 	"fmt"
 	"log"
 	"net/http"
+	"time"
 	"wwmm/sostecsaude/server/mydb"
+
+	"github.com/dgrijalva/jwt-go"
 )
 
 var logTag = "server: "
@@ -61,6 +64,22 @@ func login(w http.ResponseWriter, r *http.Request) {
 			fmt.Fprintf(w, perfil+"<&>"+cfg.UnidadeTransporteLogin+"<&>"+cfg.UnidadeTransportePassword+"<&>"+email)
 		}
 	}
+}
+
+//createToken cria Jason Web Token
+func createToken(perfil string, user string, senha string) string {
+	token := jwt.New(jwt.SigningMethodHS256)
+
+	claims := token.Claims.(jwt.MapClaims)
+
+	claims["perfil"] = perfil
+	claims["user"] = user
+	claims["senha"] = senha
+	claims["validade"] = time.Now().Add(time.Hour * 24).Unix()
+
+	tokenString, _ := token.SignedString("sostecsaude.Covid19")
+
+	return tokenString
 }
 
 // Envia para o administrador a página de disciplinas
