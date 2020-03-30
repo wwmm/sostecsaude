@@ -10,16 +10,16 @@ android {
         applicationId "com.wwmm.sostecsaude"
         minSdkVersion 23
         targetSdkVersion 29
-        versionCode 5
-        versionName "1.4"
+        versionCode 6
+        versionName "1.5"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
     buildTypes {
         release {
-            minifyEnabled true
-            shrinkResources true
+            minifyEnabled false
+            shrinkResources false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
@@ -54,5 +54,4 @@ dependencies {
     implementation 'org.jetbrains.exposed:exposed-dao:0.22.1'
 
     implementation 'mysql:mysql-connector-java:5.1.48'
-    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
 }
