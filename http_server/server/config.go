@@ -16,6 +16,7 @@ type Config struct {
 	UnidadeManutencaoPassword string
 	UnidadeTransporteLogin    string
 	UnidadeTransportePassword string
+	TokenSecret               string
 }
 
 var cfg Config
@@ -23,9 +24,9 @@ var cfg Config
 //InitConfig inicializa a estrutura com as configurações
 func InitConfig() {
 	cfg = Config{
-		ServerPort: "7077", UnidadeSaudeLogin: "unidade_saude", UnidadeSaudePassword: "",
+		ServerPort: "8081", UnidadeSaudeLogin: "unidade_saude", UnidadeSaudePassword: "",
 		UnidadeManutencaoLogin: "unidade_manutencao", UnidadeManutencaoPassword: "",
-		UnidadeTransporteLogin: "unidade_transporte", UnidadeTransportePassword: ""}
+		UnidadeTransporteLogin: "unidade_transporte", UnidadeTransportePassword: "", TokenSecret: ""}
 
 	if _, err := os.Stat("config.json"); err != nil {
 		if os.IsNotExist(err) {

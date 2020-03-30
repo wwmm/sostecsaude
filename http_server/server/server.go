@@ -13,6 +13,40 @@ import (
 
 var logTag = "server: "
 
+//createToken cria Jason Web Token
+func createToken(w http.ResponseWriter, perfil string, email string) {
+	claims := jwt.MapClaims{}
+
+	claims["perfil"] = perfil
+	claims["email"] = email
+	claims["exp"] = time.Now().Add(time.Hour * 24).Unix()
+
+	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
+
+	tokenString, err := token.SignedString([]byte(cfg.TokenSecret))
+
+	if err != nil {
+		log.Println("Error: ", err.Error())
+	}
+
+	http.SetCookie(w, &http.Cookie{
+		Name:   "accessToken",
+		Value:  tokenString,
+		Path:   "/",
+		MaxAge: 3600 * 24,
+	})
+}
+
+func sendCredentials(w http.ResponseWriter, perfil string, email string) {
+	if perfil == "unidade_saude" {
+		fmt.Fprintf(w, perfil+"<&>"+cfg.UnidadeSaudeLogin+"<&>"+cfg.UnidadeSaudePassword+"<&>"+email)
+	} else if perfil == "unidade_manutencao" {
+		fmt.Fprintf(w, perfil+"<&>"+cfg.UnidadeManutencaoLogin+"<&>"+cfg.UnidadeManutencaoPassword+"<&>"+email)
+	} else if perfil == "unidade_transporte" {
+		fmt.Fprintf(w, perfil+"<&>"+cfg.UnidadeTransporteLogin+"<&>"+cfg.UnidadeTransportePassword+"<&>"+email)
+	}
+}
+
 // Faz a autenticação do usuário administrador e carrega a página de professor
 func login(w http.ResponseWriter, r *http.Request) {
 	if r.Method == "GET" {
@@ -56,30 +90,10 @@ func login(w http.ResponseWriter, r *http.Request) {
 
 		perfil := mydb.GetPerfil(email)
 
-		if perfil == "unidade_saude" {
-			fmt.Fprintf(w, perfil+"<&>"+cfg.UnidadeSaudeLogin+"<&>"+cfg.UnidadeSaudePassword+"<&>"+email)
-		} else if perfil == "unidade_manutencao" {
-			fmt.Fprintf(w, perfil+"<&>"+cfg.UnidadeManutencaoLogin+"<&>"+cfg.UnidadeManutencaoPassword+"<&>"+email)
-		} else if perfil == "unidade_transporte" {
-			fmt.Fprintf(w, perfil+"<&>"+cfg.UnidadeTransporteLogin+"<&>"+cfg.UnidadeTransportePassword+"<&>"+email)
-		}
+		createToken(w, perfil, email)
+
+		sendCredentials(w, perfil, email)
 	}
-}
-
-//createToken cria Jason Web Token
-func createToken(perfil string, user string, senha string) string {
-	token := jwt.New(jwt.SigningMethodHS256)
-
-	claims := token.Claims.(jwt.MapClaims)
-
-	claims["perfil"] = perfil
-	claims["user"] = user
-	claims["senha"] = senha
-	claims["validade"] = time.Now().Add(time.Hour * 24).Unix()
-
-	tokenString, _ := token.SignedString("sostecsaude.Covid19")
-
-	return tokenString
 }
 
 // Envia para o administrador a página de disciplinas
@@ -121,12 +135,41 @@ func cadastrar(w http.ResponseWriter, r *http.Request) {
 
 	mydb.Cadastrar(perfil, email, string(senhaHash[:]))
 
-	if perfil == "unidade_saude" {
-		fmt.Fprintf(w, perfil+"<&>"+cfg.UnidadeSaudeLogin+"<&>"+cfg.UnidadeSaudePassword+"<&>"+email)
-	} else if perfil == "unidade_manutencao" {
-		fmt.Fprintf(w, perfil+"<&>"+cfg.UnidadeManutencaoLogin+"<&>"+cfg.UnidadeManutencaoPassword+"<&>"+email)
-	} else if perfil == "unidade_transporte" {
-		fmt.Fprintf(w, perfil+"<&>"+cfg.UnidadeTransporteLogin+"<&>"+cfg.UnidadeTransportePassword+"<&>"+email)
+	createToken(w, perfil, email)
+
+	sendCredentials(w, perfil, email)
+}
+
+func verifyToken(w http.ResponseWriter, r *http.Request) {
+	c, err := r.Cookie("accessToken")
+
+	if err != nil {
+		log.Println("Invalid cookie!")
+
+		return
+	}
+
+	tokenString := c.Value
+
+	claims := jwt.MapClaims{}
+
+	token, err := jwt.ParseWithClaims(tokenString, claims, func(token *jwt.Token) (interface{}, error) {
+		return []byte(cfg.TokenSecret), nil
+	})
+
+	if err != nil {
+		log.Println("Error: ", err.Error())
+
+		return
+	}
+
+	if token.Valid {
+		perfil := fmt.Sprintf("%v", claims["perfil"])
+		email := fmt.Sprintf("%v", claims["email"])
+
+		log.Println(perfil, email)
+
+		sendCredentials(w, perfil, email)
 	}
 }
 
@@ -143,6 +186,7 @@ func Start() {
 	http.HandleFunc("/login", login)
 	http.HandleFunc("/get_page_cadastrar", getPageCadastrar)
 	http.HandleFunc("/cadastrar", cadastrar)
+	http.HandleFunc("/verify_token", verifyToken)
 
 	/*
 		Start Server

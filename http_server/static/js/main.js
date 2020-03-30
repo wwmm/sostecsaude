@@ -3,6 +3,14 @@
  * @module main.js
  */
 
+fetch("verify_token", {
+    method: "GET"
+})
+    .then(response => response.text())
+    .then(text => {
+        Android.credentials(text);
+    });
+
 document.getElementById("form_login").addEventListener("submit", event => {
     event.preventDefault();
 

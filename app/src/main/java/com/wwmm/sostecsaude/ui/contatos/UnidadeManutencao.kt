@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.snackbar.Snackbar
 import com.wwmm.sostecsaude.Empresas
 import com.wwmm.sostecsaude.R
@@ -83,6 +84,12 @@ class UnidadeManutencao : Fragment() {
                                     main_layout_empresa_contato, "Dados Inseridos!",
                                     Snackbar.LENGTH_SHORT
                                 ).show()
+
+                                val bottomNav = requireActivity().findViewById(
+                                    R.id.bottom_nav
+                                ) as BottomNavigationView
+
+                                bottomNav.selectedItemId = R.id.menu_bottomnav_unidade_manutencao_pedidos
                             }
                         }
                     }

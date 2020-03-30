@@ -6,10 +6,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.webkit.CookieManager
-import android.webkit.JavascriptInterface
-import android.webkit.WebView
-import android.webkit.WebViewClient
+import android.webkit.*
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.navigation.NavController
@@ -35,6 +32,10 @@ class WebAppInterface(
 
     @JavascriptInterface
     fun credentials(msg: String) {
+        if(msg.isBlank()){
+            return
+        }
+
         val tmp = msg.split("<&>")
 
         if (tmp.size > 1) {
@@ -148,6 +149,8 @@ class WebAppInterface(
 }
 
 class Login : Fragment() {
+    private lateinit var mCookieManager: CookieManager
+
     override fun onAttach(context: Context) {
         super.onAttach(context)
 
@@ -173,6 +176,7 @@ class Login : Fragment() {
                 BottomNavigationView
 
         webview.settings.javaScriptEnabled = true
+        webview.settings.mixedContentMode = WebSettings.MIXED_CONTENT_ALWAYS_ALLOW
 
         webview.addJavascriptInterface(
             WebAppInterface(requireContext(), controller, bottomNav),
@@ -185,14 +189,25 @@ class Login : Fragment() {
             }
         }
 
-        CookieManager.getInstance().setAcceptCookie(true)
+        mCookieManager = CookieManager.getInstance()
+
+        mCookieManager.setAcceptCookie(true)
+        mCookieManager.setAcceptThirdPartyCookies(webview, true)
 
         webview.loadUrl("http://albali.eic.cefet-rj.br:8081")
     }
 
-    fun goBack(){
-        if(webview.canGoBack()){
-            webview.goBack()
+    override fun onPause() {
+        super.onPause()
+
+        mCookieManager.flush()
+    }
+
+    fun goBack() {
+        if (isAdded) {
+            if (webview.canGoBack()) {
+                webview.goBack()
+            }
         }
     }
 }

@@ -75,7 +75,7 @@ class EmpresasVerPedidos : Fragment() {
         val nome = prefs.getString("Nome", "")!!
         val setor = prefs.getString("Setor", "")!!
         val local = prefs.getString("Local", "")!!
-        val contato = prefs.getString("Contato", "")!!
+        val contato = prefs.getString("Email", "")!!
 
         return !(nome.isBlank() || setor.isBlank() || local.isBlank() || contato.isBlank())
     }
