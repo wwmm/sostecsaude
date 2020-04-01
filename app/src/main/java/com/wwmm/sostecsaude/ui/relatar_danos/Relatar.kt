@@ -2,21 +2,21 @@ package com.wwmm.sostecsaude.ui.relatar_danos
 
 import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
+import com.android.volley.Request
+import com.android.volley.Response
+import com.android.volley.toolbox.StringRequest
+import com.android.volley.toolbox.Volley
 import com.google.android.material.snackbar.Snackbar
-import com.wwmm.sostecsaude.Equipamentos
 import com.wwmm.sostecsaude.R
+import com.wwmm.sostecsaude.myServerURL
 import kotlinx.android.synthetic.main.fragment_relatar_danos_relatar.*
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
-import org.jetbrains.exposed.sql.insertIgnore
-import org.jetbrains.exposed.sql.transactions.transaction
 
 class Relatar : Fragment() {
 
@@ -31,10 +31,12 @@ class Relatar : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        val controller = findNavController()
+
         progressBar.visibility = View.GONE
 
         button_add.setOnClickListener {
-            val equipamento = editText_equipamento.text.toString()
+            val nome = editText_nome.text.toString()
             val fabricante = editText_fabricante.text.toString()
             val modelo = editText_modelo.text.toString()
             val numeroSerie = editText_numero_serie.text.toString()
@@ -49,66 +51,70 @@ class Relatar : Fragment() {
                 0
             )
 
-            if (equipamento.isNotBlank() && fabricante.isNotBlank() && modelo.isNotBlank()
+            if (nome.isNotBlank() && fabricante.isNotBlank() && modelo.isNotBlank()
                 && numeroSerie.isNotBlank() && defeito.isNotBlank() &&
                 editText_quantidade.text.isNotBlank()
             ) {
-                val quantidade = editText_quantidade.text.toString().toInt()
+                val quantidade = editText_quantidade.text.toString()
 
                 progressBar.visibility = View.VISIBLE
 
                 val prefs = requireActivity().getSharedPreferences(
-                    "UnidadeSaude",
+                    "UserInfo",
                     0
                 )
 
-                val unidadeSaude = prefs.getString("Unidade", "")!!
-                val local = prefs.getString("Local", "")!!
-                val name = prefs.getString("Name", "")!!
+                val token = prefs.getString("Token", "")!!
                 val email = prefs.getString("Email", "")!!
 
-                GlobalScope.launch(Dispatchers.IO) {
-                    transaction {
-                        if (!connection.isClosed) {
-                            Equipamentos.insertIgnore {
-                                it[Equipamentos.unidade_saude] = unidadeSaude
-                                it[Equipamentos.local] = local
-                                it[Equipamentos.profissional] = name
-                                it[Equipamentos.email] = email
-                                it[Equipamentos.equipamento] = equipamento
-                                it[Equipamentos.fabricante] = fabricante
-                                it[Equipamentos.modelo] = modelo
-                                it[Equipamentos.numero_serie] = numeroSerie
-                                it[Equipamentos.defeito] = defeito
-                                it[Equipamentos.quantidade] = quantidade
-                            }
+                val queue = Volley.newRequestQueue(requireContext())
 
-                            GlobalScope.launch(Dispatchers.Main) {
-                                progressBar.visibility = View.GONE
+                val request = object : StringRequest(
+                    Request.Method.POST, "$myServerURL/unidade_saude_adicionar_equipamento",
+                    Response.Listener { response ->
+                        val msg = response.toString()
 
-                                Snackbar.make(
-                                    main_layout_add, "Dados Inseridos!",
-                                    Snackbar.LENGTH_SHORT
-                                ).show()
-                            }
+                        if (msg == "invalid_token") {
+                            controller.navigate(R.id.action_unidadeManutencao_to_fazerLogin)
+                        } else {
+                            progressBar.visibility = View.GONE
+
+                            Snackbar.make(
+                                main_layout_relatar, msg,
+                                Snackbar.LENGTH_SHORT
+                            ).show()
                         }
+                    },
+                    Response.ErrorListener {
+                        Log.d(LOGTAG, "failed request: relatar defeito")
+                    }
+                ) {
+                    override fun getParams(): MutableMap<String, String> {
+                        val parameters = HashMap<String, String>()
+
+                        parameters["token"] = token
+                        parameters["nome"] = nome
+                        parameters["fabricante"] = fabricante
+                        parameters["modelo"] = modelo
+                        parameters["numero_serie"] = numeroSerie
+                        parameters["quantidade"] = quantidade
+                        parameters["defeito"] = defeito
+
+                        return parameters
                     }
                 }
+
+                queue.add(request)
+            }else{
+                Snackbar.make(
+                    main_layout_relatar, "Preencha todos os campos!",
+                    Snackbar.LENGTH_SHORT
+                ).show()
             }
         }
     }
 
-    private fun hasUserInfo(): Boolean {
-        val prefs = requireActivity().getSharedPreferences(
-            "UnidadeSaude",
-            0
-        )
-
-        val unidadeSaude = prefs.getString("Unidade", "")!!
-        val local = prefs.getString("Local", "")!!
-        val name = prefs.getString("Name", "")!!
-        val email = prefs.getString("Email", "")!!
-
-        return !(name.isBlank() || email.isBlank() || unidadeSaude.isBlank() || local.isBlank())
+    companion object {
+        const val LOGTAG = "relatar defeito"
     }
 }

@@ -21,6 +21,7 @@
     <string name="title_equipamentos_danificados">Equipamentos Danificados</string>
     <string name="title_quantidade_com_defeito">Quantidade de Equipamentos Danificados</string>
     <string name="title_local">Local</string>
+    <string name="title_cnpj">CNPJ</string>
 
     <string name="title_relatar_danos">Descrição do Equipamento</string>
     <string name="title_ver_danos">Pedidos Realizados</string>
@@ -47,6 +48,7 @@
     <string name="title_save">Salvar</string>
 
     <string name="title_unidade">Unidade</string>
+    <string name="title_unidades_minusculo">unidades</string>
     <string name="title_unidades_manutencao">Unidades de Manutenção</string>
     <string name="title_unidade_manutencao">Unidade de Manutenção</string>
 

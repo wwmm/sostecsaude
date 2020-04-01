@@ -130,10 +130,10 @@ func AddUnidadeManutencao(nome string, setor string, local string, email string)
 }
 
 //UpdateUnidadeManutencao atualiza dados cadastrais das unidade de manutenção
-func UpdateUnidadeManutencao(nome string, setor string, local string, email string) {
-	queryStr := "update unidade_manutencao set nome=?,setor=?,local=? where email=?"
+func UpdateUnidadeManutencao(nome string, setor string, local string, cnpj string, email string) {
+	queryStr := "update unidade_manutencao set nome=?,setor=?,local=?,cnpj=? where email=?"
 
-	_, err := db.Exec(queryStr, nome, setor, local, email)
+	_, err := db.Exec(queryStr, nome, setor, local, cnpj, email)
 
 	if err != nil {
 		log.Fatal(err.Error())
@@ -141,20 +141,21 @@ func UpdateUnidadeManutencao(nome string, setor string, local string, email stri
 }
 
 //GetUnidadeManutencao pega nome e local da unidade de manutenção
-func GetUnidadeManutencao(email string) (string, string, string) {
-	queryStr := "select nome,setor,local from unidade_manutencao where email=?"
+func GetUnidadeManutencao(email string) (string, string, string, string) {
+	queryStr := "select nome,setor,local,cnpj from unidade_manutencao where email=?"
 
 	row := db.QueryRow(queryStr, email)
 
 	var nome string
 	var setor string
 	var local string
+	var cnpj string
 
-	err := row.Scan(&nome, &setor, &local)
+	err := row.Scan(&nome, &setor, &local, &cnpj)
 
 	if err != nil {
 		log.Println(err.Error())
 	}
 
-	return nome, setor, local
+	return nome, setor, local, cnpj
 }

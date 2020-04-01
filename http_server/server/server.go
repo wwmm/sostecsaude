@@ -26,6 +26,8 @@ func Start() {
 	http.HandleFunc("/update_unidade", updateUnidade)
 	http.HandleFunc("/get_unidade", getUnidade)
 
+	http.HandleFunc("/unidade_saude_adicionar_equipamento", unidadeSaudeAdicionarEquipamento)
+
 	/*
 		Start Server
 	*/

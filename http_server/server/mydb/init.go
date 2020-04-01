@@ -33,6 +33,13 @@ func InitTables() {
 		log.Fatal(err.Error())
 	}
 
+	// Enable WAL(Write-Ahead Log) para melhorar a performance https://www.sqlite.org/wal.html
+	_, err = db.Exec("pragma journal_mode=WAL")
+
+	if err != nil {
+		log.Fatal(err.Error())
+	}
+
 	// create tables
 
 	queryStr := `create table if not exists usuarios (
@@ -68,11 +75,31 @@ func InitTables() {
 		nome text,
 		setor text,
 		local text,
+		cnpj text,
 		email text unique,
 		foreign key(email) references usuarios(email) on delete cascade
 	);
 	`
 
+	_, err = db.Exec(queryStr)
+
+	if err != nil {
+		log.Fatal(err.Error())
+	}
+
+	queryStr = `create table if not exists equipamentos (
+		id integer primary key autoincrement,
+		nome text,
+		fabricante text,
+		modelo text,
+		numero_serie text,
+		quantidade int,
+		defeito text,
+		email text,
+		foreign key(email) references unidade_saude(email) on delete cascade,
+		unique(nome,fabricante,modelo,numero_serie,quantidade,defeito,email)
+	);
+	`
 	_, err = db.Exec(queryStr)
 
 	if err != nil {
@@ -97,7 +124,7 @@ func InitTables() {
 	queryStr = `create trigger if not exists add_unidade_manutencao after insert on usuarios
 		when new.perfil = "unidade_manutencao"
 		begin
-			insert or ignore into unidade_manutencao values(null,"","","",new.email);
+			insert or ignore into unidade_manutencao values(null,"","","","",new.email);
 		end;		
 	`
 

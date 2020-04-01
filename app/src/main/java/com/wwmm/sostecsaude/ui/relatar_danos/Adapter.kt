@@ -40,7 +40,7 @@ class Adapter(private val lines: ArrayList<ResultRow>, private val progressBar: 
         var defeito = line[Equipamentos.defeito]
         var quantidade = line[Equipamentos.quantidade]
 
-        holder.view.editText_equipamento.setText(equipamento)
+        holder.view.editText_nome.setText(equipamento)
         holder.view.editText_fabricante.setText(fabricante)
         holder.view.editText_modelo.setText(modelo)
         holder.view.editText_numero_serie.setText(numeroSerie)
@@ -68,7 +68,7 @@ class Adapter(private val lines: ArrayList<ResultRow>, private val progressBar: 
 //        }
 
         holder.view.button_update.setOnClickListener {
-            equipamento = holder.view.editText_equipamento.text.toString()
+            equipamento = holder.view.editText_nome.text.toString()
             fabricante = holder.view.editText_fabricante.text.toString()
             modelo = holder.view.editText_modelo.text.toString()
             numeroSerie = holder.view.editText_numero_serie.text.toString()
