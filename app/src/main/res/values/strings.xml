@@ -48,6 +48,7 @@
 
     <string name="title_unidade">Unidade</string>
     <string name="title_unidades_manutencao">Unidades de Manutenção</string>
+    <string name="title_unidade_manutencao">Unidade de Manutenção</string>
 
     <string name="title_check_credentials">Conectando…</string>
     <string name="title_carregar_perfil">Carregando…</string>

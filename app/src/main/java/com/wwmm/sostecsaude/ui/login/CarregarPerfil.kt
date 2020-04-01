@@ -94,10 +94,6 @@ class CarregarPerfil : Fragment() {
                     R.id.menu_bottomnav_unidade_manutencao_pedidos -> {
                         mController.navigate(R.id.action_global_empresasVerPedidos)
                     }
-
-                    R.id.menu_bottomnav_unidade_manutencao_contato -> {
-                        mController.navigate(R.id.action_global_unidadeManutencao)
-                    }
                 }
 
                 true

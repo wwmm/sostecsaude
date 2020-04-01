@@ -37,12 +37,12 @@ class UnidadeSaude : Fragment() {
             0
         )
 
-        val email = prefs.getString("Email", "")!!
+        val token = prefs.getString("Token", "")!!
 
         val queue = Volley.newRequestQueue(requireContext())
 
         val requestGet = object : StringRequest(
-            Request.Method.POST, "$myServerURL/get_unidade_saude",
+            Request.Method.POST, "$myServerURL/get_unidade",
             Response.Listener { response ->
                 val msg = response.toString()
 
@@ -67,7 +67,7 @@ class UnidadeSaude : Fragment() {
             override fun getParams(): MutableMap<String, String> {
                 val parameters = HashMap<String, String>()
 
-                parameters["email"] = email
+                parameters["token"] = token
 
                 return parameters
             }
@@ -83,16 +83,20 @@ class UnidadeSaude : Fragment() {
 
             if (editText_local.text.isNotBlank() && editText_unidade_saude.text.isNotBlank()) {
                 val r = object : StringRequest(
-                    Method.POST, "$myServerURL/update_unidade_saude",
+                    Method.POST, "$myServerURL/update_unidade",
                     Response.Listener { response ->
                         val msg = response.toString()
 
-                        Snackbar.make(
-                            main_layout_contato, msg,
-                            Snackbar.LENGTH_SHORT
-                        ).show()
+                        if (msg == "invalid_token") {
+                            controller.navigate(R.id.action_unidadeSaude_to_fazerLogin)
+                        } else {
+                            Snackbar.make(
+                                main_layout_contato, msg,
+                                Snackbar.LENGTH_SHORT
+                            ).show()
 
-                        controller.navigate(R.id.action_unidadeSaude_to_carregarPerfil)
+                            controller.navigate(R.id.action_unidadeSaude_to_carregarPerfil)
+                        }
                     },
                     Response.ErrorListener {
                         Log.d(LOGTAG, "failed request: atualizar contato de unidade de saúde")
@@ -100,7 +104,7 @@ class UnidadeSaude : Fragment() {
                     override fun getParams(): MutableMap<String, String> {
                         val parameters = HashMap<String, String>()
 
-                        parameters["email"] = email
+                        parameters["token"] = token
                         parameters["nome"] = editText_unidade_saude.text.toString()
                         parameters["local"] = editText_local.text.toString()
 

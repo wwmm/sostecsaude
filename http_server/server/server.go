@@ -23,8 +23,8 @@ func Start() {
 	http.HandleFunc("/cadastrar", cadastrar)
 	http.HandleFunc("/check_credentials", checkCredentials)
 
-	http.HandleFunc("/update_unidade_saude", updateUnidadeSaude)
-	http.HandleFunc("/get_unidade_saude", getUnidadeSaude)
+	http.HandleFunc("/update_unidade", updateUnidade)
+	http.HandleFunc("/get_unidade", getUnidade)
 
 	/*
 		Start Server

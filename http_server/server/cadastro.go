@@ -181,30 +181,48 @@ func login(w http.ResponseWriter, r *http.Request) {
 	fmt.Fprintf(w, token+"<&>"+perfil+"<&>"+email)
 }
 
-func updateUnidadeSaude(w http.ResponseWriter, r *http.Request) {
-	err := r.ParseForm()
+func updateUnidade(w http.ResponseWriter, r *http.Request) {
+	status, perfil, email := verifyToken(w, r)
 
-	if err != nil {
-		log.Println(logTag + err.Error())
+	if status {
+		err := r.ParseForm()
+
+		if err != nil {
+			log.Println(logTag + err.Error())
+		}
+
+		if perfil == "unidade_saude" {
+			nome, local := r.FormValue("nome"), r.FormValue("local")
+
+			mydb.UpdateUnidadeSaude(nome, local, email)
+		} else if perfil == "unidade_manutencao" {
+			nome, setor, local := r.FormValue("nome"), r.FormValue("setor"), r.FormValue("local")
+
+			mydb.UpdateUnidadeManutencao(nome, setor, local, email)
+		}
+
+		fmt.Fprintf(w, "Dados atualizados!")
 	}
-
-	nome, local, email := r.FormValue("nome"), r.FormValue("local"), r.FormValue("email")
-
-	mydb.UpdateUnidadeSaude(nome, local, email)
-
-	fmt.Fprintf(w, "Dados atualizados!")
 }
 
-func getUnidadeSaude(w http.ResponseWriter, r *http.Request) {
-	err := r.ParseForm()
+func getUnidade(w http.ResponseWriter, r *http.Request) {
+	status, perfil, email := verifyToken(w, r)
 
-	if err != nil {
-		log.Println(logTag + err.Error())
+	if status {
+		err := r.ParseForm()
+
+		if err != nil {
+			log.Println(logTag + err.Error())
+		}
+
+		if perfil == "unidade_saude" {
+			nome, local := mydb.GetUnidadeSaude(email)
+
+			fmt.Fprintf(w, nome+"<&>"+local)
+		} else if perfil == "unidade_manutencao" {
+			nome, setor, local := mydb.GetUnidadeManutencao(email)
+
+			fmt.Fprintf(w, nome+"<&>"+setor+"<&>"+local)
+		}
 	}
-
-	email := r.FormValue("email")
-
-	mydb.GetUnidadeSaude(email)
-
-	fmt.Fprintf(w, "Dados atualizados!")
 }

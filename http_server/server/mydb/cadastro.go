@@ -101,14 +101,21 @@ func UpdateUnidadeSaude(nome string, local string, email string) {
 }
 
 //GetUnidadeSaude pega nome e local da unidade de saúde
-func GetUnidadeSaude(email string) {
+func GetUnidadeSaude(email string) (string, string) {
 	queryStr := "select nome,local from unidade_saude where email=?"
 
-	_, err := db.Exec(queryStr, email)
+	row := db.QueryRow(queryStr, email)
+
+	var nome string
+	var local string
+
+	err := row.Scan(&nome, &local)
 
 	if err != nil {
-		log.Fatal(err.Error())
+		log.Println(err.Error())
 	}
+
+	return nome, local
 }
 
 //AddUnidadeManutencao adiciona uma unidade de manutencao
@@ -120,4 +127,34 @@ func AddUnidadeManutencao(nome string, setor string, local string, email string)
 	if err != nil {
 		log.Fatal(err.Error())
 	}
+}
+
+//UpdateUnidadeManutencao atualiza dados cadastrais das unidade de manutenção
+func UpdateUnidadeManutencao(nome string, setor string, local string, email string) {
+	queryStr := "update unidade_manutencao set nome=?,setor=?,local=? where email=?"
+
+	_, err := db.Exec(queryStr, nome, setor, local, email)
+
+	if err != nil {
+		log.Fatal(err.Error())
+	}
+}
+
+//GetUnidadeManutencao pega nome e local da unidade de manutenção
+func GetUnidadeManutencao(email string) (string, string, string) {
+	queryStr := "select nome,setor,local from unidade_manutencao where email=?"
+
+	row := db.QueryRow(queryStr, email)
+
+	var nome string
+	var setor string
+	var local string
+
+	err := row.Scan(&nome, &setor, &local)
+
+	if err != nil {
+		log.Println(err.Error())
+	}
+
+	return nome, setor, local
 }

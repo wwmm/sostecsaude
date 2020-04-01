@@ -38,45 +38,27 @@ class EmpresasVerPedidos : Fragment() {
 
         val controller = findNavController()
 
-        if (!hasUserInfo()) {
-            controller.navigate(R.id.action_global_unidadeManutencao)
-        } else {
-            GlobalScope.launch(Dispatchers.IO) {
-                transaction {
-                    if (!connection.isClosed) {
-                        val lines = ArrayList<ResultRow>()
-
-                        for (line in Equipamentos.selectAll()) {
-                            lines.add(line)
-                        }
-
-                        GlobalScope.launch(Dispatchers.Main) {
-                            if (isAdded) {
-                                recyclerview.apply {
-                                    adapter =
-                                        Adapter(requireParentFragment(), lines)
-                                }
-
-                                progressBar.visibility = View.GONE
-                            }
-                        }
-                    }
-                }
-            }
-        }
-    }
-
-    private fun hasUserInfo(): Boolean {
-        val prefs = requireActivity().getSharedPreferences(
-            "UnidadeManutencao",
-            0
-        )
-
-        val nome = prefs.getString("Nome", "")!!
-        val setor = prefs.getString("Setor", "")!!
-        val local = prefs.getString("Local", "")!!
-        val contato = prefs.getString("Email", "")!!
-
-        return !(nome.isBlank() || setor.isBlank() || local.isBlank() || contato.isBlank())
+//        GlobalScope.launch(Dispatchers.IO) {
+//            transaction {
+//                if (!connection.isClosed) {
+//                    val lines = ArrayList<ResultRow>()
+//
+//                    for (line in Equipamentos.selectAll()) {
+//                        lines.add(line)
+//                    }
+//
+//                    GlobalScope.launch(Dispatchers.Main) {
+//                        if (isAdded) {
+//                            recyclerview.apply {
+//                                adapter =
+//                                    Adapter(requireParentFragment(), lines)
+//                            }
+//
+//                            progressBar.visibility = View.GONE
+//                        }
+//                    }
+//                }
+//            }
+//        }
     }
 }
