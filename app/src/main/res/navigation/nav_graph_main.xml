@@ -6,7 +6,7 @@
     app:startDestination="@id/checkCredentials">
 
     <navigation
-        android:id="@+id/nested_graph_relatar"
+        android:id="@+id/nested_graph_unidade_saude"
         app:startDestination="@id/relatarDano">
         <fragment
             android:id="@+id/verPedidos"
@@ -39,7 +39,7 @@
         <fragment
             android:id="@+id/empresasVerPedidos"
             android:name="com.wwmm.sostecsaude.ui.empresas.EmpresasVerPedidos"
-            android:label="@string/title_equipamentos_danificados"
+            android:label="@string/title_equipamentos"
             tools:layout="@layout/fragment_empresas_ver_pedidos" />
         <action
             android:id="@+id/action_global_empresasVerPedidos"
@@ -89,7 +89,7 @@
         tools:layout="@layout/fragment_carregar_perfil" >
         <action
             android:id="@+id/action_carregarPerfil_to_nested_graph_relatar"
-            app:destination="@id/nested_graph_relatar"
+            app:destination="@id/nested_graph_unidade_saude"
             app:popUpTo="@id/nav_graph_main"
             app:popUpToInclusive="true" />
         <action
@@ -122,4 +122,6 @@
             android:id="@+id/action_unidadeManutencao_to_carregarPerfil"
             app:destination="@id/carregarPerfil" />
     </fragment>
+    <action android:id="@+id/action_global_unidadeSaude" app:destination="@id/unidadeSaude" />
+    <action android:id="@+id/action_global_unidadeManutencao" app:destination="@id/unidadeManutencao" />
 </navigation>

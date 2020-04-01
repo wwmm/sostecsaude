@@ -58,6 +58,25 @@ class MainActivity : AppCompatActivity() {
                 item.onNavDestinationSelected(mController)
             }
 
+            R.id.menu_atualizar_perfil -> {
+                val prefs = getSharedPreferences(
+                    "UserInfo",
+                    0
+                )
+
+                when (prefs.getString("Perfil", "")!!) {
+                    "unidade_saude" -> {
+                        mController.navigate(R.id.action_global_unidadeSaude)
+                    }
+
+                    "unidade_manutencao" -> {
+                        mController.navigate(R.id.action_global_unidadeManutencao)
+                    }
+                }
+
+                true
+            }
+
             else -> {
                 super.onOptionsItemSelected(item)
             }
