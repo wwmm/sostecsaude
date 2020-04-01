@@ -11,11 +11,6 @@ import (
 	"golang.org/x/crypto/bcrypt"
 )
 
-// Envia para o administrador a página de disciplinas
-func getPageCadastrar(w http.ResponseWriter, r *http.Request) {
-	http.ServeFile(w, r, "static/cadastrar.html")
-}
-
 //createToken cria Jason Web Token
 func createToken(w http.ResponseWriter, perfil string, email string) string {
 	claims := jwt.MapClaims{}
@@ -66,7 +61,17 @@ func verifyToken(w http.ResponseWriter, r *http.Request) (bool, string, string) 
 		perfil := fmt.Sprintf("%v", claims["perfil"])
 		email := fmt.Sprintf("%v", claims["email"])
 
-		return true, perfil, email
+		emails := mydb.GetEmails()
+
+		for _, dbEmail := range emails {
+			if dbEmail == email {
+				return true, perfil, email
+			}
+		}
+
+		fmt.Fprintf(w, "invalid_token")
+
+		return false, "", ""
 	}
 
 	fmt.Fprintf(w, "invalid_token")
@@ -174,4 +179,32 @@ func login(w http.ResponseWriter, r *http.Request) {
 	token := createToken(w, perfil, email) // renovando o token
 
 	fmt.Fprintf(w, token+"<&>"+perfil+"<&>"+email)
+}
+
+func updateUnidadeSaude(w http.ResponseWriter, r *http.Request) {
+	err := r.ParseForm()
+
+	if err != nil {
+		log.Println(logTag + err.Error())
+	}
+
+	nome, local, email := r.FormValue("nome"), r.FormValue("local"), r.FormValue("email")
+
+	mydb.UpdateUnidadeSaude(nome, local, email)
+
+	fmt.Fprintf(w, "Dados atualizados!")
+}
+
+func getUnidadeSaude(w http.ResponseWriter, r *http.Request) {
+	err := r.ParseForm()
+
+	if err != nil {
+		log.Println(logTag + err.Error())
+	}
+
+	email := r.FormValue("email")
+
+	mydb.GetUnidadeSaude(email)
+
+	fmt.Fprintf(w, "Dados atualizados!")
 }

@@ -18,10 +18,13 @@ func Start() {
 	log.Println("Starting server...")
 
 	http.Handle("/", http.FileServer(http.Dir("static")))
+
 	http.HandleFunc("/login", login)
-	http.HandleFunc("/get_page_cadastrar", getPageCadastrar)
 	http.HandleFunc("/cadastrar", cadastrar)
 	http.HandleFunc("/check_credentials", checkCredentials)
+
+	http.HandleFunc("/update_unidade_saude", updateUnidadeSaude)
+	http.HandleFunc("/get_unidade_saude", getUnidadeSaude)
 
 	/*
 		Start Server

@@ -114,7 +114,7 @@ class CriarConta : Fragment() {
 
                                 editor.apply()
 
-                                mController.navigate(R.id.action_criarConta_to_carregarPerfil)
+                                mController.navigate(R.id.action_criarConta_to_unidadeSaude)
                             }
                         },
                         Response.ErrorListener { Log.d(LOGTAG, "failed request: criar conta") }) {

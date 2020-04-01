@@ -9,15 +9,6 @@
         android:id="@+id/nested_graph_relatar"
         app:startDestination="@id/relatarDano">
         <fragment
-            android:id="@+id/unidadeSaude"
-            android:name="com.wwmm.sostecsaude.ui.contatos.UnidadeSaude"
-            android:label="@string/title_seus_dados"
-            tools:layout="@layout/fragment_contatos_unidade_saude">
-            <action
-                android:id="@+id/action_unidadeSaude_to_addFragment"
-                app:destination="@id/relatarDano" />
-        </fragment>
-        <fragment
             android:id="@+id/verPedidos"
             android:name="com.wwmm.sostecsaude.ui.relatar_danos.VerPedidos"
             android:label="@string/title_ver_danos"
@@ -30,9 +21,6 @@
         <action
             android:id="@+id/action_global_listFragment"
             app:destination="@id/verPedidos" />
-        <action
-            android:id="@+id/action_global_unidadeSaude"
-            app:destination="@id/unidadeSaude" />
         <action
             android:id="@+id/action_global_addFragment"
             app:destination="@id/relatarDano" />
@@ -96,8 +84,8 @@
         android:label="@string/title_criar_conta"
         tools:layout="@layout/fragment_criar_conta" >
         <action
-            android:id="@+id/action_criarConta_to_carregarPerfil"
-            app:destination="@id/carregarPerfil" />
+            android:id="@+id/action_criarConta_to_unidadeSaude"
+            app:destination="@id/unidadeSaude" />
     </fragment>
     <fragment
         android:id="@+id/carregarPerfil"
@@ -114,5 +102,14 @@
             app:destination="@id/nested_graph_unidade_manutencao"
             app:popUpTo="@id/nav_graph_main"
             app:popUpToInclusive="true" />
+    </fragment>
+    <fragment
+        android:id="@+id/unidadeSaude"
+        android:name="com.wwmm.sostecsaude.ui.contatos.UnidadeSaude"
+        android:label="fragment_contatos_unidade_saude"
+        tools:layout="@layout/fragment_contatos_unidade_saude" >
+        <action
+            android:id="@+id/action_unidadeSaude_to_fazerLogin"
+            app:destination="@id/fazerLogin" />
     </fragment>
 </navigation>

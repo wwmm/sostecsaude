@@ -50,6 +50,8 @@ class MainActivity : AppCompatActivity() {
                 val editor = prefs.edit()
 
                 editor.putString("Token", "")
+                editor.putString("Perfil", "")
+                editor.putString("Email", "")
 
                 editor.apply()
 

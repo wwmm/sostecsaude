@@ -72,10 +72,6 @@ class CarregarPerfil : Fragment() {
                     R.id.menu_bottomnav_relatar_danos_oficinas -> {
                         mController.navigate(R.id.action_global_verOficinas)
                     }
-
-                    R.id.menu_bottomnav_relatar_danos_contato -> {
-                        mController.navigate(R.id.action_global_unidadeSaude)
-                    }
                 }
 
                 true

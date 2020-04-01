@@ -89,6 +89,28 @@ func AddUnidadeSaude(nome string, local string, email string) {
 	}
 }
 
+//UpdateUnidadeSaude atualiza dados cadastrais das unidade de saúde
+func UpdateUnidadeSaude(nome string, local string, email string) {
+	queryStr := "update unidade_saude set nome=?,local=? where email=?"
+
+	_, err := db.Exec(queryStr, nome, local, email)
+
+	if err != nil {
+		log.Fatal(err.Error())
+	}
+}
+
+//GetUnidadeSaude pega nome e local da unidade de saúde
+func GetUnidadeSaude(email string) {
+	queryStr := "select nome,local from unidade_saude where email=?"
+
+	_, err := db.Exec(queryStr, email)
+
+	if err != nil {
+		log.Fatal(err.Error())
+	}
+}
+
 //AddUnidadeManutencao adiciona uma unidade de manutencao
 func AddUnidadeManutencao(nome string, setor string, local string, email string) {
 	queryStr := "insert or ignore into unidade_manutencao values (null,?,?,?,?)"

@@ -31,71 +31,65 @@ class Relatar : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val controller = findNavController()
+        progressBar.visibility = View.GONE
 
-        if (!hasUserInfo()) {
-            controller.navigate(R.id.action_global_unidadeSaude)
-        } else {
-            progressBar.visibility = View.GONE
+        button_add.setOnClickListener {
+            val equipamento = editText_equipamento.text.toString()
+            val fabricante = editText_fabricante.text.toString()
+            val modelo = editText_modelo.text.toString()
+            val numeroSerie = editText_numero_serie.text.toString()
+            val defeito = editText_defeito.text.toString()
 
-            button_add.setOnClickListener {
-                val equipamento = editText_equipamento.text.toString()
-                val fabricante = editText_fabricante.text.toString()
-                val modelo = editText_modelo.text.toString()
-                val numeroSerie = editText_numero_serie.text.toString()
-                val defeito = editText_defeito.text.toString()
+            val imm =
+                requireActivity().getSystemService(Context.INPUT_METHOD_SERVICE) as
+                        InputMethodManager?
 
-                val imm =
-                    requireActivity().getSystemService(Context.INPUT_METHOD_SERVICE) as
-                            InputMethodManager?
+            imm?.hideSoftInputFromWindow(
+                requireActivity().currentFocus?.windowToken,
+                0
+            )
 
-                imm?.hideSoftInputFromWindow(
-                    requireActivity().currentFocus?.windowToken,
+            if (equipamento.isNotBlank() && fabricante.isNotBlank() && modelo.isNotBlank()
+                && numeroSerie.isNotBlank() && defeito.isNotBlank() &&
+                editText_quantidade.text.isNotBlank()
+            ) {
+                val quantidade = editText_quantidade.text.toString().toInt()
+
+                progressBar.visibility = View.VISIBLE
+
+                val prefs = requireActivity().getSharedPreferences(
+                    "UnidadeSaude",
                     0
                 )
 
-                if (equipamento.isNotBlank() && fabricante.isNotBlank() && modelo.isNotBlank()
-                    && numeroSerie.isNotBlank() && defeito.isNotBlank() &&
-                    editText_quantidade.text.isNotBlank()
-                ) {
-                    val quantidade = editText_quantidade.text.toString().toInt()
+                val unidadeSaude = prefs.getString("Unidade", "")!!
+                val local = prefs.getString("Local", "")!!
+                val name = prefs.getString("Name", "")!!
+                val email = prefs.getString("Email", "")!!
 
-                    progressBar.visibility = View.VISIBLE
+                GlobalScope.launch(Dispatchers.IO) {
+                    transaction {
+                        if (!connection.isClosed) {
+                            Equipamentos.insertIgnore {
+                                it[Equipamentos.unidade_saude] = unidadeSaude
+                                it[Equipamentos.local] = local
+                                it[Equipamentos.profissional] = name
+                                it[Equipamentos.email] = email
+                                it[Equipamentos.equipamento] = equipamento
+                                it[Equipamentos.fabricante] = fabricante
+                                it[Equipamentos.modelo] = modelo
+                                it[Equipamentos.numero_serie] = numeroSerie
+                                it[Equipamentos.defeito] = defeito
+                                it[Equipamentos.quantidade] = quantidade
+                            }
 
-                    val prefs = requireActivity().getSharedPreferences(
-                        "UnidadeSaude",
-                        0
-                    )
+                            GlobalScope.launch(Dispatchers.Main) {
+                                progressBar.visibility = View.GONE
 
-                    val unidadeSaude = prefs.getString("Unidade", "")!!
-                    val local = prefs.getString("Local", "")!!
-                    val name = prefs.getString("Name", "")!!
-                    val email = prefs.getString("Email", "")!!
-
-                    GlobalScope.launch(Dispatchers.IO) {
-                        transaction {
-                            if (!connection.isClosed) {
-                                Equipamentos.insertIgnore {
-                                    it[Equipamentos.unidade_saude] = unidadeSaude
-                                    it[Equipamentos.local] = local
-                                    it[Equipamentos.profissional] = name
-                                    it[Equipamentos.email] = email
-                                    it[Equipamentos.equipamento] = equipamento
-                                    it[Equipamentos.fabricante] = fabricante
-                                    it[Equipamentos.modelo] = modelo
-                                    it[Equipamentos.numero_serie] = numeroSerie
-                                    it[Equipamentos.defeito] = defeito
-                                    it[Equipamentos.quantidade] = quantidade
-                                }
-
-                                GlobalScope.launch(Dispatchers.Main) {
-                                    progressBar.visibility = View.GONE
-
-                                    Snackbar.make(
-                                        main_layout_add, "Dados Inseridos!",
-                                        Snackbar.LENGTH_SHORT
-                                    ).show()
-                                }
+                                Snackbar.make(
+                                    main_layout_add, "Dados Inseridos!",
+                                    Snackbar.LENGTH_SHORT
+                                ).show()
                             }
                         }
                     }
