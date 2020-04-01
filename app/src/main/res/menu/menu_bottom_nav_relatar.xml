@@ -16,9 +16,4 @@
         android:icon="@drawable/ic_build"
         android:title="@string/title_oficinas" />
 
-    <item
-        android:id="@+id/menu_bottomnav_relatar_danos_contato"
-        android:icon="@drawable/ic_contact_mail"
-        android:title="@string/title_seus_dados" />
-
 </menu>

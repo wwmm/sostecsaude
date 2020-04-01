@@ -91,6 +91,8 @@ class UnidadeSaude : Fragment() {
                             main_layout_contato, msg,
                             Snackbar.LENGTH_SHORT
                         ).show()
+
+                        controller.navigate(R.id.action_unidadeSaude_to_carregarPerfil)
                     },
                     Response.ErrorListener {
                         Log.d(LOGTAG, "failed request: atualizar contato de unidade de saúde")
