@@ -65,7 +65,6 @@ class Relatar : Fragment() {
                 )
 
                 val token = prefs.getString("Token", "")!!
-                val email = prefs.getString("Email", "")!!
 
                 val queue = Volley.newRequestQueue(requireContext())
 

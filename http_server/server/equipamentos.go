@@ -5,6 +5,7 @@ import (
 	"log"
 	"net/http"
 	"strconv"
+	"strings"
 	"wwmm/sostecsaude/server/mydb"
 )
 
@@ -30,5 +31,15 @@ func unidadeSaudeAdicionarEquipamento(w http.ResponseWriter, r *http.Request) {
 		mydb.UnidadeSaudeAdicionarEquipamento(nome, fabricante, modelo, numeroSerie, n, defeito, email)
 
 		fmt.Fprintf(w, "Dados inseridos!")
+	}
+}
+
+func unidadeSaudePegarEquipamentos(w http.ResponseWriter, r *http.Request) {
+	status, _, email := verifyToken(w, r)
+
+	if status {
+		equipamentos := mydb.ListaEquipamentosUnidadeSaude(email)
+
+		fmt.Fprintf(w, strings.Join(equipamentos, "<&>"))
 	}
 }
