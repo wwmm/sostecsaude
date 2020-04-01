@@ -8,7 +8,8 @@ fetch("verify_token", {
 })
     .then(response => response.text())
     .then(text => {
-        Android.credentials(text);
+        console.log(text);
+        // Android.credentials(text);
     });
 
 document.getElementById("form_login").addEventListener("submit", event => {

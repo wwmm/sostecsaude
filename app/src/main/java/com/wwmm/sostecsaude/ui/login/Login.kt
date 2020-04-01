@@ -1,163 +1,24 @@
 package com.wwmm.sostecsaude.ui.login
 
-import android.annotation.SuppressLint
 import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.webkit.*
-import android.widget.Toast
+import android.view.inputmethod.InputMethodManager
 import androidx.fragment.app.Fragment
-import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
+import com.android.volley.Response
+import com.android.volley.toolbox.StringRequest
+import com.android.volley.toolbox.Volley
 import com.google.android.material.bottomnavigation.BottomNavigationView
-import com.wwmm.sostecsaude.MainActivity
+import com.google.android.material.snackbar.Snackbar
 import com.wwmm.sostecsaude.R
+import com.wwmm.sostecsaude.myServerURL
 import kotlinx.android.synthetic.main.fragment_login.*
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
-import org.jetbrains.exposed.sql.Database
-
-class WebAppInterface(
-    private val mContext: Context, private val controller: NavController,
-    private val bottomNav: BottomNavigationView
-) {
-
-    @JavascriptInterface
-    fun showToast(toast: String) {
-        Toast.makeText(mContext, toast, Toast.LENGTH_SHORT).show()
-    }
-
-    @JavascriptInterface
-    fun credentials(msg: String) {
-        if(msg.isBlank()){
-            return
-        }
-
-        val tmp = msg.split("<&>")
-
-        if (tmp.size > 1) {
-            val perfil = tmp[0]
-            val login = tmp[1]
-            val senha = tmp[2]
-            val email = tmp[3]
-
-            Database.connect(
-                "jdbc:mysql://albali.eic.cefet-rj.br/sostecsaude",
-                driver = "com.mysql.jdbc.Driver",
-                user = login,
-                password = senha
-            )
-
-            when (perfil) {
-                "unidade_saude" -> {
-                    val prefs = mContext.getSharedPreferences(
-                        "UnidadeSaude",
-                        0
-                    )
-
-                    val editor = prefs.edit()
-
-                    editor.putString("Email", email)
-
-                    editor.apply()
-
-                    loadUnidadeSaude()
-                }
-
-                "unidade_manutencao" -> {
-                    val prefs = mContext.getSharedPreferences(
-                        "UnidadeManutencao",
-                        0
-                    )
-
-                    val editor = prefs.edit()
-
-                    editor.putString("Email", email)
-
-                    editor.apply()
-
-                    loadUnidadeManutencao()
-                }
-            }
-        } else {
-            Toast.makeText(mContext, msg, Toast.LENGTH_SHORT).show()
-        }
-    }
-
-    private fun loadUnidadeSaude() {
-        GlobalScope.launch(Dispatchers.Main) {
-            bottomNav.inflateMenu(R.menu.menu_bottom_nav_relatar)
-
-            bottomNav.visibility = View.VISIBLE
-
-            bottomNav.setOnNavigationItemSelectedListener(null)
-
-            bottomNav.setOnNavigationItemSelectedListener {
-                when (it.itemId) {
-                    R.id.menu_bottomnav_relatar_danos_add -> {
-                        controller.navigate(R.id.action_global_addFragment)
-                    }
-
-                    R.id.menu_bottomnav_relatar_danos_submissoes -> {
-                        controller.navigate(R.id.action_global_listFragment)
-                    }
-
-                    R.id.menu_bottomnav_relatar_danos_oficinas -> {
-                        controller.navigate(R.id.action_global_verOficinas)
-                    }
-
-                    R.id.menu_bottomnav_relatar_danos_contato -> {
-                        controller.navigate(R.id.action_global_unidadeSaude)
-                    }
-                }
-
-                true
-            }
-
-            controller.navigate(R.id.action_login_to_nested_graph_relatar)
-        }
-    }
-
-    private fun loadUnidadeManutencao() {
-        GlobalScope.launch(Dispatchers.Main) {
-            bottomNav.inflateMenu(R.menu.menu_bottom_nav_unidade_manutencao)
-
-            bottomNav.visibility = View.VISIBLE
-
-            bottomNav.setOnNavigationItemSelectedListener(null)
-
-            bottomNav.setOnNavigationItemSelectedListener {
-                when (it.itemId) {
-                    R.id.menu_bottomnav_unidade_manutencao_pedidos -> {
-                        controller.navigate(R.id.action_global_empresasVerPedidos)
-                    }
-
-                    R.id.menu_bottomnav_unidade_manutencao_contato -> {
-                        controller.navigate(R.id.action_global_unidadeManutencao)
-                    }
-                }
-
-                true
-            }
-
-            controller.navigate(R.id.action_login_to_nested_graph_unidade_manutencao)
-        }
-    }
-}
 
 class Login : Fragment() {
-    private lateinit var mCookieManager: CookieManager
-
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
-
-        val activity = context as MainActivity
-
-        activity.mLogin = this
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -166,48 +27,94 @@ class Login : Fragment() {
         return inflater.inflate(R.layout.fragment_login, container, false)
     }
 
-    @SuppressLint("SetJavaScriptEnabled")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         val controller = findNavController()
 
-        val bottomNav = requireActivity().findViewById(R.id.bottom_nav) as
-                BottomNavigationView
+        val bottomNav = requireActivity().findViewById(R.id.bottom_nav) as BottomNavigationView
 
-        webview.settings.javaScriptEnabled = true
-        webview.settings.mixedContentMode = WebSettings.MIXED_CONTENT_ALWAYS_ALLOW
+        bottomNav.visibility = View.GONE
 
-        webview.addJavascriptInterface(
-            WebAppInterface(requireContext(), controller, bottomNav),
-            "Android"
+        val prefs = requireActivity().getSharedPreferences(
+            "UserInfo",
+            0
         )
 
-        webview.webViewClient = object : WebViewClient() {
-            override fun shouldOverrideUrlLoading(view: WebView?, url: String?): Boolean {
-                return false
+        button_login.setOnClickListener {
+            val imm = requireActivity().getSystemService(Context.INPUT_METHOD_SERVICE) as
+                    InputMethodManager?
+
+            imm?.hideSoftInputFromWindow(requireActivity().currentFocus?.windowToken, 0)
+
+            when {
+                editText_email.text.isBlank() -> {
+                    Snackbar.make(
+                        layout_login, "Digite um e-mail!",
+                        Snackbar.LENGTH_SHORT
+                    ).show()
+                }
+
+                editText_senha.text.isBlank() -> {
+                    Snackbar.make(
+                        layout_login, "Digite uma senha!",
+                        Snackbar.LENGTH_SHORT
+                    ).show()
+                }
+
+                editText_email.text.isNotBlank() && editText_senha.text.isNotBlank() -> {
+                    val queue = Volley.newRequestQueue(requireContext())
+
+                    val request = object : StringRequest(
+                        Method.POST, "$myServerURL/login",
+                        Response.Listener { response ->
+                            val msg = response.toString()
+
+                            val arr = msg.split("<&>")
+
+                            if (arr.size == 3) {
+                                val token = arr[0]
+                                val perfil = arr[1]
+                                val email = arr[2]
+
+                                val editor = prefs.edit()
+
+                                editor.putString("Token", token)
+                                editor.putString("Perfil", perfil)
+                                editor.putString("Email", email)
+
+                                editor.apply()
+
+                                controller.navigate(R.id.action_login_to_carregarPerfil)
+                            }else{
+                                Snackbar.make(
+                                    layout_login, msg,
+                                    Snackbar.LENGTH_SHORT
+                                ).show()
+                            }
+                        },
+                        Response.ErrorListener { Log.d(LOGTAG, "failed request: criar conta") }) {
+                        override fun getParams(): MutableMap<String, String> {
+                            val params = HashMap<String, String>()
+
+                            params["email"] = editText_email.text.toString()
+                            params["senha"] = editText_senha.text.toString()
+
+                            return params
+                        }
+                    }
+
+                    queue.add(request)
+                }
             }
         }
 
-        mCookieManager = CookieManager.getInstance()
-
-        mCookieManager.setAcceptCookie(true)
-        mCookieManager.setAcceptThirdPartyCookies(webview, true)
-
-        webview.loadUrl("http://albali.eic.cefet-rj.br:8081")
-    }
-
-    override fun onPause() {
-        super.onPause()
-
-        mCookieManager.flush()
-    }
-
-    fun goBack() {
-        if (isAdded) {
-            if (webview.canGoBack()) {
-                webview.goBack()
-            }
+        button_cadastro.setOnClickListener {
+            controller.navigate(R.id.action_login_to_criarConta)
         }
+    }
+
+    companion object {
+        const val LOGTAG = "login"
     }
 }

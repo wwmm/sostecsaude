@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph_main"
-    app:startDestination="@id/login">
+    app:startDestination="@id/checkCredentials">
 
     <navigation
         android:id="@+id/nested_graph_relatar"
@@ -66,19 +66,53 @@
             app:destination="@id/unidadeManutencao" />
     </navigation>
     <fragment
-        android:id="@+id/login"
-        android:name="com.wwmm.sostecsaude.ui.login.Login"
-        android:label="@string/app_name"
-        tools:layout="@layout/fragment_login" >
+        android:id="@+id/checkCredentials"
+        android:name="com.wwmm.sostecsaude.ui.login.CheckCredentials"
+        android:label="@string/title_check_credentials"
+        tools:layout="@layout/fragment_check_credentials" >
         <action
-            android:id="@+id/action_login_to_nested_graph_relatar"
+            android:id="@+id/action_checkCredentials_to_login"
+            app:destination="@id/fazerLogin"
+            app:popUpTo="@id/nav_graph_main"
+            app:popUpToInclusive="false" />
+        <action
+            android:id="@+id/action_checkCredentials_to_carregarPerfil"
+            app:destination="@id/carregarPerfil" />
+    </fragment>
+    <fragment
+        android:id="@+id/fazerLogin"
+        android:name="com.wwmm.sostecsaude.ui.login.Login"
+        android:label="Login" >
+        <action
+            android:id="@+id/action_login_to_criarConta"
+            app:destination="@id/criarConta" />
+        <action
+            android:id="@+id/action_login_to_carregarPerfil"
+            app:destination="@id/carregarPerfil" />
+    </fragment>
+    <fragment
+        android:id="@+id/criarConta"
+        android:name="com.wwmm.sostecsaude.ui.login.CriarConta"
+        android:label="@string/title_criar_conta"
+        tools:layout="@layout/fragment_criar_conta" >
+        <action
+            android:id="@+id/action_criarConta_to_carregarPerfil"
+            app:destination="@id/carregarPerfil" />
+    </fragment>
+    <fragment
+        android:id="@+id/carregarPerfil"
+        android:name="com.wwmm.sostecsaude.ui.login.CarregarPerfil"
+        android:label="@string/title_carregar_perfil"
+        tools:layout="@layout/fragment_carregar_perfil" >
+        <action
+            android:id="@+id/action_carregarPerfil_to_nested_graph_relatar"
             app:destination="@id/nested_graph_relatar"
-            app:popUpTo="@id/login"
+            app:popUpTo="@id/nav_graph_main"
             app:popUpToInclusive="true" />
         <action
-            android:id="@+id/action_login_to_nested_graph_unidade_manutencao"
+            android:id="@+id/action_carregarPerfil_to_nested_graph_unidade_manutencao"
             app:destination="@id/nested_graph_unidade_manutencao"
-            app:popUpTo="@id/login"
+            app:popUpTo="@id/nav_graph_main"
             app:popUpToInclusive="true" />
     </fragment>
 </navigation>

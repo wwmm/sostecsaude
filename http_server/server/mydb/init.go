@@ -25,10 +25,34 @@ func OpenDB() {
 
 //InitTables creates tables if they do not exists
 func InitTables() {
+	_, err := db.Exec("pragma foreign_keys=on")
+
+	if err != nil {
+		log.Fatal(err.Error())
+	}
+
 	queryStr := "create table if not exists usuarios (id integer primary key, perfil text, email text, senha text, "
 	queryStr += "unique(email));"
 
-	_, err := db.Exec(queryStr)
+	_, err = db.Exec(queryStr)
+
+	if err != nil {
+		log.Fatal(err.Error())
+	}
+
+	queryStr = "create table if not exists unidade_saude (id integer primary key, nome text, local text, email text, "
+	queryStr += "unique(email));"
+
+	_, err = db.Exec(queryStr)
+
+	if err != nil {
+		log.Fatal(err.Error())
+	}
+
+	queryStr = "create table if not exists unidade_manutencao (id integer primary key, nome text, setor text, "
+	queryStr += "local text, email text, unique(email));"
+
+	_, err = db.Exec(queryStr)
 
 	if err != nil {
 		log.Fatal(err.Error())

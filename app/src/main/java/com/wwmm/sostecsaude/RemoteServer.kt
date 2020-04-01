@@ -1,5 +1,10 @@
 package com.wwmm.sostecsaude
 
+import android.util.Log
+import com.android.volley.Request
+import com.android.volley.RequestQueue
+import com.android.volley.Response
+import com.android.volley.toolbox.StringRequest
 import org.jetbrains.exposed.sql.Table
 
 object Equipamentos : Table("equipamentos") {
@@ -27,3 +32,5 @@ object Empresas : Table("empresas") {
 
     override val primaryKey = PrimaryKey(id)
 }
+
+const val myServerURL = "http://albali.eic.cefet-rj.br:8082"

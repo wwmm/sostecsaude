@@ -77,3 +77,25 @@ func Cadastrar(perfil string, email string, senha string) {
 		log.Fatal(err.Error())
 	}
 }
+
+//AddUnidadeSaude adiciona uma unidade de saúde
+func AddUnidadeSaude(nome string, local string, email string) {
+	queryStr := "insert or ignore into unidade_saude values (null,?,?,?)"
+
+	_, err := db.Exec(queryStr, nome, local, email)
+
+	if err != nil {
+		log.Fatal(err.Error())
+	}
+}
+
+//AddUnidadeManutencao adiciona uma unidade de manutencao
+func AddUnidadeManutencao(nome string, setor string, local string, email string) {
+	queryStr := "insert or ignore into unidade_manutencao values (null,?,?,?,?)"
+
+	_, err := db.Exec(queryStr, nome, setor, local, email)
+
+	if err != nil {
+		log.Fatal(err.Error())
+	}
+}

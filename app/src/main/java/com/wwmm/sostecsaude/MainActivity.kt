@@ -1,17 +1,20 @@
 package com.wwmm.sostecsaude
 
 import android.os.Bundle
-import android.view.*
-import android.webkit.CookieManager
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
+import androidx.navigation.NavController
 import androidx.navigation.Navigation
+import androidx.navigation.ui.onNavDestinationSelected
 import androidx.navigation.ui.setupWithNavController
-import com.wwmm.sostecsaude.ui.login.Login
 import kotlinx.android.synthetic.main.activity_main.*
 
 
 class MainActivity : AppCompatActivity() {
-    var mLogin: Login? = null
+    private lateinit var mController: NavController
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -19,27 +22,13 @@ class MainActivity : AppCompatActivity() {
 
         bottom_nav.visibility = View.GONE
 
-        val controller = Navigation.findNavController(this, R.id.nav_host_main)
-
-        toolbar.setupWithNavController(controller)
+        mController = Navigation.findNavController(this, R.id.nav_host_main)
 
         setSupportActionBar(toolbar)
 
-        bottom_nav.setupWithNavController(controller)
-    }
+        toolbar.setupWithNavController(mController)
 
-    override fun onKeyDown(keyCode: Int, event: KeyEvent?): Boolean {
-        if (keyCode == KeyEvent.KEYCODE_BACK) {
-            if (mLogin != null) {
-                if (mLogin?.isAdded!!) {
-                    mLogin?.goBack()
-
-                    return true
-                }
-            }
-        }
-
-        return super.onKeyDown(keyCode, event)
+        bottom_nav.setupWithNavController(mController)
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -52,26 +41,24 @@ class MainActivity : AppCompatActivity() {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
-            R.id.menu_activity_sair -> {
-                if (mLogin != null) {
-                    if (mLogin?.isAdded!!) {
-                        return true
-                    }
-                }
+            R.id.fazerLogin -> {
+                val prefs = getSharedPreferences(
+                    "UserInfo",
+                    0
+                )
 
-                val manager= CookieManager.getInstance()
+                val editor = prefs.edit()
 
-                manager.removeAllCookies(null)
-                manager.removeSessionCookies(null)
+                editor.putString("Token", "")
 
-                val intent = intent
-                finish()
-                startActivity(intent)
+                editor.apply()
 
-                true
+                item.onNavDestinationSelected(mController)
             }
 
-            else -> super.onOptionsItemSelected(item)
+            else -> {
+                super.onOptionsItemSelected(item)
+            }
         }
     }
 }

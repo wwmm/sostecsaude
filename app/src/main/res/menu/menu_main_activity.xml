@@ -2,7 +2,7 @@
 <menu xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:android="http://schemas.android.com/apk/res/android">
     <item
-        android:id="@+id/menu_activity_sair"
+        android:id="@+id/fazerLogin"
         android:icon="@drawable/ic_exit_to_app"
         android:title="@string/title_sair"
         app:showAsAction="ifRoom" />

@@ -15,9 +15,6 @@
     <string name="title_modelo">Modelo</string>
     <string name="title_numero_serie">Número de Série</string>
 
-    <string name="title_update">Atualizar Dados</string>
-    <string name="title_save">Salvar</string>
-
     <string name="title_empresas">Empresas</string>
     <string name="title_empresa">Empresa</string>
     <string name="title_equipamentos">Equipamentos</string>
@@ -36,14 +33,22 @@
     <string name="title_contato">Contato</string>
     <string name="title_setor">Setor</string>
 
-    <string name="title_interesses">Escolha uma atividade</string>
-    <string name="title_interesses_pedir_reparo">"Pedir reparo em equipamentos"</string>
-    <string name="title_interesses_consertar">"Realizar reparos em equipamentos"</string>
-    <string name="title_interesses_transporte">"Transportar equipamentos"</string>
+    <string name="title_perfil">Quem você representa?</string>
+    <string name="title_perfil_unidade_saude">Represento uma unidade de saúde</string>
+    <string name="title_perfil_unidade_manutencao">Represento uma unidade de manutenção de equipamentos</string>
 
     <string name="title_entrar">Entrar</string>
+    <string name="title_criar_conta">Criar Conta</string>
     <string name="title_sair">Sair</string>
+    <string name="title_enviar">Enviar</string>
+    <string name="title_senha">Senha</string>
+    <string name="title_senha_confirmar">Confirmar Senha</string>
+    <string name="title_update">Atualizar Dados</string>
+    <string name="title_save">Salvar</string>
 
     <string name="title_unidade">Unidade</string>
     <string name="title_unidades_manutencao">Unidades de Manutenção</string>
+
+    <string name="title_check_credentials">Conectando…</string>
+    <string name="title_carregar_perfil">Carregando…</string>
 </resources>
