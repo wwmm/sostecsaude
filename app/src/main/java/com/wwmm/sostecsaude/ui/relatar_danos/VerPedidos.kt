@@ -82,38 +82,6 @@ class VerPedidos : Fragment() {
         }
 
         queue.add(request)
-
-//        GlobalScope.launch(Dispatchers.IO) {
-//            transaction {
-//                if (!connection.isClosed) {
-//                    val lines = ArrayList<ResultRow>()
-//
-//                    val query = Equipamentos.select {
-//                        Equipamentos.profissional.eq(name) and
-//                                Equipamentos.email.eq(email) and
-//                                Equipamentos.unidade_saude.eq(unidadeSaude)
-//                    }
-//
-//                    for (line in query) {
-//                        lines.add(line)
-//                    }
-//
-//                    GlobalScope.launch(Dispatchers.Main) {
-//                        if (isAdded) {
-//                            recyclerview.apply {
-//                                adapter =
-//                                    Adapter(
-//                                        lines,
-//                                        progressBar
-//                                    )
-//                            }
-//
-//                            progressBar.visibility = View.GONE
-//                        }
-//                    }
-//                }
-//            }
-//        }
     }
 
     companion object {

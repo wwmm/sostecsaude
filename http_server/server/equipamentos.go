@@ -43,3 +43,13 @@ func unidadeSaudePegarEquipamentos(w http.ResponseWriter, r *http.Request) {
 		fmt.Fprintf(w, strings.Join(equipamentos, "<&>"))
 	}
 }
+
+func pegarTodosEquipamentos(w http.ResponseWriter, r *http.Request) {
+	status, _, _ := verifyToken(w, r)
+
+	if status {
+		equipamentos := mydb.ListaTodosEquipamentos()
+
+		fmt.Fprintf(w, strings.Join(equipamentos, "<&>"))
+	}
+}

@@ -21,7 +21,7 @@ class TabEquipamento : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         arguments.apply {
-            textView_equipamento.text = this!!.getString("Equipamento").toString()
+            textView_equipamento.text = this!!.getString("Nome").toString()
             textView_fabricante.text = this.getString("Fabricante").toString()
             textView_modelo.text = this.getString("Modelo").toString()
             textView_numero_serie.text = this.getString("NumeroSerie").toString()

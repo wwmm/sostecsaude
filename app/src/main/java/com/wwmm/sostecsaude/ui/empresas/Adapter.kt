@@ -13,7 +13,7 @@ import com.wwmm.sostecsaude.R
 import kotlinx.android.synthetic.main.recyclerview_empresa_ver_pedidos_contents.view.*
 import org.jetbrains.exposed.sql.ResultRow
 
-class ViewPager2Adapter(fragment: Fragment, private val line: ResultRow) :
+class ViewPager2Adapter(fragment: Fragment, private val line: Map<String, String>) :
     FragmentStateAdapter(fragment) {
 
     override fun getItemCount(): Int = 3
@@ -24,10 +24,10 @@ class ViewPager2Adapter(fragment: Fragment, private val line: ResultRow) :
                 val fragment = TabEquipamento()
 
                 fragment.arguments = Bundle().apply {
-                    putString("Equipamento", line[Equipamentos.equipamento])
-                    putString("Fabricante", line[Equipamentos.fabricante])
-                    putString("Modelo", line[Equipamentos.modelo])
-                    putString("NumeroSerie", line[Equipamentos.numero_serie])
+                    putString("Nome", line["nome"])
+                    putString("Fabricante", line["fabricante"])
+                    putString("Modelo", line["modelo"])
+                    putString("NumeroSerie", line["numeroSerie"])
                 }
 
                 return fragment
@@ -37,8 +37,8 @@ class ViewPager2Adapter(fragment: Fragment, private val line: ResultRow) :
                 val fragment = TabDefeito()
 
                 fragment.arguments = Bundle().apply {
-                    putString("Defeito", line[Equipamentos.defeito])
-                    putString("Quantidade", line[Equipamentos.quantidade].toString())
+                    putString("Defeito", line["defeito"])
+                    putString("Quantidade", line["quantidade"].toString())
                 }
 
                 return fragment
@@ -48,8 +48,8 @@ class ViewPager2Adapter(fragment: Fragment, private val line: ResultRow) :
                 val fragment = TabUnidadeSaude()
 
                 fragment.arguments = Bundle().apply {
-                    putString("Nome", line[Equipamentos.unidade_saude])
-                    putString("Local", line[Equipamentos.local])
+//                    putString("Nome", line[Equipamentos.unidade_saude])
+//                    putString("Local", line[Equipamentos.local])
                 }
 
                 return fragment
@@ -58,7 +58,7 @@ class ViewPager2Adapter(fragment: Fragment, private val line: ResultRow) :
     }
 }
 
-class Adapter(private val fragment: Fragment, private val lines: ArrayList<ResultRow>) :
+class Adapter(private val fragment: Fragment, private val lines: List<String>) :
     RecyclerView.Adapter<Adapter.ViewHolder>() {
     class ViewHolder(val view: View) : RecyclerView.ViewHolder(view)
 
@@ -75,7 +75,29 @@ class Adapter(private val fragment: Fragment, private val lines: ArrayList<Resul
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val line = lines[position]
 
-        holder.view.viewpager.adapter = ViewPager2Adapter(fragment, line)
+        val arr = line.split(":")
+
+        if (arr.size == 7) {
+            val id = arr[0]
+            val nome = arr[1]
+            val fabricante = arr[2]
+            val modelo = arr[3]
+            val numeroSerie = arr[4]
+            val quantidade = arr[5]
+            val defeito = arr[6]
+
+            val dict = mapOf(
+                "id" to id,
+                "nome" to nome,
+                "fabricante" to fabricante,
+                "modelo" to modelo,
+                "numeroSerie" to numeroSerie,
+                "quantidade" to quantidade,
+                "defeito" to defeito
+            )
+
+            holder.view.viewpager.adapter = ViewPager2Adapter(fragment, dict)
+        }
 
         TabLayoutMediator(holder.view.tab_layout, holder.view.viewpager) { tab, tabIdx ->
             when (tabIdx) {
