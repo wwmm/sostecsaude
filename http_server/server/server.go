@@ -30,7 +30,9 @@ func Start() {
 	http.HandleFunc("/unidade_saude_atualizar_equipamento", unidadeSaudeAtualizarEquipamento)
 	http.HandleFunc("/unidade_saude_remover_equipamento", unidadeSaudeRemoverEquipamento)
 	http.HandleFunc("/unidade_saude_pegar_equipamentos", unidadeSaudePegarEquipamentos)
+
 	http.HandleFunc("/pegar_todos_equipamentos", pegarTodosEquipamentos)
+	http.HandleFunc("/unidade_manutencao_atualizar_interesse", unidadeManutencaoAtualizarInteresse)
 
 	/*
 		Start Server

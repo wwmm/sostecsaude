@@ -111,3 +111,26 @@ func pegarTodosEquipamentos(w http.ResponseWriter, r *http.Request) {
 		fmt.Fprintf(w, "%s", jsonEquipamentos)
 	}
 }
+
+func unidadeManutencaoAtualizarInteresse(w http.ResponseWriter, r *http.Request) {
+	status, _, email := verifyToken(w, r)
+
+	if status {
+		err := r.ParseForm()
+
+		if err != nil {
+			log.Println(logTag + err.Error())
+		}
+
+		id := r.FormValue("id")
+		state := r.FormValue("state")
+
+		if state == "true" {
+			mydb.UnidadeManutencaoAdicionarInteresse(email, id)
+		} else {
+			mydb.UnidadeManutencaoRemoverInteresse(email, id)
+		}
+
+		fmt.Fprintf(w, "Interesse registrado!")
+	}
+}

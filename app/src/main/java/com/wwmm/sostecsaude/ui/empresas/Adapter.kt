@@ -1,15 +1,26 @@
 package com.wwmm.sostecsaude.ui.empresas
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.adapter.FragmentStateAdapter
+import com.android.volley.Request
+import com.android.volley.Response
+import com.android.volley.toolbox.StringRequest
+import com.android.volley.toolbox.Volley
+import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.tabs.TabLayoutMediator
 import com.wwmm.sostecsaude.R
+import com.wwmm.sostecsaude.myServerURL
+import kotlinx.android.synthetic.main.fragment_empresas_ver_pedidos.*
+import kotlinx.android.synthetic.main.recyclerview_empresa_ver_pedidos_contents.*
 import kotlinx.android.synthetic.main.recyclerview_empresa_ver_pedidos_contents.view.*
+import kotlinx.android.synthetic.main.recyclerview_empresa_ver_pedidos_contents.view.layout_manutencao_pedidos
 import org.json.JSONArray
 import org.json.JSONObject
 
@@ -98,18 +109,57 @@ class Adapter(private val fragment: Fragment, private val lines: JSONArray) :
             }
         }.attach()
 
+        val prefs = fragment.requireActivity().getSharedPreferences(
+            "UserInfo",
+            0
+        )
+
+        val token = prefs.getString("Token", "")!!
+
+        val queue = Volley.newRequestQueue(fragment.requireContext())
+
         holder.view.switch_consertar.setOnCheckedChangeListener { _, state ->
-            when(state){
-                true ->{
+            fragment.progressBar.visibility = View.VISIBLE
 
+            val request = object : StringRequest(
+                Method.POST, "$myServerURL/unidade_manutencao_atualizar_interesse",
+                Response.Listener { response ->
+                    val msg = response.toString()
+
+                    if (msg == "invalid_token") {
+                        val controller = fragment.findNavController()
+                        controller.navigate(R.id.action_empresasVerPedidos_to_fazerLogin)
+                    } else {
+                        fragment.progressBar.visibility = View.GONE
+
+                        Snackbar.make(
+                            fragment.layout_manutencao_pedidos, msg,
+                            Snackbar.LENGTH_SHORT
+                        ).show()
+                    }
+                },
+                Response.ErrorListener {
+                    Log.d(LOGTAG, "failed request: $it")
                 }
+            ) {
+                override fun getParams(): MutableMap<String, String> {
+                    val parameters = HashMap<String, String>()
 
-                false ->{
+                    parameters["token"] = token
+                    parameters["id"] = id
+                    parameters["state"] = state.toString()
 
+                    return parameters
                 }
             }
+
+            queue.add(request)
         }
     }
 
     override fun getItemCount() = lines.length()
+
+    companion object {
+        const val LOGTAG = "manutencao ver pedidos"
+    }
 }

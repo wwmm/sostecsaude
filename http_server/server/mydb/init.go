@@ -110,13 +110,14 @@ func InitTables() {
 
 	queryStr = `create table if not exists interessados_manutencao (
 		id integer primary key autoincrement,
+		email string,
 		id_equipamento integer,
-		id_unidade_manutencao integer,
-		foreign key(id_equipamento) references equipamento(id) on delete cascade,
-		foreign key(id_unidade_manutencao) references unidade_manutencao(id) on delete cascade,
-		unique(id_equipamento,id_unidade_manutencao)
+		foreign key(email) references unidade_manutencao(email) on delete cascade,
+		foreign key(id_equipamento) references equipamentos(id) on delete cascade,
+		unique(email,id_equipamento)
 	);
 	`
+
 	_, err = db.Exec(queryStr)
 
 	if err != nil {

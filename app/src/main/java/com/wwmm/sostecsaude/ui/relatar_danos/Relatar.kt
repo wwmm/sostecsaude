@@ -85,7 +85,7 @@ class Relatar : Fragment() {
                         }
                     },
                     Response.ErrorListener {
-                        Log.d(LOGTAG, "failed request: relatar defeito")
+                        Log.d(LOGTAG, "failed request: $it")
                     }
                 ) {
                     override fun getParams(): MutableMap<String, String> {

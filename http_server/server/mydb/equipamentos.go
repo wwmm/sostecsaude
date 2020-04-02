@@ -124,3 +124,25 @@ func ListaTodosEquipamentos() []Equipamento {
 
 	return equipamentos
 }
+
+//UnidadeManutencaoAdicionarInteresse adiciona na tabela um interesse de realizar manutenção
+func UnidadeManutencaoAdicionarInteresse(email string, idEquipamento string) {
+	queryStr := "insert or ignore into interessados_manutencao values (null,?,?)"
+
+	_, err := db.Exec(queryStr, email, idEquipamento)
+
+	if err != nil {
+		log.Println(err.Error())
+	}
+}
+
+//UnidadeManutencaoRemoverInteresse remove da tabela um interesse de realizar manutenção
+func UnidadeManutencaoRemoverInteresse(email string, idEquipamento string) {
+	queryStr := "delete from interessados_manutencao where email=? and id_equipamento=?"
+
+	_, err := db.Exec(queryStr, email, idEquipamento)
+
+	if err != nil {
+		log.Println(err.Error())
+	}
+}
