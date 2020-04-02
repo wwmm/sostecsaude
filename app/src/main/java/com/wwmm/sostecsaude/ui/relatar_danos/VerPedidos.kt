@@ -62,7 +62,7 @@ class VerPedidos : Fragment() {
                     } else {
                         if (isAdded) {
                             recyclerview.apply {
-                                adapter = Adapter(response, progressBar)
+                                adapter = Adapter(this@VerPedidos, response)
                             }
                         }
 

@@ -36,6 +36,48 @@ func unidadeSaudeAdicionarEquipamento(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
+func unidadeSaudeAtualizarEquipamento(w http.ResponseWriter, r *http.Request) {
+	status, _, _ := verifyToken(w, r)
+
+	if status {
+		err := r.ParseForm()
+
+		if err != nil {
+			log.Println(logTag + err.Error())
+		}
+
+		id := r.FormValue("id")
+		nome := r.FormValue("nome")
+		fabricante := r.FormValue("fabricante")
+		modelo := r.FormValue("modelo")
+		numeroSerie := r.FormValue("numero_serie")
+		quantidade := r.FormValue("quantidade")
+		defeito := r.FormValue("defeito")
+
+		mydb.UnidadeSaudeAtualizarEquipamento(id, nome, fabricante, modelo, numeroSerie, quantidade, defeito)
+
+		fmt.Fprintf(w, "Dados inseridos!")
+	}
+}
+
+func unidadeSaudeRemoverEquipamento(w http.ResponseWriter, r *http.Request) {
+	status, _, _ := verifyToken(w, r)
+
+	if status {
+		err := r.ParseForm()
+
+		if err != nil {
+			log.Println(logTag + err.Error())
+		}
+
+		id := r.FormValue("id")
+
+		mydb.UnidadeSaudeRemoverEquipamento(id)
+
+		fmt.Fprintf(w, "Dados removidos!")
+	}
+}
+
 func unidadeSaudePegarEquipamentos(w http.ResponseWriter, r *http.Request) {
 	status, _, email := verifyToken(w, r)
 

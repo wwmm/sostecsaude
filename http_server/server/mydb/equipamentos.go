@@ -2,8 +2,9 @@ package mydb
 
 import "log"
 
+// Equipamento é uma estrutura com dados dos equipamentos usadas para criar um objeto json
 type Equipamento struct {
-	Id          string
+	ID          string
 	Nome        string
 	Fabricante  string
 	Modelo      string
@@ -34,6 +35,35 @@ func UnidadeSaudeAdicionarEquipamento(
 	}
 }
 
+//UnidadeSaudeAtualizarEquipamento atualiza um equipamento no banco de dados
+func UnidadeSaudeAtualizarEquipamento(
+	id string,
+	nome string,
+	fabricante string,
+	modelo string,
+	numeroSerie string,
+	quantidade string,
+	defeito string) {
+	queryStr := "update equipamentos set nome=?,fabricante=?,modelo=?,numero_serie=?,quantidade=?,defeito=? where id=?"
+
+	_, err := db.Exec(queryStr, nome, fabricante, modelo, numeroSerie, quantidade, defeito, id)
+
+	if err != nil {
+		log.Println(err.Error())
+	}
+}
+
+//UnidadeSaudeRemoverEquipamento remove um equipamento do banco de dados
+func UnidadeSaudeRemoverEquipamento(id string) {
+	queryStr := "delete from equipamentos where id=?"
+
+	_, err := db.Exec(queryStr, id)
+
+	if err != nil {
+		log.Println(err.Error())
+	}
+}
+
 //ListaEquipamentosUnidadeSaude retorna uma lista com os equipamento adicionados pela unidade
 func ListaEquipamentosUnidadeSaude(email string) []Equipamento {
 	queryStr := "select id,nome,fabricante,modelo,numero_serie,quantidade,defeito from equipamentos where email=?"
@@ -51,7 +81,7 @@ func ListaEquipamentosUnidadeSaude(email string) []Equipamento {
 	for rows.Next() {
 		var equipamento Equipamento
 
-		err = rows.Scan(&equipamento.Id, &equipamento.Nome, &equipamento.Fabricante, &equipamento.Modelo,
+		err = rows.Scan(&equipamento.ID, &equipamento.Nome, &equipamento.Fabricante, &equipamento.Modelo,
 			&equipamento.NumeroSerie, &equipamento.Quantidade, &equipamento.Defeito)
 
 		if err != nil {
@@ -81,7 +111,7 @@ func ListaTodosEquipamentos() []Equipamento {
 	for rows.Next() {
 		var equipamento Equipamento
 
-		err = rows.Scan(&equipamento.Id, &equipamento.Nome, &equipamento.Fabricante, &equipamento.Modelo,
+		err = rows.Scan(&equipamento.ID, &equipamento.Nome, &equipamento.Fabricante, &equipamento.Modelo,
 			&equipamento.NumeroSerie, &equipamento.Quantidade, &equipamento.Defeito, &equipamento.Unidade,
 			&equipamento.Local)
 
