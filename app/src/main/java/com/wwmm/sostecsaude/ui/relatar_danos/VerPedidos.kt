@@ -10,12 +10,12 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.android.volley.Request
 import com.android.volley.Response
-import com.android.volley.toolbox.StringRequest
+import com.android.volley.toolbox.JsonArrayRequest
 import com.android.volley.toolbox.Volley
-import com.google.android.material.snackbar.Snackbar
 import com.wwmm.sostecsaude.R
 import com.wwmm.sostecsaude.myServerURL
 import kotlinx.android.synthetic.main.fragment_relatar_danos_ver_pedidos.*
+import org.json.JSONArray
 
 class VerPedidos : Fragment() {
 
@@ -45,41 +45,35 @@ class VerPedidos : Fragment() {
 
         val token = prefs.getString("Token", "")!!
 
+        val jsonToken = JSONArray()
+
+        jsonToken.put(0, token)
+
         val queue = Volley.newRequestQueue(requireContext())
 
-        val request = object : StringRequest(
-            Request.Method.POST, "$myServerURL/unidade_saude_pegar_equipamentos",
+        val request = JsonArrayRequest(
+            Request.Method.POST,
+            "$myServerURL/unidade_saude_pegar_equipamentos",
+            jsonToken,
             Response.Listener { response ->
-                val msg = response.toString()
-
-                if (msg == "invalid_token") {
-                    controller.navigate(R.id.action_verPedidos_to_fazerLogin)
-                } else {
-                    val arr = msg.split("<&>")
-
-                    if (arr.isNotEmpty()) {
+                if (response.length() > 0) {
+                    if (response[0] == "invalid_token") {
+                        controller.navigate(R.id.action_verPedidos_to_fazerLogin)
+                    } else {
                         if (isAdded) {
                             recyclerview.apply {
-                                adapter = Adapter(arr, progressBar)
+                                adapter = Adapter(response, progressBar)
                             }
                         }
-                    }
 
-                    progressBar.visibility = View.GONE
+                        progressBar.visibility = View.GONE
+                    }
                 }
             },
             Response.ErrorListener {
-                Log.d(LOGTAG, "failed request: relatar defeito")
+                Log.d(LOGTAG, "failed request: $it")
             }
-        ) {
-            override fun getParams(): MutableMap<String, String> {
-                val parameters = HashMap<String, String>()
-
-                parameters["token"] = token
-
-                return parameters
-            }
-        }
+        )
 
         queue.add(request)
     }

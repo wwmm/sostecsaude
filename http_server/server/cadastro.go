@@ -1,6 +1,7 @@
 package server
 
 import (
+	"encoding/json"
 	"fmt"
 	"log"
 	"net/http"
@@ -31,17 +32,23 @@ func createToken(w http.ResponseWriter, perfil string, email string) string {
 }
 
 func verifyToken(w http.ResponseWriter, r *http.Request) (bool, string, string) {
+	var tokenString string
+	var jasonArray []string
+	var jsonRequest = false
+
 	err := r.ParseForm()
 
-	if err != nil {
-		log.Println(logTag + err.Error())
-
-		fmt.Fprintf(w, "invalid_token")
-
-		return false, "", ""
+	if err == nil {
+		tokenString = r.FormValue("token")
 	}
 
-	tokenString := r.FormValue("token")
+	err = json.NewDecoder(r.Body).Decode(&jasonArray)
+
+	if err == nil {
+		jsonRequest = true
+
+		tokenString = jasonArray[0]
+	}
 
 	claims := jwt.MapClaims{}
 
@@ -52,7 +59,13 @@ func verifyToken(w http.ResponseWriter, r *http.Request) (bool, string, string) 
 	if err != nil {
 		log.Println("Error: ", err.Error())
 
-		fmt.Fprintf(w, "invalid_token")
+		if !jsonRequest {
+			fmt.Fprintf(w, "invalid_token")
+		} else {
+			response, _ := json.Marshal([]string{"invalid_token"})
+
+			fmt.Fprintf(w, "%s", response)
+		}
 
 		return false, "", ""
 	}
@@ -69,12 +82,24 @@ func verifyToken(w http.ResponseWriter, r *http.Request) (bool, string, string) 
 			}
 		}
 
-		fmt.Fprintf(w, "invalid_token")
+		if !jsonRequest {
+			fmt.Fprintf(w, "invalid_token")
+		} else {
+			response, _ := json.Marshal([]string{"invalid_token"})
+
+			fmt.Fprintf(w, "%s", response)
+		}
 
 		return false, "", ""
 	}
 
-	fmt.Fprintf(w, "invalid_token")
+	if !jsonRequest {
+		fmt.Fprintf(w, "invalid_token")
+	} else {
+		response, _ := json.Marshal([]string{"invalid_token"})
+
+		fmt.Fprintf(w, "%s", response)
+	}
 
 	return false, "", ""
 }

@@ -1,11 +1,11 @@
 package server
 
 import (
+	"encoding/json"
 	"fmt"
 	"log"
 	"net/http"
 	"strconv"
-	"strings"
 	"wwmm/sostecsaude/server/mydb"
 )
 
@@ -42,7 +42,14 @@ func unidadeSaudePegarEquipamentos(w http.ResponseWriter, r *http.Request) {
 	if status {
 		equipamentos := mydb.ListaEquipamentosUnidadeSaude(email)
 
-		fmt.Fprintf(w, strings.Join(equipamentos, "<&>"))
+		jsonEquipamentos, err := json.Marshal(equipamentos)
+
+		if err != nil {
+			log.Println(err.Error())
+		}
+
+		// fmt.Fprintf(os.Stdout, "%s", jsonEquipamentos)
+		fmt.Fprintf(w, "%s", jsonEquipamentos)
 	}
 }
 
@@ -52,6 +59,13 @@ func pegarTodosEquipamentos(w http.ResponseWriter, r *http.Request) {
 	if status {
 		equipamentos := mydb.ListaTodosEquipamentos()
 
-		fmt.Fprintf(w, strings.Join(equipamentos, "<&>"))
+		jsonEquipamentos, err := json.Marshal(equipamentos)
+
+		if err != nil {
+			log.Println(err.Error())
+		}
+
+		// fmt.Fprintf(os.Stdout, "%s", jsonEquipamentos)
+		fmt.Fprintf(w, "%s", jsonEquipamentos)
 	}
 }

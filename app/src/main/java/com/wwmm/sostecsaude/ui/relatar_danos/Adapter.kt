@@ -7,8 +7,10 @@ import android.widget.ProgressBar
 import androidx.recyclerview.widget.RecyclerView
 import com.wwmm.sostecsaude.R
 import kotlinx.android.synthetic.main.recyclerview_relatar_danos.view.*
+import org.json.JSONArray
+import org.json.JSONObject
 
-class Adapter(private val lines: List<String>, private val progressBar: ProgressBar) :
+class Adapter(private val lines: JSONArray, private val progressBar: ProgressBar) :
     RecyclerView.Adapter<Adapter.ViewHolder>() {
     class ViewHolder(val view: View) : RecyclerView.ViewHolder(view)
 
@@ -23,27 +25,22 @@ class Adapter(private val lines: List<String>, private val progressBar: Progress
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val line = lines[position]
+        val line = lines[position] as JSONObject
 
-        val arr = line.split(":")
+        val id = line.getString("Id")
+        val nome = line.getString("Nome")
+        val fabricante = line.getString("Fabricante")
+        val modelo = line.getString("Modelo")
+        val numeroSerie = line.getString("NumeroSerie")
+        val quantidade = line.getString("Quantidade")
+        val defeito = line.getString("Defeito")
 
-        if (arr.size == 7) {
-            val id = arr[0]
-            val nome = arr[1]
-            val fabricante = arr[2]
-            val modelo = arr[3]
-            val numeroSerie = arr[4]
-            val quantidade = arr[5]
-            val defeito = arr[6]
-
-            holder.view.editText_nome.setText(nome)
-            holder.view.editText_fabricante.setText(fabricante)
-            holder.view.editText_modelo.setText(modelo)
-            holder.view.editText_numero_serie.setText(numeroSerie)
-            holder.view.editText_defeito.setText(defeito)
-            holder.view.editText_quantidade.setText(quantidade)
-        }
-
+        holder.view.editText_nome.setText(nome)
+        holder.view.editText_fabricante.setText(fabricante)
+        holder.view.editText_modelo.setText(modelo)
+        holder.view.editText_numero_serie.setText(numeroSerie)
+        holder.view.editText_defeito.setText(defeito)
+        holder.view.editText_quantidade.setText(quantidade)
 
 //        holder.view.button_remove.setOnClickListener {
 //            progressBar.visibility = View.VISIBLE
@@ -92,5 +89,5 @@ class Adapter(private val lines: List<String>, private val progressBar: Progress
         }
     }
 
-    override fun getItemCount() = lines.size
+    override fun getItemCount() = lines.length()
 }

@@ -2,6 +2,18 @@ package mydb
 
 import "log"
 
+type Equipamento struct {
+	Id          string
+	Nome        string
+	Fabricante  string
+	Modelo      string
+	NumeroSerie string
+	Quantidade  string
+	Defeito     string
+	Unidade     string
+	Local       string
+}
+
 //UnidadeSaudeAdicionarEquipamento adiciona um equipamento com defeito no banco de dados
 func UnidadeSaudeAdicionarEquipamento(
 	nome string,
@@ -23,10 +35,8 @@ func UnidadeSaudeAdicionarEquipamento(
 }
 
 //ListaEquipamentosUnidadeSaude retorna uma lista com os equipamento adicionados pela unidade
-func ListaEquipamentosUnidadeSaude(email string) []string {
-	queryStr := `select id,nome,fabricante,modelo,numero_serie,quantidade,defeito 
-		from equipamentos where email=?
-	`
+func ListaEquipamentosUnidadeSaude(email string) []Equipamento {
+	queryStr := "select id,nome,fabricante,modelo,numero_serie,quantidade,defeito from equipamentos where email=?"
 
 	rows, err := db.Query(queryStr, email)
 
@@ -36,25 +46,17 @@ func ListaEquipamentosUnidadeSaude(email string) []string {
 
 	defer rows.Close()
 
-	var equipamentos []string
+	var equipamentos []Equipamento
 
 	for rows.Next() {
-		var id string
-		var nome string
-		var fabricante string
-		var modelo string
-		var numeroSerie string
-		var quantidade string
-		var defeito string
+		var equipamento Equipamento
 
-		err = rows.Scan(&id, &nome, &fabricante, &modelo, &numeroSerie, &quantidade, &defeito)
+		err = rows.Scan(&equipamento.Id, &equipamento.Nome, &equipamento.Fabricante, &equipamento.Modelo,
+			&equipamento.NumeroSerie, &equipamento.Quantidade, &equipamento.Defeito)
 
 		if err != nil {
 			log.Println(err.Error())
 		}
-
-		var equipamento = id + ":" + nome + ":" + fabricante + ":" + modelo + ":" + numeroSerie + ":" + quantidade +
-			":" + defeito
 
 		equipamentos = append(equipamentos, equipamento)
 	}
@@ -63,7 +65,7 @@ func ListaEquipamentosUnidadeSaude(email string) []string {
 }
 
 //ListaTodosEquipamentos retorna uma lista com todos os equipamentos defeituosos
-func ListaTodosEquipamentos() []string {
+func ListaTodosEquipamentos() []Equipamento {
 	queryStr := "select id,nome,fabricante,modelo,numero_serie,quantidade,defeito,unidade,local from equipamentos"
 
 	rows, err := db.Query(queryStr)
@@ -74,27 +76,18 @@ func ListaTodosEquipamentos() []string {
 
 	defer rows.Close()
 
-	var equipamentos []string
+	var equipamentos []Equipamento
 
 	for rows.Next() {
-		var id string
-		var nome string
-		var fabricante string
-		var modelo string
-		var numeroSerie string
-		var quantidade string
-		var defeito string
-		var unidade string
-		var local string
+		var equipamento Equipamento
 
-		err = rows.Scan(&id, &nome, &fabricante, &modelo, &numeroSerie, &quantidade, &defeito, &unidade, &local)
+		err = rows.Scan(&equipamento.Id, &equipamento.Nome, &equipamento.Fabricante, &equipamento.Modelo,
+			&equipamento.NumeroSerie, &equipamento.Quantidade, &equipamento.Defeito, &equipamento.Unidade,
+			&equipamento.Local)
 
 		if err != nil {
 			log.Println(err.Error())
 		}
-
-		var equipamento = id + ":" + nome + ":" + fabricante + ":" + modelo + ":" + numeroSerie + ":" + quantidade +
-			":" + defeito + ":" + unidade + ":" + local
 
 		equipamentos = append(equipamentos, equipamento)
 	}
