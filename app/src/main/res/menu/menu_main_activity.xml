@@ -3,12 +3,8 @@
     xmlns:android="http://schemas.android.com/apk/res/android">
     <item
         android:id="@+id/menu_atualizar_perfil"
-        android:icon="@drawable/ic_contact_mail"
-        android:title="@string/title_sair"
-        app:showAsAction="ifRoom" />
+        android:title="@string/title_dados_unidade" />
     <item
         android:id="@+id/fazerLogin"
-        android:icon="@drawable/ic_exit_to_app"
-        android:title="@string/title_sair"
-        app:showAsAction="ifRoom" />
+        android:title="@string/title_sair" />
 </menu>

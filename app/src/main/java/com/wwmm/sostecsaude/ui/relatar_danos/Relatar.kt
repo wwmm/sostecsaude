@@ -104,7 +104,7 @@ class Relatar : Fragment() {
                 }
 
                 queue.add(request)
-            }else{
+            } else {
                 Snackbar.make(
                     main_layout_relatar, "Preencha todos os campos!",
                     Snackbar.LENGTH_SHORT

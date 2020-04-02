@@ -1,18 +1,14 @@
 package com.wwmm.sostecsaude.ui.login
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.bottomnavigation.BottomNavigationView
-
 import com.wwmm.sostecsaude.R
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
 
 
 class CarregarPerfil : Fragment() {
@@ -40,67 +36,63 @@ class CarregarPerfil : Fragment() {
             0
         )
 
-        when(prefs.getString("Perfil", "")){
-            "unidade_saude" ->{
+        when (prefs.getString("Perfil", "")) {
+            "unidade_saude" -> {
                 loadUnidadeSaude()
             }
 
-            "unidade_manutencao" ->{
+            "unidade_manutencao" -> {
                 loadUnidadeManutencao()
             }
         }
     }
 
     private fun loadUnidadeSaude() {
-        GlobalScope.launch(Dispatchers.Main) {
-            mBottomNav.inflateMenu(R.menu.menu_bottom_nav_relatar)
+        mBottomNav.inflateMenu(R.menu.menu_bottom_nav_relatar)
 
-            mBottomNav.visibility = View.VISIBLE
+        mBottomNav.visibility = View.VISIBLE
 
-            mBottomNav.setOnNavigationItemSelectedListener(null)
+        mBottomNav.setOnNavigationItemSelectedListener(null)
 
-            mBottomNav.setOnNavigationItemSelectedListener {
-                when (it.itemId) {
-                    R.id.menu_bottomnav_relatar_danos_add -> {
-                        mController.navigate(R.id.action_global_addFragment)
-                    }
-
-                    R.id.menu_bottomnav_relatar_danos_submissoes -> {
-                        mController.navigate(R.id.action_global_listFragment)
-                    }
-
-                    R.id.menu_bottomnav_relatar_danos_oficinas -> {
-                        mController.navigate(R.id.action_global_verOficinas)
-                    }
+        mBottomNav.setOnNavigationItemSelectedListener {
+            when (it.itemId) {
+                R.id.menu_bottomnav_relatar_danos_add -> {
+                    mController.navigate(R.id.action_global_addFragment)
                 }
 
-                true
+                R.id.menu_bottomnav_relatar_danos_submissoes -> {
+                    mController.navigate(R.id.action_global_listFragment)
+                }
+
+                R.id.menu_bottomnav_relatar_danos_oficinas -> {
+                    mController.navigate(R.id.action_global_verOficinas)
+                }
             }
 
-            mController.navigate(R.id.action_carregarPerfil_to_nested_graph_relatar)
+            true
         }
+
+        mController.navigate(R.id.action_carregarPerfil_to_nested_graph_relatar)
     }
 
     private fun loadUnidadeManutencao() {
-        GlobalScope.launch(Dispatchers.Main) {
-            mBottomNav.inflateMenu(R.menu.menu_bottom_nav_unidade_manutencao)
+//            mBottomNav.inflateMenu(R.menu.menu_bottom_nav_unidade_manutencao)
+//
+//            mBottomNav.visibility = View.VISIBLE
+//
+//            mBottomNav.setOnNavigationItemSelectedListener(null)
+//
+//            mBottomNav.setOnNavigationItemSelectedListener {
+//                when (it.itemId) {
+//                    R.id.menu_bottomnav_unidade_manutencao_pedidos -> {
+//                        mController.navigate(R.id.action_global_empresasVerPedidos)
+//                    }
+//                }
+//
+//                true
+//            }
 
-            mBottomNav.visibility = View.VISIBLE
-
-            mBottomNav.setOnNavigationItemSelectedListener(null)
-
-            mBottomNav.setOnNavigationItemSelectedListener {
-                when (it.itemId) {
-                    R.id.menu_bottomnav_unidade_manutencao_pedidos -> {
-                        mController.navigate(R.id.action_global_empresasVerPedidos)
-                    }
-                }
-
-                true
-            }
-
-            mController.navigate(R.id.action_carregarPerfil_to_nested_graph_unidade_manutencao)
-        }
+        mController.navigate(R.id.action_carregarPerfil_to_nested_graph_unidade_manutencao)
     }
 
 }

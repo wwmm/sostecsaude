@@ -43,8 +43,8 @@
         <fragment
             android:id="@+id/empresasVerPedidos"
             android:name="com.wwmm.sostecsaude.ui.empresas.EmpresasVerPedidos"
-            android:label="@string/title_equipamentos"
-            tools:layout="@layout/fragment_empresas_ver_pedidos" >
+            android:label="@string/title_equipamentos_danificados"
+            tools:layout="@layout/fragment_empresas_ver_pedidos">
             <action
                 android:id="@+id/action_empresasVerPedidos_to_fazerLogin"
                 app:destination="@id/fazerLogin" />

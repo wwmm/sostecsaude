@@ -75,6 +75,8 @@ class Adapter(private val fragment: Fragment, private val lines: JSONArray) :
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val line = lines[position] as JSONObject
 
+        val id = line.getString("ID")
+
         holder.view.viewpager.adapter = ViewPager2Adapter(fragment, line)
 
         TabLayoutMediator(holder.view.tab_layout, holder.view.viewpager) { tab, tabIdx ->
@@ -86,7 +88,7 @@ class Adapter(private val fragment: Fragment, private val lines: JSONArray) :
 
                 1 -> {
                     tab.text = fragment.getString(R.string.title_defeito)
-                    tab.setIcon(R.drawable.ic_build)
+                    tab.setIcon(R.drawable.ic_broken_image)
                 }
 
                 2 -> {
@@ -95,6 +97,18 @@ class Adapter(private val fragment: Fragment, private val lines: JSONArray) :
                 }
             }
         }.attach()
+
+        holder.view.switch_consertar.setOnCheckedChangeListener { _, state ->
+            when(state){
+                true ->{
+
+                }
+
+                false ->{
+
+                }
+            }
+        }
     }
 
     override fun getItemCount() = lines.length()

@@ -35,17 +35,17 @@ class CheckCredentials : Fragment() {
 
         val queue = Volley.newRequestQueue(requireContext())
 
-        val request = object: StringRequest(
+        val request = object : StringRequest(
             Request.Method.POST, "$myServerURL/check_credentials",
             Response.Listener { response ->
                 val msg = response.toString()
 
-                if(msg == "invalid_token"){
+                if (msg == "invalid_token") {
                     controller.navigate(R.id.action_checkCredentials_to_login)
-                }else{
+                } else {
                     val arr = msg.split("<&>")
 
-                    if(arr.size == 3){
+                    if (arr.size == 3) {
                         val token = arr[0]
                         val perfil = arr[1]
                         val email = arr[2]
@@ -62,7 +62,7 @@ class CheckCredentials : Fragment() {
                     }
                 }
             },
-            Response.ErrorListener { Log.d(LOGTAG, "token check request failed") }){
+            Response.ErrorListener { Log.d(LOGTAG, "token check request failed") }) {
             override fun getParams(): MutableMap<String, String> {
                 val params = HashMap<String, String>()
 
@@ -75,7 +75,7 @@ class CheckCredentials : Fragment() {
         queue.add(request)
     }
 
-    companion object{
+    companion object {
         const val LOGTAG = "check credentials"
     }
 }

@@ -114,12 +114,12 @@ class CriarConta : Fragment() {
 
                                 editor.apply()
 
-                                when(perfil){
-                                    "unidade_saude" ->{
+                                when (perfil) {
+                                    "unidade_saude" -> {
                                         mController.navigate(R.id.action_criarConta_to_unidadeSaude)
                                     }
 
-                                    "unidade_manutencao" ->{
+                                    "unidade_manutencao" -> {
                                         mController.navigate(R.id.action_criarConta_to_unidadeManutencao)
                                     }
                                 }

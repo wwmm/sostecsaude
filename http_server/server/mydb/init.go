@@ -108,6 +108,21 @@ func InitTables() {
 		log.Fatal(err.Error())
 	}
 
+	queryStr = `create table if not exists interessados_manutencao (
+		id integer primary key autoincrement,
+		id_equipamento integer,
+		id_unidade_manutencao integer,
+		foreign key(id_equipamento) references equipamento(id) on delete cascade,
+		foreign key(id_unidade_manutencao) references unidade_manutencao(id) on delete cascade,
+		unique(id_equipamento,id_unidade_manutencao)
+	);
+	`
+	_, err = db.Exec(queryStr)
+
+	if err != nil {
+		log.Fatal(err.Error())
+	}
+
 	// create triggers
 
 	queryStr = `create trigger if not exists add_unidade_saude after insert on usuarios

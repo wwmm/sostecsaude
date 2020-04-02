@@ -22,6 +22,7 @@
     <string name="title_quantidade_com_defeito">Quantidade de Equipamentos Danificados</string>
     <string name="title_local">Local</string>
     <string name="title_cnpj">CNPJ</string>
+    <string name="title_quero_consertar">Quero Consertar</string>
 
     <string name="title_relatar_danos">Descrição do Equipamento</string>
     <string name="title_ver_danos">Pedidos Realizados</string>
@@ -51,6 +52,7 @@
     <string name="title_unidades_minusculo">unidades</string>
     <string name="title_unidades_manutencao">Unidades de Manutenção</string>
     <string name="title_unidade_manutencao">Unidade de Manutenção</string>
+    <string name="title_dados_unidade">Dados da Unidade</string>
 
     <string name="title_check_credentials">Conectando…</string>
     <string name="title_carregar_perfil">Carregando…</string>

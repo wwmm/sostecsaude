@@ -86,14 +86,14 @@ class Login : Fragment() {
                                 editor.apply()
 
                                 controller.navigate(R.id.action_login_to_carregarPerfil)
-                            }else{
+                            } else {
                                 Snackbar.make(
                                     layout_login, msg,
                                     Snackbar.LENGTH_SHORT
                                 ).show()
                             }
                         },
-                        Response.ErrorListener { Log.d(LOGTAG, "failed request: criar conta") }) {
+                        Response.ErrorListener { Log.d(LOGTAG, "failed request: $it") }) {
                         override fun getParams(): MutableMap<String, String> {
                             val params = HashMap<String, String>()
 
