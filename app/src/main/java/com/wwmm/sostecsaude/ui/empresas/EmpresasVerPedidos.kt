@@ -11,18 +11,10 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.android.volley.Request
 import com.android.volley.Response
 import com.android.volley.toolbox.JsonArrayRequest
-import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
-import com.wwmm.sostecsaude.Equipamentos
 import com.wwmm.sostecsaude.R
 import com.wwmm.sostecsaude.myServerURL
 import kotlinx.android.synthetic.main.fragment_empresas_ver_pedidos.*
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
-import org.jetbrains.exposed.sql.ResultRow
-import org.jetbrains.exposed.sql.selectAll
-import org.jetbrains.exposed.sql.transactions.transaction
 import org.json.JSONArray
 
 class EmpresasVerPedidos : Fragment() {
