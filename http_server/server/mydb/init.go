@@ -95,9 +95,11 @@ func InitTables() {
 		numero_serie text,
 		quantidade int,
 		defeito text,
+		unidade text,
+		local text,
 		email text,
 		foreign key(email) references unidade_saude(email) on delete cascade,
-		unique(nome,fabricante,modelo,numero_serie,quantidade,defeito,email)
+		unique(nome,fabricante,modelo,numero_serie,quantidade,defeito,unidade,local,email)
 	);
 	`
 	_, err = db.Exec(queryStr)

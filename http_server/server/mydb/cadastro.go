@@ -74,7 +74,7 @@ func Cadastrar(perfil string, email string, senha string) {
 	_, err := db.Exec(queryStr, perfil, email, senha)
 
 	if err != nil {
-		log.Fatal(err.Error())
+		log.Println(err.Error())
 	}
 }
 

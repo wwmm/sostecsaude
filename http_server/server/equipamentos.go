@@ -28,7 +28,9 @@ func unidadeSaudeAdicionarEquipamento(w http.ResponseWriter, r *http.Request) {
 
 		n, _ := strconv.Atoi(quantidade)
 
-		mydb.UnidadeSaudeAdicionarEquipamento(nome, fabricante, modelo, numeroSerie, n, defeito, email)
+		unidade, local := mydb.GetUnidadeSaude(email)
+
+		mydb.UnidadeSaudeAdicionarEquipamento(nome, fabricante, modelo, numeroSerie, n, defeito, unidade, local, email)
 
 		fmt.Fprintf(w, "Dados inseridos!")
 	}

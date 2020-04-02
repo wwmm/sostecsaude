@@ -48,8 +48,8 @@ class ViewPager2Adapter(fragment: Fragment, private val line: Map<String, String
                 val fragment = TabUnidadeSaude()
 
                 fragment.arguments = Bundle().apply {
-//                    putString("Nome", line[Equipamentos.unidade_saude])
-//                    putString("Local", line[Equipamentos.local])
+                    putString("Nome", line["unidade"])
+                    putString("Local", line["local"])
                 }
 
                 return fragment
@@ -77,7 +77,7 @@ class Adapter(private val fragment: Fragment, private val lines: List<String>) :
 
         val arr = line.split(":")
 
-        if (arr.size == 7) {
+        if (arr.size == 9) {
             val id = arr[0]
             val nome = arr[1]
             val fabricante = arr[2]
@@ -85,6 +85,8 @@ class Adapter(private val fragment: Fragment, private val lines: List<String>) :
             val numeroSerie = arr[4]
             val quantidade = arr[5]
             val defeito = arr[6]
+            val unidade = arr[7]
+            val local = arr[8]
 
             val dict = mapOf(
                 "id" to id,
@@ -93,7 +95,9 @@ class Adapter(private val fragment: Fragment, private val lines: List<String>) :
                 "modelo" to modelo,
                 "numeroSerie" to numeroSerie,
                 "quantidade" to quantidade,
-                "defeito" to defeito
+                "defeito" to defeito,
+                "unidade" to unidade,
+                "local" to local
             )
 
             holder.view.viewpager.adapter = ViewPager2Adapter(fragment, dict)

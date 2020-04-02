@@ -10,10 +10,12 @@ func UnidadeSaudeAdicionarEquipamento(
 	numeroSerie string,
 	quantidade int,
 	defeito string,
+	unidade string,
+	local string,
 	email string) {
-	queryStr := "insert or ignore into equipamentos values (null,?,?,?,?,?,?,?)"
+	queryStr := "insert or ignore into equipamentos values (null,?,?,?,?,?,?,?,?,?)"
 
-	_, err := db.Exec(queryStr, nome, fabricante, modelo, numeroSerie, quantidade, defeito, email)
+	_, err := db.Exec(queryStr, nome, fabricante, modelo, numeroSerie, quantidade, defeito, unidade, local, email)
 
 	if err != nil {
 		log.Println(err.Error())
@@ -22,7 +24,9 @@ func UnidadeSaudeAdicionarEquipamento(
 
 //ListaEquipamentosUnidadeSaude retorna uma lista com os equipamento adicionados pela unidade
 func ListaEquipamentosUnidadeSaude(email string) []string {
-	queryStr := "select id,nome,fabricante,modelo,numero_serie,quantidade,defeito from equipamentos where email=?"
+	queryStr := `select id,nome,fabricante,modelo,numero_serie,quantidade,defeito 
+		from equipamentos where email=?
+	`
 
 	rows, err := db.Query(queryStr, email)
 
@@ -60,7 +64,7 @@ func ListaEquipamentosUnidadeSaude(email string) []string {
 
 //ListaTodosEquipamentos retorna uma lista com todos os equipamentos defeituosos
 func ListaTodosEquipamentos() []string {
-	queryStr := "select id,nome,fabricante,modelo,numero_serie,quantidade,defeito from equipamentos"
+	queryStr := "select id,nome,fabricante,modelo,numero_serie,quantidade,defeito,unidade,local from equipamentos"
 
 	rows, err := db.Query(queryStr)
 
@@ -80,15 +84,17 @@ func ListaTodosEquipamentos() []string {
 		var numeroSerie string
 		var quantidade string
 		var defeito string
+		var unidade string
+		var local string
 
-		err = rows.Scan(&id, &nome, &fabricante, &modelo, &numeroSerie, &quantidade, &defeito)
+		err = rows.Scan(&id, &nome, &fabricante, &modelo, &numeroSerie, &quantidade, &defeito, &unidade, &local)
 
 		if err != nil {
 			log.Println(err.Error())
 		}
 
 		var equipamento = id + ":" + nome + ":" + fabricante + ":" + modelo + ":" + numeroSerie + ":" + quantidade +
-			":" + defeito
+			":" + defeito + ":" + unidade + ":" + local
 
 		equipamentos = append(equipamentos, equipamento)
 	}
