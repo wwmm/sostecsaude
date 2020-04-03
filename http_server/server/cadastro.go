@@ -59,7 +59,7 @@ func verifyToken(w http.ResponseWriter, r *http.Request) (bool, string, string, 
 	})
 
 	if err != nil {
-		log.Println("Error: ", err.Error())
+		// log.Println("Error: ", err.Error())
 
 		if !jsonRequest {
 			fmt.Fprintf(w, "invalid_token")
