@@ -56,17 +56,17 @@ class VerPedidos : Fragment() {
             "$myServerURL/unidade_saude_pegar_equipamentos",
             jsonToken,
             Response.Listener { response ->
-                if (response.length() > 0) {
-                    if (response[0] == "invalid_token") {
-                        controller.navigate(R.id.action_verPedidos_to_fazerLogin)
-                    } else {
-                        if (isAdded) {
+                if (isAdded) {
+                    if (response.length() > 0) {
+                        if (response[0] == "invalid_token") {
+                            controller.navigate(R.id.action_verPedidos_to_fazerLogin)
+                        } else {
                             recyclerview.apply {
                                 adapter = Adapter(this@VerPedidos, response)
                             }
-                        }
 
-                        progressBar.visibility = View.GONE
+                            progressBar.visibility = View.GONE
+                        }
                     }
                 }
             },

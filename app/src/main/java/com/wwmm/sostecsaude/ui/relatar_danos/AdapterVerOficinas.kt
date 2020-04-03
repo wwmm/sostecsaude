@@ -5,7 +5,9 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.wwmm.sostecsaude.R
+import kotlinx.android.synthetic.main.recyclerview_relatar_danos_ver_oficinas.view.*
 import org.json.JSONArray
+import org.json.JSONObject
 
 class AdapterVerOficinas(private val lines: JSONArray) :
     RecyclerView.Adapter<AdapterVerOficinas.ViewHolder>() {
@@ -22,17 +24,13 @@ class AdapterVerOficinas(private val lines: JSONArray) :
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val line = lines[position]
+        val line = lines[position] as JSONObject
 
-//        val nome = line[Empresas.nome]
-//        val setor = line[Empresas.setor]
-//        val local = line[Empresas.local]
-//        val contato = line[Empresas.contato]
-//
-//        holder.view.textView_empresa.text = nome
-//        holder.view.textView_setor.text = setor
-//        holder.view.textView_local.text = local
-//        holder.view.textView_contato.text = contato
+        holder.view.textView_empresa.text = line.getString("Nome")
+        holder.view.textView_setor.text = line.getString("Setor")
+        holder.view.textView_cnpj.text = line.getString("CNPJ")
+        holder.view.textView_local.text = line.getString("Local")
+        holder.view.textView_contato.text = line.getString("Email")
     }
 
     override fun getItemCount() = lines.length()

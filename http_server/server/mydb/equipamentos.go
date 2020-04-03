@@ -15,13 +15,6 @@ type Equipamento struct {
 	Local       string
 }
 
-// InteresseManutencao é uma estrutura com o email da unidade de manutenção e o id do equipamento que ela deseja
-// consertar
-type InteresseManutencao struct {
-	Email string
-	ID    string
-}
-
 //UnidadeSaudeAdicionarEquipamento adiciona um equipamento com defeito no banco de dados
 func UnidadeSaudeAdicionarEquipamento(
 	nome string,
@@ -73,7 +66,9 @@ func UnidadeSaudeRemoverEquipamento(id string) {
 
 //ListaEquipamentosUnidadeSaude retorna uma lista com os equipamento adicionados pela unidade
 func ListaEquipamentosUnidadeSaude(email string) []Equipamento {
-	queryStr := "select id,nome,fabricante,modelo,numero_serie,quantidade,defeito from equipamentos where email=?"
+	queryStr := `select id,nome,fabricante,modelo,numero_serie,quantidade,defeito from equipamentos where email=?
+		order by nome
+	`
 
 	rows, err := db.Query(queryStr, email)
 
@@ -103,7 +98,9 @@ func ListaEquipamentosUnidadeSaude(email string) []Equipamento {
 
 //ListaTodosEquipamentos retorna uma lista com todos os equipamentos defeituosos
 func ListaTodosEquipamentos() []Equipamento {
-	queryStr := "select id,nome,fabricante,modelo,numero_serie,quantidade,defeito,unidade,local from equipamentos"
+	queryStr := `select id,nome,fabricante,modelo,numero_serie,quantidade,defeito,unidade,local from equipamentos
+		order by nome
+	`
 
 	rows, err := db.Query(queryStr)
 
@@ -181,4 +178,33 @@ func ListaInteresseManutencao(email string) []string {
 	}
 
 	return idNumbers
+}
+
+//ListaInteressadosManutencao retorna uma lista com as unidades interessadas em consertar o equipamento
+func ListaInteressadosManutencao(id string) []string {
+	queryStr := "select email from interessados_manutencao where id_equipamento=?"
+
+	rows, err := db.Query(queryStr, id)
+
+	if err != nil {
+		log.Fatal(err.Error())
+	}
+
+	defer rows.Close()
+
+	var emails []string
+
+	for rows.Next() {
+		var email string
+
+		err = rows.Scan(&email)
+
+		if err != nil {
+			log.Println(err.Error())
+		}
+
+		emails = append(emails, email)
+	}
+
+	return emails
 }

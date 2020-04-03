@@ -125,7 +125,9 @@ class CriarConta : Fragment() {
                                 }
                             }
                         },
-                        Response.ErrorListener { Log.d(LOGTAG, "failed request: criar conta") }) {
+                        Response.ErrorListener {
+                            Log.d(LOGTAG, "failed request: $it")
+                        }) {
                         override fun getParams(): MutableMap<String, String> {
                             return params
                         }

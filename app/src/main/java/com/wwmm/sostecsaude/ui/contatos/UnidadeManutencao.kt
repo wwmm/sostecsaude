@@ -44,23 +44,25 @@ class UnidadeManutencao : Fragment() {
         val requestGet = object : StringRequest(
             Request.Method.POST, "$myServerURL/get_unidade",
             Response.Listener { response ->
-                val msg = response.toString()
+                if (isAdded) {
+                    val msg = response.toString()
 
-                if (msg == "invalid_token") {
-                    controller.navigate(R.id.action_unidadeManutencao_to_fazerLogin)
-                } else {
-                    val arr = msg.split("<&>")
+                    if (msg == "invalid_token") {
+                        controller.navigate(R.id.action_unidadeManutencao_to_fazerLogin)
+                    } else {
+                        val arr = msg.split("<&>")
 
-                    if (arr.size == 4) {
-                        val nome = arr[0]
-                        val setor = arr[1]
-                        val local = arr[2]
-                        val cnpj = arr[3]
+                        if (arr.size == 4) {
+                            val nome = arr[0]
+                            val setor = arr[1]
+                            val local = arr[2]
+                            val cnpj = arr[3]
 
-                        editText_nome.setText(nome)
-                        editText_setor.setText(setor)
-                        editText_local.setText(local)
-                        editText_cnpj.setText(cnpj)
+                            editText_nome.setText(nome)
+                            editText_setor.setText(setor)
+                            editText_local.setText(local)
+                            editText_cnpj.setText(cnpj)
+                        }
                     }
                 }
             },

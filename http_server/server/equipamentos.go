@@ -10,7 +10,7 @@ import (
 )
 
 func unidadeSaudeAdicionarEquipamento(w http.ResponseWriter, r *http.Request) {
-	status, _, email := verifyToken(w, r)
+	status, _, email, _ := verifyToken(w, r)
 
 	if status {
 		err := r.ParseForm()
@@ -37,7 +37,7 @@ func unidadeSaudeAdicionarEquipamento(w http.ResponseWriter, r *http.Request) {
 }
 
 func unidadeSaudeAtualizarEquipamento(w http.ResponseWriter, r *http.Request) {
-	status, _, _ := verifyToken(w, r)
+	status, _, _, _ := verifyToken(w, r)
 
 	if status {
 		err := r.ParseForm()
@@ -61,7 +61,7 @@ func unidadeSaudeAtualizarEquipamento(w http.ResponseWriter, r *http.Request) {
 }
 
 func unidadeSaudeRemoverEquipamento(w http.ResponseWriter, r *http.Request) {
-	status, _, _ := verifyToken(w, r)
+	status, _, _, _ := verifyToken(w, r)
 
 	if status {
 		err := r.ParseForm()
@@ -79,7 +79,7 @@ func unidadeSaudeRemoverEquipamento(w http.ResponseWriter, r *http.Request) {
 }
 
 func unidadeSaudePegarEquipamentos(w http.ResponseWriter, r *http.Request) {
-	status, _, email := verifyToken(w, r)
+	status, _, email, _ := verifyToken(w, r)
 
 	if status {
 		equipamentos := mydb.ListaEquipamentosUnidadeSaude(email)
@@ -96,7 +96,7 @@ func unidadeSaudePegarEquipamentos(w http.ResponseWriter, r *http.Request) {
 }
 
 func listaTodosEquipamentos(w http.ResponseWriter, r *http.Request) {
-	status, _, email := verifyToken(w, r)
+	status, _, email, _ := verifyToken(w, r)
 
 	if status {
 		equipamentos := mydb.ListaTodosEquipamentos()
@@ -118,7 +118,7 @@ func listaTodosEquipamentos(w http.ResponseWriter, r *http.Request) {
 }
 
 func unidadeManutencaoAtualizarInteresse(w http.ResponseWriter, r *http.Request) {
-	status, _, email := verifyToken(w, r)
+	status, _, email, _ := verifyToken(w, r)
 
 	if status {
 		err := r.ParseForm()
@@ -137,5 +137,54 @@ func unidadeManutencaoAtualizarInteresse(w http.ResponseWriter, r *http.Request)
 		}
 
 		fmt.Fprintf(w, "Interesse registrado!")
+	}
+}
+
+func listaInteressadosManutencao(w http.ResponseWriter, r *http.Request) {
+	status, _, _, jsonArray := verifyToken(w, r)
+
+	if status {
+		type Empresa struct {
+			Nome  string
+			Setor string
+			Local string
+			CNPJ  string
+			Email string
+		}
+
+		idEquipamento := jsonArray[1]
+
+		emailUnidadesManutencao := mydb.ListaInteressadosManutencao(idEquipamento)
+
+		var empresas []Empresa
+
+		for _, email := range emailUnidadesManutencao {
+			empresa := Empresa{}
+
+			empresa.Nome, empresa.Setor, empresa.Local, empresa.CNPJ = mydb.GetUnidadeManutencao(email)
+
+			empresa.Email = email
+
+			empresas = append(empresas, empresa)
+		}
+
+		if len(empresas) != 0 {
+			js, err := json.Marshal(empresas)
+
+			if err != nil {
+				log.Println(err.Error())
+			}
+
+			// fmt.Fprintf(os.Stdout, "%s", js)
+			fmt.Fprintf(w, "%s", js)
+		} else {
+			js, err := json.Marshal([]string{"empty"})
+
+			if err != nil {
+				log.Println(err.Error())
+			}
+
+			fmt.Fprintf(w, "%s", js)
+		}
 	}
 }

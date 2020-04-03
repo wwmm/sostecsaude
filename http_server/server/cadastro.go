@@ -31,8 +31,10 @@ func createToken(w http.ResponseWriter, perfil string, email string) string {
 	return tokenString
 }
 
-func verifyToken(w http.ResponseWriter, r *http.Request) (bool, string, string) {
+func verifyToken(w http.ResponseWriter, r *http.Request) (bool, string, string, []string) {
 	var tokenString string
+	var perfil string
+	var email string
 	var jasonArray []string
 	var jsonRequest = false
 
@@ -67,18 +69,18 @@ func verifyToken(w http.ResponseWriter, r *http.Request) (bool, string, string) 
 			fmt.Fprintf(w, "%s", response)
 		}
 
-		return false, "", ""
+		return false, perfil, email, jasonArray
 	}
 
 	if token.Valid {
-		perfil := fmt.Sprintf("%v", claims["perfil"])
-		email := fmt.Sprintf("%v", claims["email"])
+		perfil = fmt.Sprintf("%v", claims["perfil"])
+		email = fmt.Sprintf("%v", claims["email"])
 
 		emails := mydb.GetEmails()
 
 		for _, dbEmail := range emails {
 			if dbEmail == email {
-				return true, perfil, email
+				return true, perfil, email, jasonArray
 			}
 		}
 
@@ -90,7 +92,7 @@ func verifyToken(w http.ResponseWriter, r *http.Request) (bool, string, string) 
 			fmt.Fprintf(w, "%s", response)
 		}
 
-		return false, "", ""
+		return false, perfil, email, jasonArray
 	}
 
 	if !jsonRequest {
@@ -101,11 +103,11 @@ func verifyToken(w http.ResponseWriter, r *http.Request) (bool, string, string) 
 		fmt.Fprintf(w, "%s", response)
 	}
 
-	return false, "", ""
+	return false, perfil, email, jasonArray
 }
 
 func checkCredentials(w http.ResponseWriter, r *http.Request) {
-	status, perfil, email := verifyToken(w, r)
+	status, perfil, email, _ := verifyToken(w, r)
 
 	if status {
 		token := createToken(w, perfil, email) // renovando o token
@@ -207,7 +209,7 @@ func login(w http.ResponseWriter, r *http.Request) {
 }
 
 func updateUnidade(w http.ResponseWriter, r *http.Request) {
-	status, perfil, email := verifyToken(w, r)
+	status, perfil, email, _ := verifyToken(w, r)
 
 	if status {
 		err := r.ParseForm()
@@ -233,7 +235,7 @@ func updateUnidade(w http.ResponseWriter, r *http.Request) {
 }
 
 func getUnidade(w http.ResponseWriter, r *http.Request) {
-	status, perfil, email := verifyToken(w, r)
+	status, perfil, email, _ := verifyToken(w, r)
 
 	if status {
 		err := r.ParseForm()

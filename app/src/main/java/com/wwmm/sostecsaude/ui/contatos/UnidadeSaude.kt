@@ -85,17 +85,19 @@ class UnidadeSaude : Fragment() {
                 val r = object : StringRequest(
                     Method.POST, "$myServerURL/update_unidade",
                     Response.Listener { response ->
-                        val msg = response.toString()
+                        if (isAdded) {
+                            val msg = response.toString()
 
-                        if (msg == "invalid_token") {
-                            controller.navigate(R.id.action_unidadeSaude_to_fazerLogin)
-                        } else {
-                            Snackbar.make(
-                                main_layout_contato, msg,
-                                Snackbar.LENGTH_SHORT
-                            ).show()
+                            if (msg == "invalid_token") {
+                                controller.navigate(R.id.action_unidadeSaude_to_fazerLogin)
+                            } else {
+                                Snackbar.make(
+                                    main_layout_contato, msg,
+                                    Snackbar.LENGTH_SHORT
+                                ).show()
 
-                            controller.navigate(R.id.action_unidadeSaude_to_carregarPerfil)
+                                controller.navigate(R.id.action_unidadeSaude_to_carregarPerfil)
+                            }
                         }
                     },
                     Response.ErrorListener {

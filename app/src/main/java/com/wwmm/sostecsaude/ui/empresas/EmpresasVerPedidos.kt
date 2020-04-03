@@ -55,21 +55,25 @@ class EmpresasVerPedidos : Fragment() {
             "$myServerURL/lista_todos_equipamentos",
             jsonToken,
             Response.Listener { response ->
-                if (response.length() > 0) {
-                    if (response[0] == "invalid_token") {
-                        controller.navigate(R.id.action_empresasVerPedidos_to_fazerLogin)
-                    } else {
-                        if (isAdded && response.length() == 2) {
-                            val equipamentos = response[0] as JSONArray
-                            val idNumbers = response[1] as JSONArray
+                if (isAdded) {
+                    if (response.length() > 0) {
+                        if (response[0] == "invalid_token") {
+                            controller.navigate(R.id.action_empresasVerPedidos_to_fazerLogin)
+                        } else {
+                            if (response.length() == 2) {
+                                val equipamentos = response[0] as JSONArray
+                                val idNumbers = response[1] as JSONArray
 
-                            recyclerview.apply {
-                                adapter = Adapter(this@EmpresasVerPedidos, equipamentos,
-                                idNumbers)
+                                recyclerview.apply {
+                                    adapter = Adapter(
+                                        this@EmpresasVerPedidos, equipamentos,
+                                        idNumbers
+                                    )
+                                }
                             }
-                        }
 
-                        progressBar.visibility = View.GONE
+                            progressBar.visibility = View.GONE
+                        }
                     }
                 }
             },

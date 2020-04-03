@@ -32,7 +32,10 @@ func Start() {
 	http.HandleFunc("/unidade_saude_pegar_equipamentos", unidadeSaudePegarEquipamentos)
 
 	http.HandleFunc("/lista_todos_equipamentos", listaTodosEquipamentos)
+
 	http.HandleFunc("/unidade_manutencao_atualizar_interesse", unidadeManutencaoAtualizarInteresse)
+
+	http.HandleFunc("/lista_interessados_manutencao", listaInteressadosManutencao)
 
 	/*
 		Start Server

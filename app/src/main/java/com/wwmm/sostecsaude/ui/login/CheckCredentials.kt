@@ -62,7 +62,9 @@ class CheckCredentials : Fragment() {
                     }
                 }
             },
-            Response.ErrorListener { Log.d(LOGTAG, "token check request failed") }) {
+            Response.ErrorListener {
+                Log.d(LOGTAG, "request failed: $it")
+            }) {
             override fun getParams(): MutableMap<String, String> {
                 val params = HashMap<String, String>()
 

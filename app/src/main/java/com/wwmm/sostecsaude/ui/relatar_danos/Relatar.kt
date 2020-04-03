@@ -69,19 +69,28 @@ class Relatar : Fragment() {
                 val queue = Volley.newRequestQueue(requireContext())
 
                 val request = object : StringRequest(
-                    Request.Method.POST, "$myServerURL/unidade_saude_adicionar_equipamento",
+                    Method.POST, "$myServerURL/unidade_saude_adicionar_equipamento",
                     Response.Listener { response ->
-                        val msg = response.toString()
+                        if (isAdded) {
+                            val msg = response.toString()
 
-                        if (msg == "invalid_token") {
-                            controller.navigate(R.id.action_unidadeManutencao_to_fazerLogin)
-                        } else {
-                            progressBar.visibility = View.GONE
+                            if (msg == "invalid_token") {
+                                controller.navigate(R.id.action_unidadeManutencao_to_fazerLogin)
+                            } else {
+                                editText_nome.text.clear()
+                                editText_fabricante.text.clear()
+                                editText_modelo.text.clear()
+                                editText_numero_serie.text.clear()
+                                editText_quantidade.text.clear()
+                                editText_defeito.text.clear()
 
-                            Snackbar.make(
-                                main_layout_relatar, msg,
-                                Snackbar.LENGTH_SHORT
-                            ).show()
+                                progressBar.visibility = View.GONE
+
+                                Snackbar.make(
+                                    main_layout_relatar, msg,
+                                    Snackbar.LENGTH_SHORT
+                                ).show()
+                            }
                         }
                     },
                     Response.ErrorListener {
