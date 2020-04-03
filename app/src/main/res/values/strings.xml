@@ -15,7 +15,6 @@
     <string name="title_modelo">Modelo</string>
     <string name="title_numero_serie">Número de Série</string>
 
-    <string name="title_empresas">Empresas</string>
     <string name="title_empresa">Empresa</string>
     <string name="title_equipamentos">Equipamentos</string>
     <string name="title_equipamentos_danificados">Equipamentos Danificados</string>
@@ -24,14 +23,10 @@
     <string name="title_cnpj">CNPJ</string>
     <string name="title_quero_consertar">Quero Consertar</string>
 
-    <string name="title_relatar_danos">Descrição do Equipamento</string>
     <string name="title_ver_danos">Pedidos Realizados</string>
-    <string name="title_profissional_contato">Seus Dados</string>
     <string name="title_oficinas">Oficinas</string>
 
-    <string name="title_seu_nome">Seu Nome</string>
     <string name="title_seu_email">Seu Email</string>
-    <string name="title_seus_dados">Seus Dados</string>
     <string name="title_contato">Contato</string>
     <string name="title_setor">Setor</string>
 
@@ -48,7 +43,6 @@
     <string name="title_update">Atualizar</string>
     <string name="title_save">Salvar</string>
 
-    <string name="title_unidade">Unidade</string>
     <string name="title_unidades_minusculo">unidades</string>
     <string name="title_unidades_manutencao">Unidades de Manutenção</string>
     <string name="title_unidade_manutencao">Unidade de Manutenção</string>

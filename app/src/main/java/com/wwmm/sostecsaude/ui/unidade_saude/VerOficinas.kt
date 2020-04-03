@@ -17,7 +17,7 @@ import com.android.volley.toolbox.JsonArrayRequest
 import com.android.volley.toolbox.Volley
 import com.wwmm.sostecsaude.R
 import com.wwmm.sostecsaude.myServerURL
-import kotlinx.android.synthetic.main.fragment_relatar_danos_ver_oficinas.*
+import kotlinx.android.synthetic.main.fragment_unidade_saude_ver_oficinas.*
 import org.json.JSONArray
 import org.json.JSONObject
 
@@ -29,7 +29,7 @@ class VerOficinas : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.fragment_relatar_danos_ver_oficinas, container, false)
+        return inflater.inflate(R.layout.fragment_unidade_saude_ver_oficinas, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
