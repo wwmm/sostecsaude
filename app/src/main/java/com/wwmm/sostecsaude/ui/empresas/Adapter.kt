@@ -69,7 +69,8 @@ class ViewPager2Adapter(fragment: Fragment, private val line: JSONObject) :
     }
 }
 
-class Adapter(private val fragment: Fragment, private val lines: JSONArray) :
+class Adapter(private val fragment: Fragment, private val equipamentos: JSONArray,
+              private val idNumbers: JSONArray) :
     RecyclerView.Adapter<Adapter.ViewHolder>() {
     class ViewHolder(val view: View) : RecyclerView.ViewHolder(view)
 
@@ -84,7 +85,7 @@ class Adapter(private val fragment: Fragment, private val lines: JSONArray) :
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val line = lines[position] as JSONObject
+        val line = equipamentos[position] as JSONObject
 
         val id = line.getString("ID")
 
@@ -108,6 +109,14 @@ class Adapter(private val fragment: Fragment, private val lines: JSONArray) :
                 }
             }
         }.attach()
+
+        for(n in 0 until idNumbers.length()){
+            if (idNumbers[n] == id){
+                holder.view.switch_consertar.isChecked = true
+
+                break
+            }
+        }
 
         val prefs = fragment.requireActivity().getSharedPreferences(
             "UserInfo",
@@ -157,7 +166,7 @@ class Adapter(private val fragment: Fragment, private val lines: JSONArray) :
         }
     }
 
-    override fun getItemCount() = lines.length()
+    override fun getItemCount() = equipamentos.length()
 
     companion object {
         const val LOGTAG = "manutencao ver pedidos"

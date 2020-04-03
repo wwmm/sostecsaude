@@ -95,20 +95,25 @@ func unidadeSaudePegarEquipamentos(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-func pegarTodosEquipamentos(w http.ResponseWriter, r *http.Request) {
-	status, _, _ := verifyToken(w, r)
+func listaTodosEquipamentos(w http.ResponseWriter, r *http.Request) {
+	status, _, email := verifyToken(w, r)
 
 	if status {
 		equipamentos := mydb.ListaTodosEquipamentos()
+		idManutencao := mydb.ListaInteresseManutencao(email)
 
-		jsonEquipamentos, err := json.Marshal(equipamentos)
+		if len(idManutencao) == 0 {
+			idManutencao = append(idManutencao, "-1") // nenhum id válido pode ser menor que zero
+		}
+
+		js, err := json.Marshal([]interface{}{equipamentos, idManutencao})
 
 		if err != nil {
 			log.Println(err.Error())
 		}
 
-		// fmt.Fprintf(os.Stdout, "%s", jsonEquipamentos)
-		fmt.Fprintf(w, "%s", jsonEquipamentos)
+		// fmt.Fprintf(os.Stdout, "%s", js)
+		fmt.Fprintf(w, "%s", js)
 	}
 }
 

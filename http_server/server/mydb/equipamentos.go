@@ -15,6 +15,13 @@ type Equipamento struct {
 	Local       string
 }
 
+// InteresseManutencao é uma estrutura com o email da unidade de manutenção e o id do equipamento que ela deseja
+// consertar
+type InteresseManutencao struct {
+	Email string
+	ID    string
+}
+
 //UnidadeSaudeAdicionarEquipamento adiciona um equipamento com defeito no banco de dados
 func UnidadeSaudeAdicionarEquipamento(
 	nome string,
@@ -145,4 +152,33 @@ func UnidadeManutencaoRemoverInteresse(email string, idEquipamento string) {
 	if err != nil {
 		log.Println(err.Error())
 	}
+}
+
+//ListaInteresseManutencao retorna uma lista com os equipamentos que a unidade tem interesse de consertar
+func ListaInteresseManutencao(email string) []string {
+	queryStr := "select id_equipamento from interessados_manutencao where email=?"
+
+	rows, err := db.Query(queryStr, email)
+
+	if err != nil {
+		log.Fatal(err.Error())
+	}
+
+	defer rows.Close()
+
+	var idNumbers []string
+
+	for rows.Next() {
+		var idNumber string
+
+		err = rows.Scan(&idNumber)
+
+		if err != nil {
+			log.Println(err.Error())
+		}
+
+		idNumbers = append(idNumbers, idNumber)
+	}
+
+	return idNumbers
 }
