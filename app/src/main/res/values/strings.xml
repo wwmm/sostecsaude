@@ -22,9 +22,11 @@
     <string name="title_local">Local</string>
     <string name="title_cnpj">CNPJ</string>
     <string name="title_quero_consertar">Quero Consertar</string>
+    <string name="title_interessados_conserto">Empresas interessadas em consertar</string>
 
     <string name="title_ver_danos">Pedidos Realizados</string>
-    <string name="title_oficinas">Oficinas</string>
+    <string name="title_ofertas">Ofertas</string>
+    <string name="title_ofertas_manutencao">Ofertas de Manutenção</string>
 
     <string name="title_seu_email">Seu Email</string>
     <string name="title_contato">Contato</string>

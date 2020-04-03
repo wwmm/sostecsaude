@@ -48,7 +48,7 @@ class CarregarPerfil : Fragment() {
     }
 
     private fun loadUnidadeSaude() {
-        mBottomNav.inflateMenu(R.menu.menu_bottom_nav_relatar)
+        mBottomNav.inflateMenu(R.menu.menu_bottom_nav_unidade_saude)
 
         mBottomNav.visibility = View.VISIBLE
 

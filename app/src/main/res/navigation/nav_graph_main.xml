@@ -29,13 +29,13 @@
             android:id="@+id/action_global_addFragment"
             app:destination="@id/relatarDano" />
         <fragment
-            android:id="@+id/verOficinas"
+            android:id="@+id/verOfertasManutencao"
             android:name="com.wwmm.sostecsaude.ui.unidade_saude.VerOficinas"
-            android:label="@string/title_unidades_manutencao"
+            android:label="@string/title_ofertas_manutencao"
             tools:layout="@layout/fragment_unidade_saude_ver_oficinas" />
         <action
             android:id="@+id/action_global_verOficinas"
-            app:destination="@id/verOficinas" />
+            app:destination="@id/verOfertasManutencao" />
     </navigation>
     <navigation
         android:id="@+id/nested_graph_unidade_manutencao"
