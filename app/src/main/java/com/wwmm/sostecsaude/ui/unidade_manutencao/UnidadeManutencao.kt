@@ -52,22 +52,24 @@ class UnidadeManutencao : Fragment() {
                     } else {
                         val arr = msg.split("<&>")
 
-                        if (arr.size == 4) {
+                        if (arr.size == 5) {
                             val nome = arr[0]
                             val setor = arr[1]
                             val local = arr[2]
                             val cnpj = arr[3]
+                            val telefone = arr[4]
 
                             editText_nome.setText(nome)
                             editText_setor.setText(setor)
                             editText_local.setText(local)
                             editText_cnpj.setText(cnpj)
+                            editText_telefone.setText(telefone)
                         }
                     }
                 }
             },
             Response.ErrorListener {
-                Log.d(LOGTAG, "failed request: pegar contato de unidade de saúde")
+                Log.d(LOGTAG, "failed request: $it")
             }
         ) {
             override fun getParams(): MutableMap<String, String> {
@@ -88,7 +90,8 @@ class UnidadeManutencao : Fragment() {
             imm?.hideSoftInputFromWindow(requireActivity().currentFocus?.windowToken, 0)
 
             if (editText_nome.text.isNotBlank() && editText_setor.text.isNotBlank() &&
-                editText_local.text.isNotBlank() && editText_cnpj.text.isNotBlank()
+                editText_local.text.isNotBlank() && editText_cnpj.text.isNotBlank() &&
+                editText_telefone.text.isNotBlank()
             ) {
                 val r = object : StringRequest(
                     Method.POST, "$myServerURL/update_unidade",
@@ -117,6 +120,7 @@ class UnidadeManutencao : Fragment() {
                         parameters["setor"] = editText_setor.text.toString()
                         parameters["local"] = editText_local.text.toString()
                         parameters["cnpj"] = editText_cnpj.text.toString()
+                        parameters["telefone"] = editText_telefone.text.toString()
 
                         return parameters
                     }

@@ -212,9 +212,9 @@ func updateUnidade(w http.ResponseWriter, r *http.Request) {
 		} else if perfil == "unidade_manutencao" {
 			nome, setor, local := r.FormValue("nome"), r.FormValue("setor"), r.FormValue("local")
 
-			cnpj := r.FormValue("cnpj")
+			cnpj, telefone := r.FormValue("cnpj"), r.FormValue("telefone")
 
-			mydb.UpdateUnidadeManutencao(nome, setor, local, cnpj, email)
+			mydb.UpdateUnidadeManutencao(nome, setor, local, cnpj, telefone, email)
 		}
 
 		fmt.Fprintf(w, "Dados atualizados!")
@@ -236,9 +236,9 @@ func getUnidade(w http.ResponseWriter, r *http.Request) {
 
 			fmt.Fprintf(w, nome+"<&>"+local)
 		} else if perfil == "unidade_manutencao" {
-			nome, setor, local, cnpj := mydb.GetUnidadeManutencao(email)
+			nome, setor, local, cnpj, telefone := mydb.GetUnidadeManutencao(email)
 
-			fmt.Fprintf(w, nome+"<&>"+setor+"<&>"+local+"<&>"+cnpj)
+			fmt.Fprintf(w, nome+"<&>"+setor+"<&>"+local+"<&>"+cnpj+"<&>"+telefone)
 		}
 	}
 }

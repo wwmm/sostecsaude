@@ -145,11 +145,12 @@ func listaInteressadosManutencao(w http.ResponseWriter, r *http.Request) {
 
 	if status {
 		type Empresa struct {
-			Nome  string
-			Setor string
-			Local string
-			CNPJ  string
-			Email string
+			Nome     string
+			Setor    string
+			Local    string
+			CNPJ     string
+			Telefone string
+			Email    string
 		}
 
 		idEquipamento := jsonArray[1]
@@ -161,7 +162,8 @@ func listaInteressadosManutencao(w http.ResponseWriter, r *http.Request) {
 		for _, email := range emailUnidadesManutencao {
 			empresa := Empresa{}
 
-			empresa.Nome, empresa.Setor, empresa.Local, empresa.CNPJ = mydb.GetUnidadeManutencao(email)
+			empresa.Nome, empresa.Setor, empresa.Local, empresa.CNPJ, empresa.Telefone = mydb.GetUnidadeManutencao(
+				email)
 
 			empresa.Email = email
 

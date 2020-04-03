@@ -76,6 +76,7 @@ func InitTables() {
 		setor text,
 		local text,
 		cnpj text,
+		telefone text,
 		email text unique,
 		foreign key(email) references usuarios(email) on delete cascade
 	);
@@ -142,7 +143,7 @@ func InitTables() {
 	queryStr = `create trigger if not exists add_unidade_manutencao after insert on usuarios
 		when new.perfil = "unidade_manutencao"
 		begin
-			insert or ignore into unidade_manutencao values(null,"","","","",new.email);
+			insert or ignore into unidade_manutencao values(null,"","","","","",new.email);
 		end;		
 	`
 

@@ -78,17 +78,6 @@ func Cadastrar(perfil string, email string, senha string) {
 	}
 }
 
-//AddUnidadeSaude adiciona uma unidade de saúde
-func AddUnidadeSaude(nome string, local string, email string) {
-	queryStr := "insert or ignore into unidade_saude values (null,?,?,?)"
-
-	_, err := db.Exec(queryStr, nome, local, email)
-
-	if err != nil {
-		log.Fatal(err.Error())
-	}
-}
-
 //UpdateUnidadeSaude atualiza dados cadastrais das unidade de saúde
 func UpdateUnidadeSaude(nome string, local string, email string) {
 	queryStr := "update unidade_saude set nome=?,local=? where email=?"
@@ -118,22 +107,11 @@ func GetUnidadeSaude(email string) (string, string) {
 	return nome, local
 }
 
-//AddUnidadeManutencao adiciona uma unidade de manutencao
-func AddUnidadeManutencao(nome string, setor string, local string, email string) {
-	queryStr := "insert or ignore into unidade_manutencao values (null,?,?,?,?)"
-
-	_, err := db.Exec(queryStr, nome, setor, local, email)
-
-	if err != nil {
-		log.Fatal(err.Error())
-	}
-}
-
 //UpdateUnidadeManutencao atualiza dados cadastrais das unidade de manutenção
-func UpdateUnidadeManutencao(nome string, setor string, local string, cnpj string, email string) {
-	queryStr := "update unidade_manutencao set nome=?,setor=?,local=?,cnpj=? where email=?"
+func UpdateUnidadeManutencao(nome string, setor string, local string, cnpj string, telefone string, email string) {
+	queryStr := "update unidade_manutencao set nome=?,setor=?,local=?,cnpj=?,telefone=? where email=?"
 
-	_, err := db.Exec(queryStr, nome, setor, local, cnpj, email)
+	_, err := db.Exec(queryStr, nome, setor, local, cnpj, telefone, email)
 
 	if err != nil {
 		log.Fatal(err.Error())
@@ -141,8 +119,8 @@ func UpdateUnidadeManutencao(nome string, setor string, local string, cnpj strin
 }
 
 //GetUnidadeManutencao pega nome e local da unidade de manutenção
-func GetUnidadeManutencao(email string) (string, string, string, string) {
-	queryStr := "select nome,setor,local,cnpj from unidade_manutencao where email=?"
+func GetUnidadeManutencao(email string) (string, string, string, string, string) {
+	queryStr := "select nome,setor,local,cnpj,telefone from unidade_manutencao where email=?"
 
 	row := db.QueryRow(queryStr, email)
 
@@ -150,12 +128,13 @@ func GetUnidadeManutencao(email string) (string, string, string, string) {
 	var setor string
 	var local string
 	var cnpj string
+	var telefone string
 
-	err := row.Scan(&nome, &setor, &local, &cnpj)
+	err := row.Scan(&nome, &setor, &local, &cnpj, &telefone)
 
 	if err != nil {
 		log.Println(err.Error())
 	}
 
-	return nome, setor, local, cnpj
+	return nome, setor, local, cnpj, telefone
 }

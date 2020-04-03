@@ -101,7 +101,7 @@ class UnidadeSaude : Fragment() {
                         }
                     },
                     Response.ErrorListener {
-                        Log.d(LOGTAG, "failed request: atualizar contato de unidade de saúde")
+                        Log.d(LOGTAG, "failed request: $it")
                     }) {
                     override fun getParams(): MutableMap<String, String> {
                         val parameters = HashMap<String, String>()

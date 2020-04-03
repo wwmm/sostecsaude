@@ -30,7 +30,8 @@ class AdapterVerOficinas(private val lines: JSONArray) :
         holder.view.textView_setor.text = line.getString("Setor")
         holder.view.textView_cnpj.text = line.getString("CNPJ")
         holder.view.textView_local.text = line.getString("Local")
-        holder.view.textView_contato.text = line.getString("Email")
+        holder.view.textView_telefone.text = line.getString("Telefone")
+        holder.view.textView_email.text = line.getString("Email")
     }
 
     override fun getItemCount() = lines.length()
