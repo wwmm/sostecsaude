@@ -5,7 +5,7 @@
     android:id="@+id/main_layout_relatar_pedidos"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.relatar_danos.VerPedidos">
+    tools:context=".ui.unidade_saude.VerPedidos">
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerview"

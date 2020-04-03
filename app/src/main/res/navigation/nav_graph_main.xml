@@ -10,7 +10,7 @@
         app:startDestination="@id/relatarDano">
         <fragment
             android:id="@+id/verPedidos"
-            android:name="com.wwmm.sostecsaude.ui.relatar_danos.VerPedidos"
+            android:name="com.wwmm.sostecsaude.ui.unidade_saude.VerPedidos"
             android:label="@string/title_ver_danos"
             tools:layout="@layout/fragment_relatar_danos_ver_pedidos" >
             <action
@@ -19,7 +19,7 @@
         </fragment>
         <fragment
             android:id="@+id/relatarDano"
-            android:name="com.wwmm.sostecsaude.ui.relatar_danos.Relatar"
+            android:name="com.wwmm.sostecsaude.ui.unidade_saude.Relatar"
             android:label="@string/title_equipamento"
             tools:layout="@layout/fragment_relatar_danos_relatar" />
         <action
@@ -30,7 +30,7 @@
             app:destination="@id/relatarDano" />
         <fragment
             android:id="@+id/verOficinas"
-            android:name="com.wwmm.sostecsaude.ui.relatar_danos.VerOficinas"
+            android:name="com.wwmm.sostecsaude.ui.unidade_saude.VerOficinas"
             android:label="@string/title_unidades_manutencao"
             tools:layout="@layout/fragment_relatar_danos_ver_oficinas" />
         <action
@@ -42,7 +42,7 @@
         app:startDestination="@id/empresasVerPedidos" >
         <fragment
             android:id="@+id/empresasVerPedidos"
-            android:name="com.wwmm.sostecsaude.ui.empresas.EmpresasVerPedidos"
+            android:name="com.wwmm.sostecsaude.ui.unidade_manutencao.EmpresasVerPedidos"
             android:label="@string/title_equipamentos_danificados"
             tools:layout="@layout/fragment_empresas_ver_pedidos">
             <action
@@ -108,7 +108,7 @@
     </fragment>
     <fragment
         android:id="@+id/unidadeSaude"
-        android:name="com.wwmm.sostecsaude.ui.contatos.UnidadeSaude"
+        android:name="com.wwmm.sostecsaude.ui.unidade_saude.UnidadeSaude"
         android:label="@string/title_unidade_saude"
         tools:layout="@layout/fragment_contatos_unidade_saude">
         <action
@@ -120,7 +120,7 @@
     </fragment>
     <fragment
         android:id="@+id/unidadeManutencao"
-        android:name="com.wwmm.sostecsaude.ui.contatos.UnidadeManutencao"
+        android:name="com.wwmm.sostecsaude.ui.unidade_manutencao.UnidadeManutencao"
         android:label="@string/title_unidade_manutencao"
         tools:layout="@layout/fragment_contatos_unidade_manutencao">
         <action

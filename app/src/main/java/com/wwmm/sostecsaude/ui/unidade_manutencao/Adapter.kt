@@ -1,4 +1,4 @@
-package com.wwmm.sostecsaude.ui.empresas
+package com.wwmm.sostecsaude.ui.unidade_manutencao
 
 import android.os.Bundle
 import android.util.Log
@@ -9,7 +9,6 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.adapter.FragmentStateAdapter
-import com.android.volley.Request
 import com.android.volley.Response
 import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
@@ -20,7 +19,6 @@ import com.wwmm.sostecsaude.myServerURL
 import kotlinx.android.synthetic.main.fragment_empresas_ver_pedidos.*
 import kotlinx.android.synthetic.main.recyclerview_empresa_ver_pedidos_contents.*
 import kotlinx.android.synthetic.main.recyclerview_empresa_ver_pedidos_contents.view.*
-import kotlinx.android.synthetic.main.recyclerview_empresa_ver_pedidos_contents.view.layout_manutencao_pedidos
 import org.json.JSONArray
 import org.json.JSONObject
 

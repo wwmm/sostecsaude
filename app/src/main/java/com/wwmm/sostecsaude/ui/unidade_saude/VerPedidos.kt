@@ -1,4 +1,4 @@
-package com.wwmm.sostecsaude.ui.empresas
+package com.wwmm.sostecsaude.ui.unidade_saude
 
 import android.os.Bundle
 import android.util.Log
@@ -14,28 +14,29 @@ import com.android.volley.toolbox.JsonArrayRequest
 import com.android.volley.toolbox.Volley
 import com.wwmm.sostecsaude.R
 import com.wwmm.sostecsaude.myServerURL
-import kotlinx.android.synthetic.main.fragment_empresas_ver_pedidos.*
+import kotlinx.android.synthetic.main.fragment_relatar_danos_ver_pedidos.*
 import org.json.JSONArray
 
-class EmpresasVerPedidos : Fragment() {
+class VerPedidos : Fragment() {
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
+        inflater: LayoutInflater,
+        container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.fragment_empresas_ver_pedidos, container, false)
+        return inflater.inflate(R.layout.fragment_relatar_danos_ver_pedidos, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        val controller = findNavController()
 
         recyclerview.apply {
             setHasFixedSize(true)
 
             layoutManager = LinearLayoutManager(requireContext())
         }
-
-        val controller = findNavController()
 
         val prefs = requireActivity().getSharedPreferences(
             "UserInfo",
@@ -52,24 +53,16 @@ class EmpresasVerPedidos : Fragment() {
 
         val request = JsonArrayRequest(
             Request.Method.POST,
-            "$myServerURL/lista_todos_equipamentos",
+            "$myServerURL/unidade_saude_pegar_equipamentos",
             jsonToken,
             Response.Listener { response ->
                 if (isAdded) {
                     if (response.length() > 0) {
                         if (response[0] == "invalid_token") {
-                            controller.navigate(R.id.action_empresasVerPedidos_to_fazerLogin)
+                            controller.navigate(R.id.action_verPedidos_to_fazerLogin)
                         } else {
-                            if (response.length() == 2) {
-                                val equipamentos = response[0] as JSONArray
-                                val idNumbers = response[1] as JSONArray
-
-                                recyclerview.apply {
-                                    adapter = Adapter(
-                                        this@EmpresasVerPedidos, equipamentos,
-                                        idNumbers
-                                    )
-                                }
+                            recyclerview.apply {
+                                adapter = Adapter(this@VerPedidos, response)
                             }
 
                             progressBar.visibility = View.GONE
@@ -86,6 +79,6 @@ class EmpresasVerPedidos : Fragment() {
     }
 
     companion object {
-        const val LOGTAG = "manutencao ver pedidos"
+        const val LOGTAG = "relatar ver pedidos"
     }
 }

@@ -1,4 +1,4 @@
-package com.wwmm.sostecsaude.ui.relatar_danos
+package com.wwmm.sostecsaude.ui.unidade_saude
 
 import android.util.Log
 import android.view.LayoutInflater

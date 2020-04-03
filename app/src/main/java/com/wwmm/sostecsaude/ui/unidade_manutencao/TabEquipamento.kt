@@ -1,4 +1,4 @@
-package com.wwmm.sostecsaude.ui.empresas
+package com.wwmm.sostecsaude.ui.unidade_manutencao
 
 import android.os.Bundle
 import android.view.LayoutInflater

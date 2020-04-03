@@ -5,7 +5,7 @@
     android:id="@+id/main_layout_contato_manutencao"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.contatos.UnidadeManutencao">
+    tools:context=".ui.unidade_manutencao.UnidadeManutencao">
 
     <ScrollView
         android:layout_width="match_parent"

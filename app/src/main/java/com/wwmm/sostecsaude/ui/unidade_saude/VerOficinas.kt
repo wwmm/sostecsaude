@@ -1,4 +1,4 @@
-package com.wwmm.sostecsaude.ui.relatar_danos
+package com.wwmm.sostecsaude.ui.unidade_saude
 
 import android.os.Bundle
 import android.util.Log

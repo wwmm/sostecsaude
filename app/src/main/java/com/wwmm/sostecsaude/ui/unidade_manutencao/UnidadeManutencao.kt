@@ -1,6 +1,6 @@
-package com.wwmm.sostecsaude.ui.contatos
+package com.wwmm.sostecsaude.ui.unidade_manutencao
 
-import android.content.Context.INPUT_METHOD_SERVICE
+import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -16,15 +16,15 @@ import com.android.volley.toolbox.Volley
 import com.google.android.material.snackbar.Snackbar
 import com.wwmm.sostecsaude.R
 import com.wwmm.sostecsaude.myServerURL
-import kotlinx.android.synthetic.main.fragment_contatos_unidade_saude.*
+import kotlinx.android.synthetic.main.fragment_contatos_unidade_manutencao.*
 
+class UnidadeManutencao : Fragment() {
 
-class UnidadeSaude : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.fragment_contatos_unidade_saude, container, false)
+        return inflater.inflate(R.layout.fragment_contatos_unidade_manutencao, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -44,24 +44,30 @@ class UnidadeSaude : Fragment() {
         val requestGet = object : StringRequest(
             Request.Method.POST, "$myServerURL/get_unidade",
             Response.Listener { response ->
-                val msg = response.toString()
+                if (isAdded) {
+                    val msg = response.toString()
 
-                if (msg == "invalid_token") {
-                    controller.navigate(R.id.action_unidadeSaude_to_fazerLogin)
-                } else {
-                    val arr = msg.split("<&>")
+                    if (msg == "invalid_token") {
+                        controller.navigate(R.id.action_unidadeManutencao_to_fazerLogin)
+                    } else {
+                        val arr = msg.split("<&>")
 
-                    if (arr.size == 2) {
-                        val nome = arr[0]
-                        val local = arr[1]
+                        if (arr.size == 4) {
+                            val nome = arr[0]
+                            val setor = arr[1]
+                            val local = arr[2]
+                            val cnpj = arr[3]
 
-                        editText_unidade_saude.setText(nome)
-                        editText_local.setText(local)
+                            editText_nome.setText(nome)
+                            editText_setor.setText(setor)
+                            editText_local.setText(local)
+                            editText_cnpj.setText(cnpj)
+                        }
                     }
                 }
             },
             Response.ErrorListener {
-                Log.d(LOGTAG, "\"failed request: pegar contato de unidade de saúde\"")
+                Log.d(LOGTAG, "failed request: pegar contato de unidade de saúde")
             }
         ) {
             override fun getParams(): MutableMap<String, String> {
@@ -75,29 +81,29 @@ class UnidadeSaude : Fragment() {
 
         queue.add(requestGet)
 
-        button_save.setOnClickListener {
-            val imm = requireActivity().getSystemService(INPUT_METHOD_SERVICE) as
+        button_empresa_contato.setOnClickListener {
+            val imm = requireActivity().getSystemService(Context.INPUT_METHOD_SERVICE) as
                     InputMethodManager?
 
             imm?.hideSoftInputFromWindow(requireActivity().currentFocus?.windowToken, 0)
 
-            if (editText_local.text.isNotBlank() && editText_unidade_saude.text.isNotBlank()) {
+            if (editText_nome.text.isNotBlank() && editText_setor.text.isNotBlank() &&
+                editText_local.text.isNotBlank() && editText_cnpj.text.isNotBlank()
+            ) {
                 val r = object : StringRequest(
                     Method.POST, "$myServerURL/update_unidade",
                     Response.Listener { response ->
-                        if (isAdded) {
-                            val msg = response.toString()
+                        val msg = response.toString()
 
-                            if (msg == "invalid_token") {
-                                controller.navigate(R.id.action_unidadeSaude_to_fazerLogin)
-                            } else {
-                                Snackbar.make(
-                                    main_layout_contato, msg,
-                                    Snackbar.LENGTH_SHORT
-                                ).show()
+                        if (msg == "invalid_token") {
+                            controller.navigate(R.id.action_unidadeManutencao_to_fazerLogin)
+                        } else {
+                            Snackbar.make(
+                                main_layout_contato_manutencao, msg,
+                                Snackbar.LENGTH_SHORT
+                            ).show()
 
-                                controller.navigate(R.id.action_unidadeSaude_to_carregarPerfil)
-                            }
+                            controller.navigate(R.id.action_unidadeManutencao_to_carregarPerfil)
                         }
                     },
                     Response.ErrorListener {
@@ -107,8 +113,10 @@ class UnidadeSaude : Fragment() {
                         val parameters = HashMap<String, String>()
 
                         parameters["token"] = token
-                        parameters["nome"] = editText_unidade_saude.text.toString()
+                        parameters["nome"] = editText_nome.text.toString()
+                        parameters["setor"] = editText_setor.text.toString()
                         parameters["local"] = editText_local.text.toString()
+                        parameters["cnpj"] = editText_cnpj.text.toString()
 
                         return parameters
                     }
@@ -117,7 +125,7 @@ class UnidadeSaude : Fragment() {
                 queue.add(r)
             } else {
                 Snackbar.make(
-                    main_layout_contato, "Preencha todos os campos!",
+                    main_layout_contato_manutencao, "Preencha todos os campos!",
                     Snackbar.LENGTH_SHORT
                 ).show()
             }
@@ -125,6 +133,6 @@ class UnidadeSaude : Fragment() {
     }
 
     companion object {
-        const val LOGTAG = "contato unidade saude"
+        const val LOGTAG = "contato unidade manu"
     }
 }
