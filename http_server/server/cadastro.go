@@ -152,19 +152,6 @@ func cadastrar(w http.ResponseWriter, r *http.Request) {
 	fmt.Fprintf(w, token)
 }
 
-func sendCredentials(w http.ResponseWriter, perfil string, email string, action string) {
-	if perfil == "unidade_saude" {
-		fmt.Fprintf(
-			w, perfil+"<&>"+cfg.UnidadeSaudeLogin+"<&>"+cfg.UnidadeSaudePassword+"<&>"+email+"<&>"+action)
-	} else if perfil == "unidade_manutencao" {
-		fmt.Fprintf(
-			w, perfil+"<&>"+cfg.UnidadeManutencaoLogin+"<&>"+cfg.UnidadeManutencaoPassword+"<&>"+email+"<&>"+action)
-	} else if perfil == "unidade_transporte" {
-		fmt.Fprintf(
-			w, perfil+"<&>"+cfg.UnidadeTransporteLogin+"<&>"+cfg.UnidadeTransportePassword+"<&>"+email+"<&>"+action)
-	}
-}
-
 // Faz a autenticação do usuário administrador e carrega a página de professor
 func login(w http.ResponseWriter, r *http.Request) {
 	err := r.ParseForm()
