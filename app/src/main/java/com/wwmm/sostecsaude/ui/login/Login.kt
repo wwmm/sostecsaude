@@ -29,6 +29,8 @@ class Login : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        progressBar.visibility = View.GONE
+
         val controller = findNavController()
 
         toolbar.title = getString(R.string.app_name)
@@ -43,6 +45,8 @@ class Login : Fragment() {
                     InputMethodManager?
 
             imm?.hideSoftInputFromWindow(requireActivity().currentFocus?.windowToken, 0)
+
+            progressBar.visibility = View.GONE
 
             when {
                 editText_email.text.isBlank() -> {
@@ -60,6 +64,8 @@ class Login : Fragment() {
                 }
 
                 editText_email.text.isNotBlank() && editText_senha.text.isNotBlank() -> {
+                    progressBar.visibility = View.VISIBLE
+
                     val queue = Volley.newRequestQueue(requireContext())
 
                     val request = object : StringRequest(
@@ -82,6 +88,8 @@ class Login : Fragment() {
 
                                 editor.apply()
 
+                                progressBar.visibility = View.GONE
+
                                 when (perfil) {
                                     "unidade_saude" -> {
                                         controller.navigate(R.id.action_fazerLogin_to_unidadeSaude)
@@ -92,6 +100,8 @@ class Login : Fragment() {
                                     }
                                 }
                             } else {
+                                progressBar.visibility = View.GONE
+
                                 Snackbar.make(
                                     layout_login, msg,
                                     Snackbar.LENGTH_SHORT

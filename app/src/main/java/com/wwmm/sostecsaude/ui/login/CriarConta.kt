@@ -10,6 +10,7 @@ import android.view.inputmethod.InputMethodManager
 import androidx.fragment.app.Fragment
 import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.ui.setupWithNavController
 import com.android.volley.Response
 import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
@@ -32,6 +33,8 @@ class CriarConta : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         mController = findNavController()
+
+        toolbar.setupWithNavController(mController)
 
         button_criar_conta.setOnClickListener {
             val imm = requireActivity().getSystemService(Context.INPUT_METHOD_SERVICE) as

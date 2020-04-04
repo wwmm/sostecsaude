@@ -3,14 +3,18 @@ package com.wwmm.sostecsaude.ui.unidade_saude
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
+import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
+import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.Fragment
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.ui.onNavDestinationSelected
+import androidx.navigation.ui.setupWithNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.android.volley.Request
 import com.android.volley.Response
@@ -22,7 +26,7 @@ import kotlinx.android.synthetic.main.fragment_unidade_saude_ver_ofertas.*
 import org.json.JSONArray
 import org.json.JSONObject
 
-class VerOfertas : Fragment() {
+class VerOfertas : Fragment(), Toolbar.OnMenuItemClickListener {
     private lateinit var mActivityController: NavController
     private lateinit var mController: NavController
     private var mIdList = ArrayList<String>()
@@ -40,6 +44,10 @@ class VerOfertas : Fragment() {
         mActivityController = Navigation.findNavController(requireActivity(), R.id.nav_host_main)
 
         mController = findNavController()
+
+        toolbar.setupWithNavController(mController)
+        toolbar.inflateMenu(R.menu.menu_toolbar)
+        toolbar.setOnMenuItemClickListener(this)
 
         spinner_equipamento.onItemSelectedListener = object :
             AdapterView.OnItemSelectedListener {
@@ -144,7 +152,7 @@ class VerOfertas : Fragment() {
                         } else {
                             if (response[0] != "empty") {
                                 recyclerview.apply {
-                                    adapter = AdapterVerOficinas(response)
+                                    adapter = AdapterVerOfertas(response)
                                 }
                             }
 
@@ -159,6 +167,37 @@ class VerOfertas : Fragment() {
         )
 
         queue.add(request)
+    }
+
+    override fun onMenuItemClick(item: MenuItem): Boolean {
+        when (item.itemId) {
+            R.id.fazerLogin -> {
+                val prefs = requireContext().getSharedPreferences(
+                    "UserInfo",
+                    0
+                )
+
+                val editor = prefs.edit()
+
+                editor.putString("Token", "")
+                editor.putString("Perfil", "")
+                editor.putString("Email", "")
+
+                editor.apply()
+
+                return item.onNavDestinationSelected(mActivityController)
+            }
+
+            R.id.menu_atualizar_perfil -> {
+                mActivityController.navigate(R.id.action_global_unidadeSaude)
+
+                return true
+            }
+
+            else -> {
+                return super.onOptionsItemSelected(item)
+            }
+        }
     }
 
     companion object {

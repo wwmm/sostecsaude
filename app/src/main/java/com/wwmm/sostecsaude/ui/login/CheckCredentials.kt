@@ -7,12 +7,14 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.ui.setupWithNavController
 import com.android.volley.Request
 import com.android.volley.Response
 import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
 import com.wwmm.sostecsaude.R
 import com.wwmm.sostecsaude.myServerURL
+import kotlinx.android.synthetic.main.fragment_check_credentials.*
 
 class CheckCredentials : Fragment() {
 
@@ -27,6 +29,8 @@ class CheckCredentials : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         val controller = findNavController()
+
+        toolbar.setupWithNavController(controller)
 
         val prefs = requireActivity().getSharedPreferences(
             "UserInfo",

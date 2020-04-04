@@ -3,12 +3,16 @@ package com.wwmm.sostecsaude.ui.unidade_saude
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
+import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.Fragment
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.ui.onNavDestinationSelected
+import androidx.navigation.ui.setupWithNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.android.volley.Request
 import com.android.volley.Response
@@ -19,7 +23,7 @@ import com.wwmm.sostecsaude.myServerURL
 import kotlinx.android.synthetic.main.fragment_unidade_saude_ver_pedidos.*
 import org.json.JSONArray
 
-class VerPedidos : Fragment() {
+class VerPedidos : Fragment(), Toolbar.OnMenuItemClickListener {
     lateinit var mActivityController: NavController
 
     override fun onCreateView(
@@ -35,7 +39,9 @@ class VerPedidos : Fragment() {
 
         mActivityController = Navigation.findNavController(requireActivity(), R.id.nav_host_main)
 
-        val controller = findNavController()
+        toolbar.setupWithNavController(findNavController())
+        toolbar.inflateMenu(R.menu.menu_toolbar)
+        toolbar.setOnMenuItemClickListener(this)
 
         recyclerview.apply {
             setHasFixedSize(true)
@@ -67,7 +73,7 @@ class VerPedidos : Fragment() {
                             mActivityController.navigate(R.id.action_global_fazerLogin)
                         } else {
                             recyclerview.apply {
-                                adapter = Adapter(this@VerPedidos, response)
+                                adapter = AdapterVerPedidos(this@VerPedidos, response)
                             }
 
                             progressBar.visibility = View.GONE
@@ -81,6 +87,37 @@ class VerPedidos : Fragment() {
         )
 
         queue.add(request)
+    }
+
+    override fun onMenuItemClick(item: MenuItem): Boolean {
+        when (item.itemId) {
+            R.id.fazerLogin -> {
+                val prefs = requireContext().getSharedPreferences(
+                    "UserInfo",
+                    0
+                )
+
+                val editor = prefs.edit()
+
+                editor.putString("Token", "")
+                editor.putString("Perfil", "")
+                editor.putString("Email", "")
+
+                editor.apply()
+
+                return item.onNavDestinationSelected(mActivityController)
+            }
+
+            R.id.menu_atualizar_perfil -> {
+                mActivityController.navigate(R.id.action_global_unidadeSaude)
+
+                return true
+            }
+
+            else -> {
+                return super.onOptionsItemSelected(item)
+            }
+        }
     }
 
     companion object {

@@ -9,8 +9,8 @@ import kotlinx.android.synthetic.main.recyclerview_unidade_saude_ver_ofertas.vie
 import org.json.JSONArray
 import org.json.JSONObject
 
-class AdapterVerOficinas(private val lines: JSONArray) :
-    RecyclerView.Adapter<AdapterVerOficinas.ViewHolder>() {
+class AdapterVerOfertas(private val lines: JSONArray) :
+    RecyclerView.Adapter<AdapterVerOfertas.ViewHolder>() {
     class ViewHolder(val view: View) : RecyclerView.ViewHolder(view)
 
     override fun onCreateViewHolder(
