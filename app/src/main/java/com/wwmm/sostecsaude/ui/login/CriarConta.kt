@@ -13,7 +13,6 @@ import androidx.navigation.fragment.findNavController
 import com.android.volley.Response
 import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
-import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.snackbar.Snackbar
 import com.wwmm.sostecsaude.R
 import com.wwmm.sostecsaude.myServerURL
@@ -21,7 +20,6 @@ import kotlinx.android.synthetic.main.fragment_criar_conta.*
 
 class CriarConta : Fragment() {
     private lateinit var mController: NavController
-    private lateinit var mBottomNav: BottomNavigationView
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -34,8 +32,6 @@ class CriarConta : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         mController = findNavController()
-
-        mBottomNav = requireActivity().findViewById(R.id.bottom_nav) as BottomNavigationView
 
         button_criar_conta.setOnClickListener {
             val imm = requireActivity().getSystemService(Context.INPUT_METHOD_SERVICE) as
@@ -116,11 +112,11 @@ class CriarConta : Fragment() {
 
                                 when (perfil) {
                                     "unidade_saude" -> {
-                                        mController.navigate(R.id.action_criarConta_to_unidadeSaude)
+                                        mController.navigate(R.id.action_criarConta_to_dadosUnidadeSaude)
                                     }
 
                                     "unidade_manutencao" -> {
-                                        mController.navigate(R.id.action_criarConta_to_unidadeManutencao)
+                                        mController.navigate(R.id.action_criarConta_to_dadosUnidadeManutencao)
                                     }
                                 }
                             }

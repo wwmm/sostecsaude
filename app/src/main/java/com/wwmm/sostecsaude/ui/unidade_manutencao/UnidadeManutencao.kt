@@ -3,10 +3,16 @@ package com.wwmm.sostecsaude.ui.unidade_manutencao
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
+import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.Fragment
+import androidx.navigation.NavController
+import androidx.navigation.Navigation
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.ui.onNavDestinationSelected
+import androidx.navigation.ui.setupWithNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.android.volley.Request
 import com.android.volley.Response
@@ -14,28 +20,35 @@ import com.android.volley.toolbox.JsonArrayRequest
 import com.android.volley.toolbox.Volley
 import com.wwmm.sostecsaude.R
 import com.wwmm.sostecsaude.myServerURL
-import kotlinx.android.synthetic.main.fragment_empresas_ver_pedidos.*
+import kotlinx.android.synthetic.main.fragment_unidade_manutencao.*
 import org.json.JSONArray
 
-class EmpresasVerPedidos : Fragment() {
+class UnidadeManutencao : Fragment(), Toolbar.OnMenuItemClickListener {
+    private lateinit var mActivityController: NavController
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.fragment_empresas_ver_pedidos, container, false)
+        return inflater.inflate(R.layout.fragment_unidade_manutencao, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        mActivityController = Navigation.findNavController(requireActivity(), R.id.nav_host_main)
+
+        val controller = findNavController()
+
+        toolbar.setupWithNavController(findNavController())
+        toolbar.inflateMenu(R.menu.menu_toolbar)
+        toolbar.setOnMenuItemClickListener(this)
 
         recyclerview.apply {
             setHasFixedSize(true)
 
             layoutManager = LinearLayoutManager(requireContext())
         }
-
-        val controller = findNavController()
 
         val prefs = requireActivity().getSharedPreferences(
             "UserInfo",
@@ -58,7 +71,7 @@ class EmpresasVerPedidos : Fragment() {
                 if (isAdded) {
                     if (response.length() > 0) {
                         if (response[0] == "invalid_token") {
-                            controller.navigate(R.id.action_empresasVerPedidos_to_fazerLogin)
+                            controller.navigate(R.id.action_unidadeManutencao_to_fazerLogin)
                         } else {
                             if (response.length() == 2) {
                                 val equipamentos = response[0] as JSONArray
@@ -66,7 +79,7 @@ class EmpresasVerPedidos : Fragment() {
 
                                 recyclerview.apply {
                                     adapter = Adapter(
-                                        this@EmpresasVerPedidos, equipamentos,
+                                        this@UnidadeManutencao, equipamentos,
                                         idNumbers
                                     )
                                 }
@@ -83,6 +96,37 @@ class EmpresasVerPedidos : Fragment() {
         )
 
         queue.add(request)
+    }
+
+    override fun onMenuItemClick(item: MenuItem): Boolean {
+        when (item.itemId) {
+            R.id.fazerLogin -> {
+                val prefs = requireContext().getSharedPreferences(
+                    "UserInfo",
+                    0
+                )
+
+                val editor = prefs.edit()
+
+                editor.putString("Token", "")
+                editor.putString("Perfil", "")
+                editor.putString("Email", "")
+
+                editor.apply()
+
+                return item.onNavDestinationSelected(mActivityController)
+            }
+
+            R.id.menu_atualizar_perfil -> {
+                mActivityController.navigate(R.id.action_global_unidadeManutencao)
+
+                return true
+            }
+
+            else -> {
+                return super.onOptionsItemSelected(item)
+            }
+        }
     }
 
     companion object {

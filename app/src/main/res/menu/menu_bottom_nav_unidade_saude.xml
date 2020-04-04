@@ -2,17 +2,17 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
-        android:id="@+id/menu_bottomnav_relatar_danos_add"
+        android:id="@+id/relatar"
         android:icon="@drawable/ic_add_circle_outline"
         android:title="@string/title_add" />
 
     <item
-        android:id="@+id/menu_bottomnav_relatar_danos_submissoes"
+        android:id="@+id/verPedidos"
         android:icon="@drawable/ic_view_list"
         android:title="@string/title_pedidos" />
 
     <item
-        android:id="@+id/menu_bottomnav_relatar_danos_oficinas"
+        android:id="@+id/verOfertas"
         android:icon="@drawable/ic_build"
         android:title="@string/title_ofertas" />
 

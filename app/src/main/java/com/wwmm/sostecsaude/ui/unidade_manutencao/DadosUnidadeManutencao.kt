@@ -4,12 +4,17 @@ import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
+import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
+import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.Fragment
+import androidx.navigation.NavController
+import androidx.navigation.Navigation
 import androidx.navigation.fragment.findNavController
-import com.android.volley.Request
+import androidx.navigation.ui.onNavDestinationSelected
+import androidx.navigation.ui.setupWithNavController
 import com.android.volley.Response
 import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
@@ -18,7 +23,8 @@ import com.wwmm.sostecsaude.R
 import com.wwmm.sostecsaude.myServerURL
 import kotlinx.android.synthetic.main.fragment_dados_unidade_manutencao.*
 
-class DadosUnidade : Fragment() {
+class DadosUnidadeManutencao : Fragment(), Toolbar.OnMenuItemClickListener {
+    private lateinit var mActivityController: NavController
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -30,7 +36,15 @@ class DadosUnidade : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        mActivityController = Navigation.findNavController(requireActivity(), R.id.nav_host_main)
+
         val controller = findNavController()
+
+        toolbar.setupWithNavController(findNavController())
+        toolbar.inflateMenu(R.menu.menu_toolbar)
+        toolbar.menu.findItem(R.id.menu_search).isVisible = false
+        toolbar.menu.findItem(R.id.menu_atualizar_perfil).isVisible = false
+        toolbar.setOnMenuItemClickListener(this)
 
         val prefs = requireActivity().getSharedPreferences(
             "UserInfo",
@@ -106,7 +120,7 @@ class DadosUnidade : Fragment() {
                                 Snackbar.LENGTH_SHORT
                             ).show()
 
-                            controller.navigate(R.id.action_unidadeManutencao_to_carregarPerfil)
+                            controller.navigate(R.id.action_dadosUnidadeManutencao_to_unidadeManutencao)
                         }
                     },
                     Response.ErrorListener {
@@ -132,6 +146,37 @@ class DadosUnidade : Fragment() {
                     main_layout_contato_manutencao, "Preencha todos os campos!",
                     Snackbar.LENGTH_SHORT
                 ).show()
+            }
+        }
+    }
+
+    override fun onMenuItemClick(item: MenuItem): Boolean {
+        when (item.itemId) {
+            R.id.fazerLogin -> {
+                val prefs = requireContext().getSharedPreferences(
+                    "UserInfo",
+                    0
+                )
+
+                val editor = prefs.edit()
+
+                editor.putString("Token", "")
+                editor.putString("Perfil", "")
+                editor.putString("Email", "")
+
+                editor.apply()
+
+                return item.onNavDestinationSelected(mActivityController)
+            }
+
+            R.id.menu_atualizar_perfil -> {
+                mActivityController.navigate(R.id.action_dadosUnidadeManutencao_to_unidadeManutencao)
+
+                return true
+            }
+
+            else -> {
+                return super.onOptionsItemSelected(item)
             }
         }
     }

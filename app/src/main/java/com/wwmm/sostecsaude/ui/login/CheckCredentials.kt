@@ -58,7 +58,15 @@ class CheckCredentials : Fragment() {
 
                         editor.apply()
 
-                        controller.navigate(R.id.action_checkCredentials_to_carregarPerfil)
+                        when (perfil) {
+                            "unidade_saude" -> {
+                                controller.navigate(R.id.action_checkCredentials_to_unidadeSaude)
+                            }
+
+                            "unidade_manutencao" -> {
+                                controller.navigate(R.id.action_checkCredentials_to_unidadeManutencao)
+                            }
+                        }
                     }
                 }
             },

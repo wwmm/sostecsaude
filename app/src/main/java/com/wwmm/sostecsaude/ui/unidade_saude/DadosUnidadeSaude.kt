@@ -4,11 +4,17 @@ import android.content.Context.INPUT_METHOD_SERVICE
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
+import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
+import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.Fragment
+import androidx.navigation.NavController
+import androidx.navigation.Navigation
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.ui.onNavDestinationSelected
+import androidx.navigation.ui.setupWithNavController
 import com.android.volley.Request
 import com.android.volley.Response
 import com.android.volley.toolbox.StringRequest
@@ -19,7 +25,9 @@ import com.wwmm.sostecsaude.myServerURL
 import kotlinx.android.synthetic.main.fragment_dados_unidade_saude.*
 
 
-class DadosUnidade : Fragment() {
+class DadosUnidadeSaude : Fragment(), Toolbar.OnMenuItemClickListener {
+    private lateinit var mActivityController: NavController
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -31,6 +39,14 @@ class DadosUnidade : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         val controller = findNavController()
+
+        mActivityController = Navigation.findNavController(requireActivity(), R.id.nav_host_main)
+
+        toolbar.setupWithNavController(findNavController())
+        toolbar.inflateMenu(R.menu.menu_toolbar)
+        toolbar.menu.findItem(R.id.menu_search).isVisible = false
+        toolbar.menu.findItem(R.id.menu_atualizar_perfil).isVisible = false
+        toolbar.setOnMenuItemClickListener(this)
 
         val prefs = requireActivity().getSharedPreferences(
             "UserInfo",
@@ -47,7 +63,7 @@ class DadosUnidade : Fragment() {
                 val msg = response.toString()
 
                 if (msg == "invalid_token") {
-                    controller.navigate(R.id.action_unidadeSaude_to_fazerLogin)
+                    controller.navigate(R.id.action_global_fazerLogin)
                 } else {
                     val arr = msg.split("<&>")
 
@@ -89,14 +105,14 @@ class DadosUnidade : Fragment() {
                             val msg = response.toString()
 
                             if (msg == "invalid_token") {
-                                controller.navigate(R.id.action_unidadeSaude_to_fazerLogin)
+                                controller.navigate(R.id.action_global_fazerLogin)
                             } else {
                                 Snackbar.make(
                                     main_layout_contato, msg,
                                     Snackbar.LENGTH_SHORT
                                 ).show()
 
-                                controller.navigate(R.id.action_unidadeSaude_to_carregarPerfil)
+                                controller.navigate(R.id.action_dadosUnidadeSaude_to_unidadeSaude)
                             }
                         }
                     },
@@ -120,6 +136,37 @@ class DadosUnidade : Fragment() {
                     main_layout_contato, "Preencha todos os campos!",
                     Snackbar.LENGTH_SHORT
                 ).show()
+            }
+        }
+    }
+
+    override fun onMenuItemClick(item: MenuItem): Boolean {
+        when (item.itemId) {
+            R.id.fazerLogin -> {
+                val prefs = requireContext().getSharedPreferences(
+                    "UserInfo",
+                    0
+                )
+
+                val editor = prefs.edit()
+
+                editor.putString("Token", "")
+                editor.putString("Perfil", "")
+                editor.putString("Email", "")
+
+                editor.apply()
+
+                return item.onNavDestinationSelected(mActivityController)
+            }
+
+            R.id.menu_atualizar_perfil -> {
+                mActivityController.navigate(R.id.action_dadosUnidadeSaude_to_unidadeSaude)
+
+                return true
+            }
+
+            else -> {
+                return super.onOptionsItemSelected(item)
             }
         }
     }

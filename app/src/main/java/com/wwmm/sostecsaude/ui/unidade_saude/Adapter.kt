@@ -4,7 +4,6 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.android.volley.Response
@@ -12,12 +11,12 @@ import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
 import com.wwmm.sostecsaude.R
 import com.wwmm.sostecsaude.myServerURL
-import kotlinx.android.synthetic.main.fragment_empresas_ver_pedidos.*
+import kotlinx.android.synthetic.main.fragment_unidade_manutencao.*
 import kotlinx.android.synthetic.main.recyclerview_unidade_saude_registrar.view.*
 import org.json.JSONArray
 import org.json.JSONObject
 
-class Adapter(private val frag: Fragment, private val lines: JSONArray) :
+class Adapter(private val frag: VerPedidos, private val lines: JSONArray) :
     RecyclerView.Adapter<Adapter.ViewHolder>() {
     class ViewHolder(val view: View) : RecyclerView.ViewHolder(view)
 
@@ -67,9 +66,7 @@ class Adapter(private val frag: Fragment, private val lines: JSONArray) :
                     val msg = response.toString()
 
                     if (msg == "invalid_token") {
-                        val controller = frag.findNavController()
-
-                        controller.navigate(R.id.action_verPedidos_to_fazerLogin)
+                        frag.mActivityController.navigate(R.id.action_global_fazerLogin)
                     } else {
                         lines.remove(position)
 
@@ -113,7 +110,7 @@ class Adapter(private val frag: Fragment, private val lines: JSONArray) :
                     if (msg == "invalid_token") {
                         val controller = frag.findNavController()
 
-                        controller.navigate(R.id.action_verPedidos_to_fazerLogin)
+                        controller.navigate(R.id.action_global_fazerLogin)
                     } else {
                         frag.progressBar.visibility = View.GONE
                     }

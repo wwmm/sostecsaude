@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">SOSTecSaúde</string>
     <string name="title_add">Registrar</string>
+    <string name="title_registrar_defeito">Registrar Defeito</string>
     <string name="title_pedidos">Pedidos</string>
     <string name="title_remove">Remover</string>
     <string name="title_unidade_saude">Unidade de Saúde</string>
@@ -17,7 +18,6 @@
 
     <string name="title_empresa">Empresa</string>
     <string name="title_equipamentos">Equipamentos</string>
-    <string name="title_equipamentos_danificados">Equipamentos Danificados</string>
     <string name="title_quantidade_com_defeito">Quantidade de Equipamentos Danificados</string>
     <string name="title_local">Local</string>
     <string name="title_cnpj">CNPJ</string>
@@ -25,7 +25,7 @@
     <string name="title_quero_consertar">Quero Consertar</string>
     <string name="title_interessados_conserto">Empresas interessadas em consertar</string>
 
-    <string name="title_ver_danos">Pedidos Realizados</string>
+    <string name="title_ver_pedidos_conserto">Pedidos Realizados</string>
     <string name="title_ofertas">Ofertas</string>
     <string name="title_ofertas_manutencao">Ofertas de Manutenção</string>
 

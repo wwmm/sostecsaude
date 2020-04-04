@@ -12,7 +12,6 @@ import androidx.navigation.fragment.findNavController
 import com.android.volley.Response
 import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
-import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.snackbar.Snackbar
 import com.wwmm.sostecsaude.R
 import com.wwmm.sostecsaude.myServerURL
@@ -32,9 +31,7 @@ class Login : Fragment() {
 
         val controller = findNavController()
 
-        val bottomNav = requireActivity().findViewById(R.id.bottom_nav) as BottomNavigationView
-
-        bottomNav.visibility = View.GONE
+        toolbar.title = getString(R.string.app_name)
 
         val prefs = requireActivity().getSharedPreferences(
             "UserInfo",
@@ -85,7 +82,15 @@ class Login : Fragment() {
 
                                 editor.apply()
 
-                                controller.navigate(R.id.action_login_to_carregarPerfil)
+                                when (perfil) {
+                                    "unidade_saude" -> {
+                                        controller.navigate(R.id.action_fazerLogin_to_unidadeSaude)
+                                    }
+
+                                    "unidade_manutencao" -> {
+                                        controller.navigate(R.id.action_fazerLogin_to_unidadeManutencao)
+                                    }
+                                }
                             } else {
                                 Snackbar.make(
                                     layout_login, msg,

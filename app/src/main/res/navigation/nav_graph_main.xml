@@ -5,131 +5,81 @@
     android:id="@+id/nav_graph_main"
     app:startDestination="@id/checkCredentials">
 
-    <navigation
-        android:id="@+id/nested_graph_unidade_saude"
-        app:startDestination="@id/relatarDano">
-        <fragment
-            android:id="@+id/verPedidos"
-            android:name="com.wwmm.sostecsaude.ui.unidade_saude.VerPedidos"
-            android:label="@string/title_ver_danos"
-            tools:layout="@layout/fragment_unidade_saude_ver_pedidos" >
-            <action
-                android:id="@+id/action_verPedidos_to_fazerLogin"
-                app:destination="@id/fazerLogin" />
-        </fragment>
-        <fragment
-            android:id="@+id/relatarDano"
-            android:name="com.wwmm.sostecsaude.ui.unidade_saude.Relatar"
-            android:label="@string/title_equipamento"
-            tools:layout="@layout/fragment_unidade_saude_relatar" />
-        <action
-            android:id="@+id/action_global_listFragment"
-            app:destination="@id/verPedidos" />
-        <action
-            android:id="@+id/action_global_addFragment"
-            app:destination="@id/relatarDano" />
-        <fragment
-            android:id="@+id/verOfertasManutencao"
-            android:name="com.wwmm.sostecsaude.ui.unidade_saude.VerOficinas"
-            android:label="@string/title_ofertas_manutencao"
-            tools:layout="@layout/fragment_unidade_saude_ver_ofertas" />
-        <action
-            android:id="@+id/action_global_verOficinas"
-            app:destination="@id/verOfertasManutencao" />
-    </navigation>
-    <navigation
-        android:id="@+id/nested_graph_unidade_manutencao"
-        app:startDestination="@id/empresasVerPedidos" >
-        <fragment
-            android:id="@+id/empresasVerPedidos"
-            android:name="com.wwmm.sostecsaude.ui.unidade_manutencao.EmpresasVerPedidos"
-            android:label="@string/title_equipamentos_danificados"
-            tools:layout="@layout/fragment_empresas_ver_pedidos">
-            <action
-                android:id="@+id/action_empresasVerPedidos_to_fazerLogin"
-                app:destination="@id/fazerLogin" />
-        </fragment>
-        <action
-            android:id="@+id/action_global_empresasVerPedidos"
-            app:destination="@id/empresasVerPedidos" />
-    </navigation>
     <fragment
-        android:id="@+id/checkCredentials"
-        android:name="com.wwmm.sostecsaude.ui.login.CheckCredentials"
-        android:label="@string/title_check_credentials"
-        tools:layout="@layout/fragment_check_credentials" >
+        android:id="@+id/unidadeManutencao"
+        android:name="com.wwmm.sostecsaude.ui.unidade_manutencao.UnidadeManutencao"
+        android:label="@string/title_equipamentos"
+        tools:layout="@layout/fragment_unidade_manutencao">
         <action
-            android:id="@+id/action_checkCredentials_to_login"
-            app:destination="@id/fazerLogin"
-            app:popUpTo="@id/nav_graph_main"
-            app:popUpToInclusive="false" />
-        <action
-            android:id="@+id/action_checkCredentials_to_carregarPerfil"
-            app:destination="@id/carregarPerfil" />
+            android:id="@+id/action_unidadeManutencao_to_fazerLogin"
+            app:destination="@id/fazerLogin" />
     </fragment>
     <fragment
-        android:id="@+id/fazerLogin"
-        android:name="com.wwmm.sostecsaude.ui.login.Login"
-        android:label="Login" >
+        android:id="@+id/unidadeSaude"
+        android:name="com.wwmm.sostecsaude.ui.unidade_saude.UnidadeSaude"
+        android:label="UnidadeSaude" />
+    <fragment
+        android:id="@+id/dadosUnidadeSaude"
+        android:name="com.wwmm.sostecsaude.ui.unidade_saude.DadosUnidadeSaude"
+        android:label="@string/title_dados_unidade"
+        tools:layout="@layout/fragment_dados_unidade_saude">
         <action
-            android:id="@+id/action_login_to_criarConta"
-            app:destination="@id/criarConta" />
-        <action
-            android:id="@+id/action_login_to_carregarPerfil"
-            app:destination="@id/carregarPerfil" />
+            android:id="@+id/action_dadosUnidadeSaude_to_unidadeSaude"
+            app:destination="@id/unidadeSaude" />
     </fragment>
+    <fragment
+        android:id="@+id/dadosUnidadeManutencao"
+        android:name="com.wwmm.sostecsaude.ui.unidade_manutencao.DadosUnidadeManutencao"
+        android:label="@string/title_dados_unidade"
+        tools:layout="@layout/fragment_dados_unidade_manutencao">
+        <action
+            android:id="@+id/action_dadosUnidadeManutencao_to_unidadeManutencao"
+            app:destination="@id/unidadeManutencao" />
+    </fragment>
+    <action android:id="@+id/action_global_unidadeSaude" app:destination="@id/dadosUnidadeSaude" />
+    <action android:id="@+id/action_global_unidadeManutencao" app:destination="@id/dadosUnidadeManutencao" />
     <fragment
         android:id="@+id/criarConta"
         android:name="com.wwmm.sostecsaude.ui.login.CriarConta"
         android:label="@string/title_criar_conta"
         tools:layout="@layout/fragment_criar_conta" >
         <action
-            android:id="@+id/action_criarConta_to_unidadeSaude"
+            android:id="@+id/action_criarConta_to_dadosUnidadeSaude"
+            app:destination="@id/dadosUnidadeSaude" />
+        <action
+            android:id="@+id/action_criarConta_to_dadosUnidadeManutencao"
+            app:destination="@id/dadosUnidadeManutencao" />
+    </fragment>
+    <fragment
+        android:id="@+id/fazerLogin"
+        android:name="com.wwmm.sostecsaude.ui.login.Login"
+        android:label="Login">
+        <action
+            android:id="@+id/action_login_to_criarConta"
+            app:destination="@id/criarConta" />
+        <action
+            android:id="@+id/action_fazerLogin_to_unidadeManutencao"
+            app:destination="@id/unidadeManutencao" />
+        <action
+            android:id="@+id/action_fazerLogin_to_unidadeSaude"
+            app:destination="@id/unidadeSaude" />
+    </fragment>
+    <fragment
+        android:id="@+id/checkCredentials"
+        android:name="com.wwmm.sostecsaude.ui.login.CheckCredentials"
+        android:label="@string/title_check_credentials"
+        tools:layout="@layout/fragment_check_credentials">
+        <action
+            android:id="@+id/action_checkCredentials_to_login"
+            app:destination="@id/fazerLogin"
+            app:popUpTo="@id/nav_graph_main"
+            app:popUpToInclusive="true" />
+        <action
+            android:id="@+id/action_checkCredentials_to_unidadeSaude"
             app:destination="@id/unidadeSaude" />
         <action
-            android:id="@+id/action_criarConta_to_unidadeManutencao"
+            android:id="@+id/action_checkCredentials_to_unidadeManutencao"
             app:destination="@id/unidadeManutencao" />
     </fragment>
-    <fragment
-        android:id="@+id/carregarPerfil"
-        android:name="com.wwmm.sostecsaude.ui.login.CarregarPerfil"
-        android:label="@string/title_carregar_perfil"
-        tools:layout="@layout/fragment_carregar_perfil" >
-        <action
-            android:id="@+id/action_carregarPerfil_to_nested_graph_relatar"
-            app:destination="@id/nested_graph_unidade_saude"
-            app:popUpTo="@id/nav_graph_main"
-            app:popUpToInclusive="true" />
-        <action
-            android:id="@+id/action_carregarPerfil_to_nested_graph_unidade_manutencao"
-            app:destination="@id/nested_graph_unidade_manutencao"
-            app:popUpTo="@id/nav_graph_main"
-            app:popUpToInclusive="true" />
-    </fragment>
-    <fragment
-        android:id="@+id/unidadeSaude"
-        android:name="com.wwmm.sostecsaude.ui.unidade_saude.DadosUnidade"
-        android:label="@string/title_unidade_saude"
-        tools:layout="@layout/fragment_dados_unidade_saude">
-        <action
-            android:id="@+id/action_unidadeSaude_to_fazerLogin"
-            app:destination="@id/fazerLogin" />
-        <action
-            android:id="@+id/action_unidadeSaude_to_carregarPerfil"
-            app:destination="@id/carregarPerfil" />
-    </fragment>
-    <fragment
-        android:id="@+id/unidadeManutencao"
-        android:name="com.wwmm.sostecsaude.ui.unidade_manutencao.DadosUnidade"
-        android:label="@string/title_unidade_manutencao"
-        tools:layout="@layout/fragment_dados_unidade_manutencao">
-        <action
-            android:id="@+id/action_unidadeManutencao_to_fazerLogin"
-            app:destination="@id/fazerLogin" />
-        <action
-            android:id="@+id/action_unidadeManutencao_to_carregarPerfil"
-            app:destination="@id/carregarPerfil" />
-    </fragment>
-    <action android:id="@+id/action_global_unidadeSaude" app:destination="@id/unidadeSaude" />
-    <action android:id="@+id/action_global_unidadeManutencao" app:destination="@id/unidadeManutencao" />
+    <action android:id="@+id/action_global_fazerLogin" app:destination="@id/fazerLogin" />
 </navigation>

@@ -16,9 +16,9 @@ import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.tabs.TabLayoutMediator
 import com.wwmm.sostecsaude.R
 import com.wwmm.sostecsaude.myServerURL
-import kotlinx.android.synthetic.main.fragment_empresas_ver_pedidos.*
-import kotlinx.android.synthetic.main.recyclerview_empresa_ver_pedidos_contents.*
-import kotlinx.android.synthetic.main.recyclerview_empresa_ver_pedidos_contents.view.*
+import kotlinx.android.synthetic.main.fragment_unidade_manutencao.*
+import kotlinx.android.synthetic.main.recyclerview_unidade_manutencao_ver_pedidos.*
+import kotlinx.android.synthetic.main.recyclerview_unidade_manutencao_ver_pedidos.view.*
 import org.json.JSONArray
 import org.json.JSONObject
 
@@ -67,8 +67,10 @@ class ViewPager2Adapter(fragment: Fragment, private val line: JSONObject) :
     }
 }
 
-class Adapter(private val fragment: Fragment, private val equipamentos: JSONArray,
-              private val idNumbers: JSONArray) :
+class Adapter(
+    private val fragment: Fragment, private val equipamentos: JSONArray,
+    private val idNumbers: JSONArray
+) :
     RecyclerView.Adapter<Adapter.ViewHolder>() {
     class ViewHolder(val view: View) : RecyclerView.ViewHolder(view)
 
@@ -77,7 +79,7 @@ class Adapter(private val fragment: Fragment, private val equipamentos: JSONArra
         viewType: Int
     ): ViewHolder {
         val view = LayoutInflater.from(parent.context)
-            .inflate(R.layout.recyclerview_empresa_ver_pedidos_contents, parent, false)
+            .inflate(R.layout.recyclerview_unidade_manutencao_ver_pedidos, parent, false)
 
         return ViewHolder(view)
     }
@@ -108,8 +110,8 @@ class Adapter(private val fragment: Fragment, private val equipamentos: JSONArra
             }
         }.attach()
 
-        for(n in 0 until idNumbers.length()){
-            if (idNumbers[n] == id){
+        for (n in 0 until idNumbers.length()) {
+            if (idNumbers[n] == id) {
                 holder.view.switch_consertar.isChecked = true
 
                 break
@@ -135,7 +137,7 @@ class Adapter(private val fragment: Fragment, private val equipamentos: JSONArra
 
                     if (msg == "invalid_token") {
                         val controller = fragment.findNavController()
-                        controller.navigate(R.id.action_empresasVerPedidos_to_fazerLogin)
+                        controller.navigate(R.id.action_unidadeManutencao_to_fazerLogin)
                     } else {
                         fragment.progressBar.visibility = View.GONE
 

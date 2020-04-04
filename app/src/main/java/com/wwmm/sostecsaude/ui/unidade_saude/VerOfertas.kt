@@ -9,6 +9,7 @@ import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import androidx.fragment.app.Fragment
 import androidx.navigation.NavController
+import androidx.navigation.Navigation
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.android.volley.Request
@@ -21,7 +22,8 @@ import kotlinx.android.synthetic.main.fragment_unidade_saude_ver_ofertas.*
 import org.json.JSONArray
 import org.json.JSONObject
 
-class VerOficinas : Fragment() {
+class VerOfertas : Fragment() {
+    private lateinit var mActivityController: NavController
     private lateinit var mController: NavController
     private var mIdList = ArrayList<String>()
 
@@ -34,6 +36,8 @@ class VerOficinas : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        mActivityController = Navigation.findNavController(requireActivity(), R.id.nav_host_main)
 
         mController = findNavController()
 
@@ -74,21 +78,23 @@ class VerOficinas : Fragment() {
             Response.Listener { response ->
                 if (response.length() > 0) {
                     if (response[0] == "invalid_token") {
-                        mController.navigate(R.id.action_verPedidos_to_fazerLogin)
+                        mActivityController.navigate(R.id.action_global_fazerLogin)
                     } else {
                         if (isAdded) {
                             val list = ArrayList<String>()
                             mIdList.clear()
 
-                            for(n in 0 until response.length()){
+                            for (n in 0 until response.length()) {
                                 val obj = response[n] as JSONObject
 
                                 list.add(obj.getString("Nome"))
                                 mIdList.add(obj.getString("ID"))
                             }
 
-                            val adapter = ArrayAdapter(requireContext(),
-                                android.R.layout.simple_spinner_dropdown_item, list)
+                            val adapter = ArrayAdapter(
+                                requireContext(),
+                                android.R.layout.simple_spinner_dropdown_item, list
+                            )
 
                             spinner_equipamento.adapter = adapter
 
@@ -105,7 +111,7 @@ class VerOficinas : Fragment() {
         queue.add(request)
     }
 
-    private fun updateRecycler(idEquipamento: String){
+    private fun updateRecycler(idEquipamento: String) {
         progressBar.visibility = View.VISIBLE
 
         recyclerview.apply {
@@ -134,9 +140,9 @@ class VerOficinas : Fragment() {
                 if (isAdded) {
                     if (response.length() > 0) {
                         if (response[0] == "invalid_token") {
-                            mController.navigate(R.id.action_verPedidos_to_fazerLogin)
-                        } else{
-                            if(response[0] != "empty"){
+                            mActivityController.navigate(R.id.action_global_fazerLogin)
+                        } else {
+                            if (response[0] != "empty") {
                                 recyclerview.apply {
                                     adapter = AdapterVerOficinas(response)
                                 }
