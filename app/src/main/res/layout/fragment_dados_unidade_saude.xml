@@ -5,7 +5,7 @@
     android:id="@+id/main_layout_contato"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.unidade_saude.UnidadeSaude">
+    tools:context=".ui.unidade_saude.DadosUnidade">
 
     <Button
         android:id="@+id/button_save"

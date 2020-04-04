@@ -16,15 +16,15 @@ import com.android.volley.toolbox.Volley
 import com.google.android.material.snackbar.Snackbar
 import com.wwmm.sostecsaude.R
 import com.wwmm.sostecsaude.myServerURL
-import kotlinx.android.synthetic.main.fragment_contatos_unidade_saude.*
+import kotlinx.android.synthetic.main.fragment_dados_unidade_saude.*
 
 
-class UnidadeSaude : Fragment() {
+class DadosUnidade : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.fragment_contatos_unidade_saude, container, false)
+        return inflater.inflate(R.layout.fragment_dados_unidade_saude, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

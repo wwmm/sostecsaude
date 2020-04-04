@@ -16,15 +16,15 @@ import com.android.volley.toolbox.Volley
 import com.google.android.material.snackbar.Snackbar
 import com.wwmm.sostecsaude.R
 import com.wwmm.sostecsaude.myServerURL
-import kotlinx.android.synthetic.main.fragment_contatos_unidade_manutencao.*
+import kotlinx.android.synthetic.main.fragment_dados_unidade_manutencao.*
 
-class UnidadeManutencao : Fragment() {
+class DadosUnidade : Fragment() {
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.fragment_contatos_unidade_manutencao, container, false)
+        return inflater.inflate(R.layout.fragment_dados_unidade_manutencao, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -42,7 +42,7 @@ class UnidadeManutencao : Fragment() {
         val queue = Volley.newRequestQueue(requireContext())
 
         val requestGet = object : StringRequest(
-            Request.Method.POST, "$myServerURL/get_unidade",
+            Method.POST, "$myServerURL/get_unidade",
             Response.Listener { response ->
                 if (isAdded) {
                     val msg = response.toString()
