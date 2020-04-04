@@ -5,7 +5,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.wwmm.sostecsaude.R
-import kotlinx.android.synthetic.main.recyclerview_relatar_danos_ver_oficinas.view.*
+import kotlinx.android.synthetic.main.recyclerview_unidade_saude_ver_ofertas.view.*
 import org.json.JSONArray
 import org.json.JSONObject
 
@@ -18,7 +18,7 @@ class AdapterVerOficinas(private val lines: JSONArray) :
         viewType: Int
     ): ViewHolder {
         val view = LayoutInflater.from(parent.context)
-            .inflate(R.layout.recyclerview_relatar_danos_ver_oficinas, parent, false)
+            .inflate(R.layout.recyclerview_unidade_saude_ver_ofertas, parent, false)
 
         return ViewHolder(view)
     }

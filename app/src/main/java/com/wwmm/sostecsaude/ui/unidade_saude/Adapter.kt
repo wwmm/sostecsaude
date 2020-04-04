@@ -13,7 +13,7 @@ import com.android.volley.toolbox.Volley
 import com.wwmm.sostecsaude.R
 import com.wwmm.sostecsaude.myServerURL
 import kotlinx.android.synthetic.main.fragment_empresas_ver_pedidos.*
-import kotlinx.android.synthetic.main.recyclerview_relatar_danos.view.*
+import kotlinx.android.synthetic.main.recyclerview_unidade_saude_registrar.view.*
 import org.json.JSONArray
 import org.json.JSONObject
 
@@ -26,7 +26,7 @@ class Adapter(private val frag: Fragment, private val lines: JSONArray) :
         viewType: Int
     ): ViewHolder {
         val view = LayoutInflater.from(parent.context)
-            .inflate(R.layout.recyclerview_relatar_danos, parent, false)
+            .inflate(R.layout.recyclerview_unidade_saude_registrar, parent, false)
 
         return ViewHolder(view)
     }

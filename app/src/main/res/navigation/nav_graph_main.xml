@@ -32,7 +32,7 @@
             android:id="@+id/verOfertasManutencao"
             android:name="com.wwmm.sostecsaude.ui.unidade_saude.VerOficinas"
             android:label="@string/title_ofertas_manutencao"
-            tools:layout="@layout/fragment_unidade_saude_ver_oficinas" />
+            tools:layout="@layout/fragment_unidade_saude_ver_ofertas" />
         <action
             android:id="@+id/action_global_verOficinas"
             app:destination="@id/verOfertasManutencao" />
