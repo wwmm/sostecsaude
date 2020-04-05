@@ -9,11 +9,7 @@
         android:id="@+id/unidadeManutencao"
         android:name="com.wwmm.sostecsaude.ui.unidade_manutencao.UnidadeManutencao"
         android:label="@string/title_equipamentos"
-        tools:layout="@layout/fragment_unidade_manutencao">
-        <action
-            android:id="@+id/action_unidadeManutencao_to_fazerLogin"
-            app:destination="@id/fazerLogin" />
-    </fragment>
+        tools:layout="@layout/fragment_unidade_manutencao"/>
     <fragment
         android:id="@+id/unidadeSaude"
         android:name="com.wwmm.sostecsaude.ui.unidade_saude.UnidadeSaude"
@@ -25,7 +21,11 @@
         tools:layout="@layout/fragment_dados_unidade_saude">
         <action
             android:id="@+id/action_dadosUnidadeSaude_to_unidadeSaude"
-            app:destination="@id/unidadeSaude" />
+            app:destination="@id/unidadeSaude"
+            app:enterAnim="@android:anim/slide_in_left"
+            app:exitAnim="@android:anim/slide_out_right"
+            app:popEnterAnim="@android:anim/slide_in_left"
+            app:popExitAnim="@android:anim/slide_out_right" />
     </fragment>
     <fragment
         android:id="@+id/dadosUnidadeManutencao"
@@ -34,7 +34,11 @@
         tools:layout="@layout/fragment_dados_unidade_manutencao">
         <action
             android:id="@+id/action_dadosUnidadeManutencao_to_unidadeManutencao"
-            app:destination="@id/unidadeManutencao" />
+            app:destination="@id/unidadeManutencao"
+            app:enterAnim="@android:anim/slide_in_left"
+            app:exitAnim="@android:anim/slide_out_right"
+            app:popEnterAnim="@android:anim/slide_in_left"
+            app:popExitAnim="@android:anim/slide_out_right" />
     </fragment>
     <action android:id="@+id/action_global_unidadeSaude" app:destination="@id/dadosUnidadeSaude" />
     <action android:id="@+id/action_global_unidadeManutencao" app:destination="@id/dadosUnidadeManutencao" />
@@ -45,10 +49,18 @@
         tools:layout="@layout/fragment_criar_conta" >
         <action
             android:id="@+id/action_criarConta_to_dadosUnidadeSaude"
-            app:destination="@id/dadosUnidadeSaude" />
+            app:destination="@id/dadosUnidadeSaude"
+            app:enterAnim="@android:anim/slide_in_left"
+            app:exitAnim="@android:anim/slide_out_right"
+            app:popEnterAnim="@android:anim/slide_in_left"
+            app:popExitAnim="@android:anim/slide_out_right" />
         <action
             android:id="@+id/action_criarConta_to_dadosUnidadeManutencao"
-            app:destination="@id/dadosUnidadeManutencao" />
+            app:destination="@id/dadosUnidadeManutencao"
+            app:enterAnim="@android:anim/slide_in_left"
+            app:exitAnim="@android:anim/slide_out_right"
+            app:popEnterAnim="@android:anim/slide_in_left"
+            app:popExitAnim="@android:anim/slide_out_right" />
     </fragment>
     <fragment
         android:id="@+id/fazerLogin"
@@ -56,13 +68,29 @@
         android:label="Login">
         <action
             android:id="@+id/action_login_to_criarConta"
-            app:destination="@id/criarConta" />
+            app:destination="@id/criarConta"
+            app:enterAnim="@android:anim/slide_in_left"
+            app:exitAnim="@android:anim/slide_out_right"
+            app:popEnterAnim="@android:anim/slide_in_left"
+            app:popExitAnim="@android:anim/slide_out_right" />
         <action
             android:id="@+id/action_fazerLogin_to_unidadeManutencao"
-            app:destination="@id/unidadeManutencao" />
+            app:destination="@id/unidadeManutencao"
+            app:enterAnim="@android:anim/slide_in_left"
+            app:exitAnim="@android:anim/slide_out_right"
+            app:popEnterAnim="@android:anim/slide_in_left"
+            app:popExitAnim="@android:anim/slide_out_right"
+            app:popUpTo="@id/nav_graph_main"
+            app:popUpToInclusive="true" />
         <action
             android:id="@+id/action_fazerLogin_to_unidadeSaude"
-            app:destination="@id/unidadeSaude" />
+            app:destination="@id/unidadeSaude"
+            app:enterAnim="@android:anim/slide_in_left"
+            app:exitAnim="@android:anim/slide_out_right"
+            app:popEnterAnim="@android:anim/slide_in_left"
+            app:popExitAnim="@android:anim/slide_out_right"
+            app:popUpTo="@id/nav_graph_main"
+            app:popUpToInclusive="true" />
     </fragment>
     <fragment
         android:id="@+id/checkCredentials"
@@ -72,14 +100,30 @@
         <action
             android:id="@+id/action_checkCredentials_to_login"
             app:destination="@id/fazerLogin"
+            app:enterAnim="@android:anim/slide_in_left"
+            app:exitAnim="@android:anim/slide_out_right"
+            app:popEnterAnim="@android:anim/slide_in_left"
+            app:popExitAnim="@android:anim/slide_out_right"
             app:popUpTo="@id/nav_graph_main"
             app:popUpToInclusive="true" />
         <action
             android:id="@+id/action_checkCredentials_to_unidadeSaude"
-            app:destination="@id/unidadeSaude" />
+            app:destination="@id/unidadeSaude"
+            app:enterAnim="@android:anim/slide_in_left"
+            app:exitAnim="@android:anim/slide_out_right"
+            app:popEnterAnim="@android:anim/slide_in_left"
+            app:popExitAnim="@android:anim/slide_out_right"
+            app:popUpTo="@id/nav_graph_main"
+            app:popUpToInclusive="true" />
         <action
             android:id="@+id/action_checkCredentials_to_unidadeManutencao"
-            app:destination="@id/unidadeManutencao" />
+            app:destination="@id/unidadeManutencao"
+            app:enterAnim="@android:anim/slide_in_left"
+            app:exitAnim="@android:anim/slide_out_right"
+            app:popEnterAnim="@android:anim/slide_in_left"
+            app:popExitAnim="@android:anim/slide_out_right"
+            app:popUpTo="@id/nav_graph_main"
+            app:popUpToInclusive="true" />
     </fragment>
     <action android:id="@+id/action_global_fazerLogin" app:destination="@id/fazerLogin" />
 </navigation>

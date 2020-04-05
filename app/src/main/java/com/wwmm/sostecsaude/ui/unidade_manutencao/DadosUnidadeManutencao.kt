@@ -63,7 +63,7 @@ class DadosUnidadeManutencao : Fragment(), Toolbar.OnMenuItemClickListener {
                     val msg = response.toString()
 
                     if (msg == "invalid_token") {
-                        controller.navigate(R.id.action_unidadeManutencao_to_fazerLogin)
+                        controller.navigate(R.id.action_global_fazerLogin)
                     } else {
                         val arr = msg.split("<&>")
 
@@ -114,7 +114,7 @@ class DadosUnidadeManutencao : Fragment(), Toolbar.OnMenuItemClickListener {
                         val msg = response.toString()
 
                         if (msg == "invalid_token") {
-                            controller.navigate(R.id.action_unidadeManutencao_to_fazerLogin)
+                            controller.navigate(R.id.action_global_fazerLogin)
                         } else {
                             Snackbar.make(
                                 main_layout_contato_manutencao, msg,

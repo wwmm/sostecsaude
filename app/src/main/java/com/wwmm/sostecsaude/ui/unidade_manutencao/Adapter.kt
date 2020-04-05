@@ -143,7 +143,7 @@ class Adapter(
 
                     if (msg == "invalid_token") {
                         val controller = fragment.findNavController()
-                        controller.navigate(R.id.action_unidadeManutencao_to_fazerLogin)
+                        controller.navigate(R.id.action_global_fazerLogin)
                     } else {
                         // Temos que atualizar a lista de equipamentos em que há interesse de reparo
                         // para que o filtro atualize corretamente o status dos switches

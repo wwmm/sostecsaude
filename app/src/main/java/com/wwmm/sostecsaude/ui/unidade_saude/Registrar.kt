@@ -87,7 +87,7 @@ class Registrar : Fragment(), Toolbar.OnMenuItemClickListener {
                             val msg = response.toString()
 
                             if (msg == "invalid_token") {
-                                mActivityController.navigate(R.id.action_unidadeManutencao_to_fazerLogin)
+                                mActivityController.navigate(R.id.action_global_fazerLogin)
                             } else {
                                 editText_nome.text.clear()
                                 editText_fabricante.text.clear()

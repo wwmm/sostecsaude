@@ -80,7 +80,7 @@ class UnidadeManutencao : Fragment(), Toolbar.OnMenuItemClickListener,
                 if (isAdded) {
                     if (response.length() > 0) {
                         if (response[0] == "invalid_token") {
-                            controller.navigate(R.id.action_unidadeManutencao_to_fazerLogin)
+                            controller.navigate(R.id.action_global_fazerLogin)
                         } else {
                             if (response.length() == 2) {
                                 val equipamentos = response[0] as JSONArray
