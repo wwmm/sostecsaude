@@ -4,6 +4,8 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Filter
+import android.widget.Filterable
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.android.volley.Response
@@ -18,9 +20,13 @@ import kotlinx.android.synthetic.main.fragment_unidade_saude_ver_pedidos.*
 import kotlinx.android.synthetic.main.recyclerview_unidade_saude_ver_pedidos.view.*
 import org.json.JSONArray
 import org.json.JSONObject
+import java.util.*
+import kotlin.collections.HashMap
 
 class AdapterVerPedidos(private val frag: VerPedidos, private val lines: JSONArray) :
-    RecyclerView.Adapter<AdapterVerPedidos.ViewHolder>() {
+    RecyclerView.Adapter<AdapterVerPedidos.ViewHolder>(), Filterable {
+    private var mFilterArray = lines
+
     class ViewHolder(val view: View) : RecyclerView.ViewHolder(view)
 
     override fun onCreateViewHolder(
@@ -34,7 +40,7 @@ class AdapterVerPedidos(private val frag: VerPedidos, private val lines: JSONArr
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val line = lines[position] as JSONObject
+        val line = mFilterArray[position] as JSONObject
 
         val id = line.getString("ID")
         var nome = line.getString("Nome")
@@ -71,7 +77,15 @@ class AdapterVerPedidos(private val frag: VerPedidos, private val lines: JSONArr
                     if (msg == "invalid_token") {
                         frag.mActivityController.navigate(R.id.action_global_fazerLogin)
                     } else {
-                        lines.remove(position)
+                        mFilterArray.remove(position)
+
+                        for(n in 0 until lines.length()){
+                            if(lines[n] == line){
+                                lines.remove(n)
+
+                                break
+                            }
+                        }
 
                         notifyItemRemoved(position)
 
@@ -147,7 +161,39 @@ class AdapterVerPedidos(private val frag: VerPedidos, private val lines: JSONArr
         }
     }
 
-    override fun getItemCount() = lines.length()
+    override fun getItemCount() = mFilterArray.length()
+
+    override fun getFilter(): Filter {
+        return object : Filter() {
+            private val results = FilterResults()
+
+            override fun performFiltering(constraint: CharSequence?): FilterResults {
+                if (constraint.isNullOrBlank()) {
+                    results.count = lines.length()
+                    results.values = lines
+                } else {
+                    val filteredArray = JSONArray()
+
+                    for(n in 0 until lines.length()){
+                        if(lines[n].toString().toLowerCase(Locale.ENGLISH).contains(constraint)){
+                            filteredArray.put(lines[n])
+                        }
+                    }
+
+                    results.count = filteredArray.length()
+                    results.values = filteredArray
+                }
+
+                return results
+            }
+
+            override fun publishResults(constraint: CharSequence?, results: FilterResults?) {
+                mFilterArray = results?.values as JSONArray
+
+                notifyDataSetChanged()
+            }
+        }
+    }
 
     companion object {
         const val LOGTAG = "adapter ver pedidos"

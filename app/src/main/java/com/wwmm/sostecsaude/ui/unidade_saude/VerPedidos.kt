@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.widget.SearchView
 import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.Fragment
 import androidx.navigation.NavController
@@ -23,8 +24,9 @@ import com.wwmm.sostecsaude.myServerURL
 import kotlinx.android.synthetic.main.fragment_unidade_saude_ver_pedidos.*
 import org.json.JSONArray
 
-class VerPedidos : Fragment(), Toolbar.OnMenuItemClickListener {
+class VerPedidos : Fragment(), Toolbar.OnMenuItemClickListener, SearchView.OnQueryTextListener {
     lateinit var mActivityController: NavController
+    private var mAdapterVerPedidos: AdapterVerPedidos? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -42,6 +44,11 @@ class VerPedidos : Fragment(), Toolbar.OnMenuItemClickListener {
         toolbar.setupWithNavController(findNavController())
         toolbar.inflateMenu(R.menu.menu_toolbar)
         toolbar.setOnMenuItemClickListener(this)
+
+        val actionView = toolbar.menu.findItem(R.id.menu_search).actionView as
+                SearchView
+
+        actionView.setOnQueryTextListener(this)
 
         recyclerview.apply {
             setHasFixedSize(true)
@@ -72,8 +79,10 @@ class VerPedidos : Fragment(), Toolbar.OnMenuItemClickListener {
                         if (response[0] == "invalid_token") {
                             mActivityController.navigate(R.id.action_global_fazerLogin)
                         } else {
+                            mAdapterVerPedidos = AdapterVerPedidos(this@VerPedidos, response)
+
                             recyclerview.apply {
-                                adapter = AdapterVerPedidos(this@VerPedidos, response)
+                                adapter = mAdapterVerPedidos
                             }
 
                             progressBar.visibility = View.GONE
@@ -118,6 +127,16 @@ class VerPedidos : Fragment(), Toolbar.OnMenuItemClickListener {
                 return super.onOptionsItemSelected(item)
             }
         }
+    }
+
+    override fun onQueryTextSubmit(query: String?): Boolean {
+        return false
+    }
+
+    override fun onQueryTextChange(newText: String?): Boolean {
+        mAdapterVerPedidos?.filter?.filter(newText)
+
+        return true
     }
 
     companion object {
