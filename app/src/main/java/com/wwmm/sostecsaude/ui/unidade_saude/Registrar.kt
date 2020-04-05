@@ -20,6 +20,7 @@ import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
 import com.google.android.material.snackbar.Snackbar
 import com.wwmm.sostecsaude.R
+import com.wwmm.sostecsaude.connectionErrorMessage
 import com.wwmm.sostecsaude.myServerURL
 import kotlinx.android.synthetic.main.fragment_unidade_saude_relatar.*
 
@@ -98,7 +99,7 @@ class Registrar : Fragment(), Toolbar.OnMenuItemClickListener {
                                 progressBar.visibility = View.GONE
 
                                 Snackbar.make(
-                                    main_layout_relatar, msg,
+                                    main_layout_registrar, msg,
                                     Snackbar.LENGTH_SHORT
                                 ).show()
                             }
@@ -106,6 +107,8 @@ class Registrar : Fragment(), Toolbar.OnMenuItemClickListener {
                     },
                     Response.ErrorListener {
                         Log.d(LOGTAG, "failed request: $it")
+
+                        connectionErrorMessage(main_layout_registrar, it)
                     }
                 ) {
                     override fun getParams(): MutableMap<String, String> {
@@ -126,7 +129,7 @@ class Registrar : Fragment(), Toolbar.OnMenuItemClickListener {
                 queue.add(request)
             } else {
                 Snackbar.make(
-                    main_layout_relatar, "Preencha todos os campos!",
+                    main_layout_registrar, "Preencha todos os campos!",
                     Snackbar.LENGTH_SHORT
                 ).show()
             }

@@ -54,4 +54,5 @@
 
     <string name="title_check_credentials">Conectando…</string>
     <string name="title_carregar_perfil">Carregando…</string>
+    <string name="title_retry">Tentar Novamente</string>
 </resources>

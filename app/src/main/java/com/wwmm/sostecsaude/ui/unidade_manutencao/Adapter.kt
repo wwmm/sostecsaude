@@ -150,11 +150,11 @@ class Adapter(
 
                         var naLista = false
 
-                        for(idx in 0 until idNumbers.length()){
-                            if(idNumbers[idx] == id){
+                        for (idx in 0 until idNumbers.length()) {
+                            if (idNumbers[idx] == id) {
                                 naLista = true
 
-                                if(!state){
+                                if (!state) {
                                     idNumbers.remove(idx)
                                 }
 
@@ -162,7 +162,7 @@ class Adapter(
                             }
                         }
 
-                        if(!naLista && state){
+                        if (!naLista && state) {
                             idNumbers.put(id)
                         }
 

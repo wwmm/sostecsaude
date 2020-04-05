@@ -1,22 +1,28 @@
 package com.wwmm.sostecsaude.ui.login
 
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.setupWithNavController
-import com.android.volley.Request
+import com.android.volley.RequestQueue
 import com.android.volley.Response
 import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
 import com.wwmm.sostecsaude.R
+import com.wwmm.sostecsaude.connectionErrorMessage
 import com.wwmm.sostecsaude.myServerURL
 import kotlinx.android.synthetic.main.fragment_check_credentials.*
 
 class CheckCredentials : Fragment() {
+    private lateinit var mMyPrefs: SharedPreferences
+    private lateinit var mQueue: RequestQueue
+    private lateinit var mController: NavController
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -28,24 +34,31 @@ class CheckCredentials : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val controller = findNavController()
+        mController = findNavController()
 
-        toolbar.setupWithNavController(controller)
+        toolbar.setupWithNavController(mController)
 
-        val prefs = requireActivity().getSharedPreferences(
-            "UserInfo",
-            0
-        )
+        mMyPrefs = requireActivity().getSharedPreferences("UserInfo", 0)
 
-        val queue = Volley.newRequestQueue(requireContext())
+        mQueue = Volley.newRequestQueue(requireContext())
 
+        checkCredentials()
+
+        button_retry.setOnClickListener {
+            progressBar.visibility = View.VISIBLE
+
+            checkCredentials()
+        }
+    }
+
+    private fun checkCredentials() {
         val request = object : StringRequest(
-            Request.Method.POST, "$myServerURL/check_credentials",
+            Method.POST, "$myServerURL/check_credentials",
             Response.Listener { response ->
                 val msg = response.toString()
 
                 if (msg == "invalid_token") {
-                    controller.navigate(R.id.action_checkCredentials_to_login)
+                    mController.navigate(R.id.action_checkCredentials_to_login)
                 } else {
                     val arr = msg.split("<&>")
 
@@ -54,7 +67,7 @@ class CheckCredentials : Fragment() {
                         val perfil = arr[1]
                         val email = arr[2]
 
-                        val editor = prefs.edit()
+                        val editor = mMyPrefs.edit()
 
                         editor.putString("Token", token)
                         editor.putString("Perfil", perfil)
@@ -64,11 +77,11 @@ class CheckCredentials : Fragment() {
 
                         when (perfil) {
                             "unidade_saude" -> {
-                                controller.navigate(R.id.action_checkCredentials_to_unidadeSaude)
+                                mController.navigate(R.id.action_checkCredentials_to_unidadeSaude)
                             }
 
                             "unidade_manutencao" -> {
-                                controller.navigate(R.id.action_checkCredentials_to_unidadeManutencao)
+                                mController.navigate(R.id.action_checkCredentials_to_unidadeManutencao)
                             }
                         }
                     }
@@ -76,17 +89,21 @@ class CheckCredentials : Fragment() {
             },
             Response.ErrorListener {
                 Log.d(LOGTAG, "request failed: $it")
+
+                progressBar.visibility = View.GONE
+
+                connectionErrorMessage(layout_check_credentials, it)
             }) {
             override fun getParams(): MutableMap<String, String> {
                 val params = HashMap<String, String>()
 
-                params["token"] = prefs.getString("Token", "nao existe token")!!
+                params["token"] = mMyPrefs.getString("Token", "nao existe token")!!
 
                 return params
             }
         }
 
-        queue.add(request)
+        mQueue.add(request)
     }
 
     companion object {

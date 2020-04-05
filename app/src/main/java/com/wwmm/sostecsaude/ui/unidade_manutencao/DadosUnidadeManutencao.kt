@@ -20,6 +20,7 @@ import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
 import com.google.android.material.snackbar.Snackbar
 import com.wwmm.sostecsaude.R
+import com.wwmm.sostecsaude.connectionErrorMessage
 import com.wwmm.sostecsaude.myServerURL
 import kotlinx.android.synthetic.main.fragment_dados_unidade_manutencao.*
 
@@ -125,6 +126,8 @@ class DadosUnidadeManutencao : Fragment(), Toolbar.OnMenuItemClickListener {
                     },
                     Response.ErrorListener {
                         Log.d(LOGTAG, "failed request: atualizar contato de unidade de saúde")
+
+                        connectionErrorMessage(main_layout_contato_manutencao, it)
                     }) {
                     override fun getParams(): MutableMap<String, String> {
                         val parameters = HashMap<String, String>()

@@ -22,12 +22,13 @@ import com.android.volley.Response
 import com.android.volley.toolbox.JsonArrayRequest
 import com.android.volley.toolbox.Volley
 import com.wwmm.sostecsaude.R
+import com.wwmm.sostecsaude.connectionErrorMessage
 import com.wwmm.sostecsaude.myServerURL
 import kotlinx.android.synthetic.main.fragment_unidade_saude_ver_ofertas.*
 import org.json.JSONArray
 import org.json.JSONObject
 
-class VerOfertas : Fragment(), Toolbar.OnMenuItemClickListener, SearchView.OnQueryTextListener  {
+class VerOfertas : Fragment(), Toolbar.OnMenuItemClickListener, SearchView.OnQueryTextListener {
     private lateinit var mActivityController: NavController
     private lateinit var mController: NavController
     private var mIdList = ArrayList<String>()
@@ -120,6 +121,8 @@ class VerOfertas : Fragment(), Toolbar.OnMenuItemClickListener, SearchView.OnQue
             },
             Response.ErrorListener {
                 Log.d(LOGTAG, "failed request: $it")
+
+                connectionErrorMessage(layout_unidade_saude_ver_ofertas, it)
             }
         )
 
@@ -172,6 +175,8 @@ class VerOfertas : Fragment(), Toolbar.OnMenuItemClickListener, SearchView.OnQue
             },
             Response.ErrorListener {
                 Log.d(LOGTAG, "failed request: $it")
+
+                connectionErrorMessage(layout_unidade_saude_ver_ofertas, it)
             }
         )
 

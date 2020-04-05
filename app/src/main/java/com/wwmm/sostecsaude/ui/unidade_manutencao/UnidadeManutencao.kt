@@ -20,11 +20,13 @@ import com.android.volley.Response
 import com.android.volley.toolbox.JsonArrayRequest
 import com.android.volley.toolbox.Volley
 import com.wwmm.sostecsaude.R
+import com.wwmm.sostecsaude.connectionErrorMessage
 import com.wwmm.sostecsaude.myServerURL
 import kotlinx.android.synthetic.main.fragment_unidade_manutencao.*
 import org.json.JSONArray
 
-class UnidadeManutencao : Fragment(), Toolbar.OnMenuItemClickListener, SearchView.OnQueryTextListener {
+class UnidadeManutencao : Fragment(), Toolbar.OnMenuItemClickListener,
+    SearchView.OnQueryTextListener {
     private lateinit var mActivityController: NavController
     private var mAdapter: Adapter? = null
 
@@ -84,8 +86,10 @@ class UnidadeManutencao : Fragment(), Toolbar.OnMenuItemClickListener, SearchVie
                                 val equipamentos = response[0] as JSONArray
                                 val idNumbers = response[1] as JSONArray
 
-                                mAdapter = Adapter(this@UnidadeManutencao, equipamentos,
-                                    idNumbers)
+                                mAdapter = Adapter(
+                                    this@UnidadeManutencao, equipamentos,
+                                    idNumbers
+                                )
 
                                 recyclerview.apply {
                                     adapter = mAdapter
@@ -99,6 +103,8 @@ class UnidadeManutencao : Fragment(), Toolbar.OnMenuItemClickListener, SearchVie
             },
             Response.ErrorListener {
                 Log.d(LOGTAG, "failed request: $it")
+
+                connectionErrorMessage(layout_unidade_manutencao, it)
             }
         )
 

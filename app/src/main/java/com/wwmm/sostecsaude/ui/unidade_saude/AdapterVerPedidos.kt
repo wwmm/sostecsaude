@@ -13,8 +13,8 @@ import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
 import com.google.android.material.snackbar.Snackbar
 import com.wwmm.sostecsaude.R
+import com.wwmm.sostecsaude.connectionErrorMessage
 import com.wwmm.sostecsaude.myServerURL
-import kotlinx.android.synthetic.main.fragment_unidade_manutencao.*
 import kotlinx.android.synthetic.main.fragment_unidade_manutencao.progressBar
 import kotlinx.android.synthetic.main.fragment_unidade_saude_ver_pedidos.*
 import kotlinx.android.synthetic.main.recyclerview_unidade_saude_ver_pedidos.view.*
@@ -76,8 +76,8 @@ class AdapterVerPedidos(private val frag: VerPedidos, private val lines: JSONArr
                     } else {
                         mFilterArray.remove(position)
 
-                        for(n in 0 until lines.length()){
-                            if(lines[n] == line){
+                        for (n in 0 until lines.length()) {
+                            if (lines[n] == line) {
                                 lines.remove(n)
 
                                 break
@@ -91,6 +91,8 @@ class AdapterVerPedidos(private val frag: VerPedidos, private val lines: JSONArr
                 },
                 Response.ErrorListener {
                     Log.d(LOGTAG, "failed request: $it")
+
+                    connectionErrorMessage(frag.main_layout_ver_pedidos, it)
                 }
             ) {
                 override fun getParams(): MutableMap<String, String> {
@@ -136,6 +138,8 @@ class AdapterVerPedidos(private val frag: VerPedidos, private val lines: JSONArr
                 },
                 Response.ErrorListener {
                     Log.d(LOGTAG, "failed request: $it")
+
+                    connectionErrorMessage(frag.main_layout_ver_pedidos, it)
                 }
             ) {
                 override fun getParams(): MutableMap<String, String> {
@@ -171,8 +175,8 @@ class AdapterVerPedidos(private val frag: VerPedidos, private val lines: JSONArr
                 } else {
                     val filteredArray = JSONArray()
 
-                    for(n in 0 until lines.length()){
-                        if(lines[n].toString().toLowerCase(Locale.ENGLISH).contains(constraint)){
+                    for (n in 0 until lines.length()) {
+                        if (lines[n].toString().toLowerCase(Locale.ENGLISH).contains(constraint)) {
                             filteredArray.put(lines[n])
                         }
                     }

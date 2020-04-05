@@ -20,6 +20,7 @@ import com.android.volley.Response
 import com.android.volley.toolbox.JsonArrayRequest
 import com.android.volley.toolbox.Volley
 import com.wwmm.sostecsaude.R
+import com.wwmm.sostecsaude.connectionErrorMessage
 import com.wwmm.sostecsaude.myServerURL
 import kotlinx.android.synthetic.main.fragment_unidade_saude_ver_pedidos.*
 import org.json.JSONArray
@@ -92,6 +93,8 @@ class VerPedidos : Fragment(), Toolbar.OnMenuItemClickListener, SearchView.OnQue
             },
             Response.ErrorListener {
                 Log.d(LOGTAG, "failed request: $it")
+
+                connectionErrorMessage(main_layout_ver_pedidos, it)
             }
         )
 

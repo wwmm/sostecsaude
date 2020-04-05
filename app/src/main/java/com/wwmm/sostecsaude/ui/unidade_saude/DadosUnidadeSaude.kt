@@ -15,12 +15,12 @@ import androidx.navigation.Navigation
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.onNavDestinationSelected
 import androidx.navigation.ui.setupWithNavController
-import com.android.volley.Request
 import com.android.volley.Response
 import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
 import com.google.android.material.snackbar.Snackbar
 import com.wwmm.sostecsaude.R
+import com.wwmm.sostecsaude.connectionErrorMessage
 import com.wwmm.sostecsaude.myServerURL
 import kotlinx.android.synthetic.main.fragment_dados_unidade_saude.*
 
@@ -58,7 +58,7 @@ class DadosUnidadeSaude : Fragment(), Toolbar.OnMenuItemClickListener {
         val queue = Volley.newRequestQueue(requireContext())
 
         val requestGet = object : StringRequest(
-            Request.Method.POST, "$myServerURL/get_unidade",
+            Method.POST, "$myServerURL/get_unidade",
             Response.Listener { response ->
                 val msg = response.toString()
 
@@ -78,6 +78,8 @@ class DadosUnidadeSaude : Fragment(), Toolbar.OnMenuItemClickListener {
             },
             Response.ErrorListener {
                 Log.d(LOGTAG, "\"failed request: pegar contato de unidade de saúde\"")
+
+                connectionErrorMessage(main_layout_unidade_saude, it)
             }
         ) {
             override fun getParams(): MutableMap<String, String> {
@@ -108,7 +110,7 @@ class DadosUnidadeSaude : Fragment(), Toolbar.OnMenuItemClickListener {
                                 controller.navigate(R.id.action_global_fazerLogin)
                             } else {
                                 Snackbar.make(
-                                    main_layout_contato, msg,
+                                    main_layout_unidade_saude, msg,
                                     Snackbar.LENGTH_SHORT
                                 ).show()
 
@@ -133,7 +135,7 @@ class DadosUnidadeSaude : Fragment(), Toolbar.OnMenuItemClickListener {
                 queue.add(r)
             } else {
                 Snackbar.make(
-                    main_layout_contato, "Preencha todos os campos!",
+                    main_layout_unidade_saude, "Preencha todos os campos!",
                     Snackbar.LENGTH_SHORT
                 ).show()
             }

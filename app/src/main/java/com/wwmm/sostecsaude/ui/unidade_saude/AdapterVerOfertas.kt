@@ -52,8 +52,8 @@ class AdapterVerOfertas(private val lines: JSONArray) :
                 } else {
                     val filteredArray = JSONArray()
 
-                    for(n in 0 until lines.length()){
-                        if(lines[n].toString().toLowerCase(Locale.ENGLISH).contains(constraint)){
+                    for (n in 0 until lines.length()) {
+                        if (lines[n].toString().toLowerCase(Locale.ENGLISH).contains(constraint)) {
                             filteredArray.put(lines[n])
                         }
                     }
