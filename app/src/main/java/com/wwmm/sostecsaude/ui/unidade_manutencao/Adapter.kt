@@ -145,6 +145,27 @@ class Adapter(
                         val controller = fragment.findNavController()
                         controller.navigate(R.id.action_unidadeManutencao_to_fazerLogin)
                     } else {
+                        // Temos que atualizar a lista de equipamentos em que há interesse de reparo
+                        // para que o filtro atualize corretamente o status dos switches
+
+                        var naLista = false
+
+                        for(idx in 0 until idNumbers.length()){
+                            if(idNumbers[idx] == id){
+                                naLista = true
+
+                                if(!state){
+                                    idNumbers.remove(idx)
+                                }
+
+                                break
+                            }
+                        }
+
+                        if(!naLista && state){
+                            idNumbers.put(id)
+                        }
+
                         fragment.progressBar.visibility = View.GONE
 
                         Snackbar.make(

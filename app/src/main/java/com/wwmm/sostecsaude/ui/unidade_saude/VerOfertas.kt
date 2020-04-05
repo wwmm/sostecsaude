@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
+import androidx.appcompat.widget.SearchView
 import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.Fragment
 import androidx.navigation.NavController
@@ -26,10 +27,11 @@ import kotlinx.android.synthetic.main.fragment_unidade_saude_ver_ofertas.*
 import org.json.JSONArray
 import org.json.JSONObject
 
-class VerOfertas : Fragment(), Toolbar.OnMenuItemClickListener {
+class VerOfertas : Fragment(), Toolbar.OnMenuItemClickListener, SearchView.OnQueryTextListener  {
     private lateinit var mActivityController: NavController
     private lateinit var mController: NavController
     private var mIdList = ArrayList<String>()
+    private var mAdapterVerOfertas: AdapterVerOfertas? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -48,6 +50,11 @@ class VerOfertas : Fragment(), Toolbar.OnMenuItemClickListener {
         toolbar.setupWithNavController(mController)
         toolbar.inflateMenu(R.menu.menu_toolbar)
         toolbar.setOnMenuItemClickListener(this)
+
+        val actionView = toolbar.menu.findItem(R.id.menu_search).actionView as
+                SearchView
+
+        actionView.setOnQueryTextListener(this)
 
         spinner_equipamento.onItemSelectedListener = object :
             AdapterView.OnItemSelectedListener {
@@ -151,8 +158,10 @@ class VerOfertas : Fragment(), Toolbar.OnMenuItemClickListener {
                             mActivityController.navigate(R.id.action_global_fazerLogin)
                         } else {
                             if (response[0] != "empty") {
+                                mAdapterVerOfertas = AdapterVerOfertas(response)
+
                                 recyclerview.apply {
-                                    adapter = AdapterVerOfertas(response)
+                                    adapter = mAdapterVerOfertas
                                 }
                             }
 
@@ -198,6 +207,16 @@ class VerOfertas : Fragment(), Toolbar.OnMenuItemClickListener {
                 return super.onOptionsItemSelected(item)
             }
         }
+    }
+
+    override fun onQueryTextSubmit(query: String?): Boolean {
+        return false
+    }
+
+    override fun onQueryTextChange(newText: String?): Boolean {
+        mAdapterVerOfertas?.filter?.filter(newText)
+
+        return true
     }
 
     companion object {
