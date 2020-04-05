@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.widget.SearchView
 import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.Fragment
 import androidx.navigation.NavController
@@ -23,8 +24,9 @@ import com.wwmm.sostecsaude.myServerURL
 import kotlinx.android.synthetic.main.fragment_unidade_manutencao.*
 import org.json.JSONArray
 
-class UnidadeManutencao : Fragment(), Toolbar.OnMenuItemClickListener {
+class UnidadeManutencao : Fragment(), Toolbar.OnMenuItemClickListener, SearchView.OnQueryTextListener {
     private lateinit var mActivityController: NavController
+    private var mAdapter: Adapter? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -43,6 +45,11 @@ class UnidadeManutencao : Fragment(), Toolbar.OnMenuItemClickListener {
         toolbar.setupWithNavController(findNavController())
         toolbar.inflateMenu(R.menu.menu_toolbar)
         toolbar.setOnMenuItemClickListener(this)
+
+        val actionView = toolbar.menu.findItem(R.id.menu_search).actionView as
+                SearchView
+
+        actionView.setOnQueryTextListener(this)
 
         recyclerview.apply {
             setHasFixedSize(true)
@@ -77,11 +84,11 @@ class UnidadeManutencao : Fragment(), Toolbar.OnMenuItemClickListener {
                                 val equipamentos = response[0] as JSONArray
                                 val idNumbers = response[1] as JSONArray
 
+                                mAdapter = Adapter(this@UnidadeManutencao, equipamentos,
+                                    idNumbers)
+
                                 recyclerview.apply {
-                                    adapter = Adapter(
-                                        this@UnidadeManutencao, equipamentos,
-                                        idNumbers
-                                    )
+                                    adapter = mAdapter
                                 }
                             }
 
@@ -127,6 +134,16 @@ class UnidadeManutencao : Fragment(), Toolbar.OnMenuItemClickListener {
                 return super.onOptionsItemSelected(item)
             }
         }
+    }
+
+    override fun onQueryTextSubmit(query: String?): Boolean {
+        return false
+    }
+
+    override fun onQueryTextChange(newText: String?): Boolean {
+        mAdapter?.filter?.filter(newText)
+
+        return true
     }
 
     companion object {

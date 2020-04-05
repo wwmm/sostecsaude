@@ -26,6 +26,9 @@ import kotlin.collections.HashMap
 class AdapterVerPedidos(private val frag: VerPedidos, private val lines: JSONArray) :
     RecyclerView.Adapter<AdapterVerPedidos.ViewHolder>(), Filterable {
     private var mFilterArray = lines
+    private var mMyPrefs = frag.requireActivity().getSharedPreferences("UserInfo", 0)
+    private var mToken = mMyPrefs.getString("Token", "")!!
+    private var mQueue = Volley.newRequestQueue(frag.requireContext())
 
     class ViewHolder(val view: View) : RecyclerView.ViewHolder(view)
 
@@ -57,14 +60,8 @@ class AdapterVerPedidos(private val frag: VerPedidos, private val lines: JSONArr
         holder.view.editText_defeito.setText(defeito)
         holder.view.editText_quantidade.setText(quantidade)
 
-        val prefs = frag.requireActivity().getSharedPreferences(
-            "UserInfo",
-            0
-        )
-
-        val token = prefs.getString("Token", "")!!
-
-        val queue = Volley.newRequestQueue(frag.requireContext())
+        holder.view.button_remove.setOnClickListener(null)
+        holder.view.button_update.setOnClickListener(null)
 
         holder.view.button_remove.setOnClickListener {
             frag.progressBar.visibility = View.VISIBLE
@@ -99,14 +96,14 @@ class AdapterVerPedidos(private val frag: VerPedidos, private val lines: JSONArr
                 override fun getParams(): MutableMap<String, String> {
                     val parameters = HashMap<String, String>()
 
-                    parameters["token"] = token
+                    parameters["token"] = mToken
                     parameters["id"] = id
 
                     return parameters
                 }
             }
 
-            queue.add(request)
+            mQueue.add(request)
         }
 
         holder.view.button_update.setOnClickListener {
@@ -144,7 +141,7 @@ class AdapterVerPedidos(private val frag: VerPedidos, private val lines: JSONArr
                 override fun getParams(): MutableMap<String, String> {
                     val parameters = HashMap<String, String>()
 
-                    parameters["token"] = token
+                    parameters["token"] = mToken
                     parameters["id"] = id
                     parameters["nome"] = nome
                     parameters["fabricante"] = fabricante
@@ -157,7 +154,7 @@ class AdapterVerPedidos(private val frag: VerPedidos, private val lines: JSONArr
                 }
             }
 
-            queue.add(request)
+            mQueue.add(request)
         }
     }
 

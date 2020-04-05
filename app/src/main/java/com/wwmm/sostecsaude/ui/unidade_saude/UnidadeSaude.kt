@@ -33,22 +33,5 @@ class UnidadeSaude : Fragment() {
         )
 
         bottom_nav.setupWithNavController(controller)
-
-//        val actionView = toolbar_top.menu.findItem(R.id.menu_search).actionView as
-//                SearchView
-//
-//        actionView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
-//            override fun onQueryTextSubmit(p0: String?): Boolean {
-//                println("search submit")
-//
-//                return true
-//            }
-//
-//            override fun onQueryTextChange(p0: String?): Boolean {
-//                println("search change")
-//
-//                return true
-//            }
-//        })
     }
 }
