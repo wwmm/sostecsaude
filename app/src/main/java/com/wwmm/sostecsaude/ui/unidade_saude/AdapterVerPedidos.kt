@@ -128,10 +128,10 @@ class AdapterVerPedidos(private val frag: VerPedidos, private val lines: JSONArr
 
                         controller.navigate(R.id.action_global_fazerLogin)
                     } else {
-                        for(j in 0 until  lines.length()){
+                        for (j in 0 until lines.length()) {
                             val obj = lines[j] as JSONObject
 
-                            if(obj.getString("ID") == id){
+                            if (obj.getString("ID") == id) {
                                 obj.put("Nome", nome)
                                 obj.put("Fabricante", fabricante)
                                 obj.put("Modelo", modelo)
@@ -139,7 +139,7 @@ class AdapterVerPedidos(private val frag: VerPedidos, private val lines: JSONArr
                                 obj.put("Defeito", defeito)
                                 obj.put("Quantidade", quantidade)
 
-                                lines.put(j ,obj)
+                                lines.put(j, obj)
 
                                 break
                             }

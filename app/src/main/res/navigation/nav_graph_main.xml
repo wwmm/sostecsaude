@@ -63,7 +63,7 @@
             app:popExitAnim="@android:anim/slide_out_right" />
     </fragment>
     <fragment
-        android:id="@+id/fazerLogin"
+        android:id="@+id/menu_fazer_login"
         android:name="com.wwmm.sostecsaude.ui.login.Login"
         android:label="Login">
         <action
@@ -99,7 +99,7 @@
         tools:layout="@layout/fragment_check_credentials">
         <action
             android:id="@+id/action_checkCredentials_to_login"
-            app:destination="@id/fazerLogin"
+            app:destination="@id/menu_fazer_login"
             app:enterAnim="@android:anim/slide_in_left"
             app:exitAnim="@android:anim/slide_out_right"
             app:popEnterAnim="@android:anim/slide_in_left"
@@ -125,5 +125,5 @@
             app:popUpTo="@id/nav_graph_main"
             app:popUpToInclusive="true" />
     </fragment>
-    <action android:id="@+id/action_global_fazerLogin" app:destination="@id/fazerLogin" />
+    <action android:id="@+id/action_global_fazerLogin" app:destination="@id/menu_fazer_login" />
 </navigation>

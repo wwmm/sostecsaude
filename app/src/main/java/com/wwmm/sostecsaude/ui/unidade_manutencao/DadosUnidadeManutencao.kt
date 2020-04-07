@@ -13,7 +13,6 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
 import androidx.navigation.fragment.findNavController
-import androidx.navigation.ui.onNavDestinationSelected
 import androidx.navigation.ui.setupWithNavController
 import com.android.volley.Response
 import com.android.volley.toolbox.StringRequest
@@ -155,7 +154,7 @@ class DadosUnidadeManutencao : Fragment(), Toolbar.OnMenuItemClickListener {
 
     override fun onMenuItemClick(item: MenuItem): Boolean {
         when (item.itemId) {
-            R.id.fazerLogin -> {
+            R.id.menu_fazer_login -> {
                 val prefs = requireContext().getSharedPreferences(
                     "UserInfo",
                     0
@@ -169,7 +168,9 @@ class DadosUnidadeManutencao : Fragment(), Toolbar.OnMenuItemClickListener {
 
                 editor.apply()
 
-                return item.onNavDestinationSelected(mActivityController)
+                mActivityController.navigate(R.id.action_global_fazerLogin)
+
+                return true
             }
 
             R.id.menu_atualizar_perfil -> {

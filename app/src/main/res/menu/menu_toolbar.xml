@@ -10,6 +10,6 @@
         android:id="@+id/menu_atualizar_perfil"
         android:title="@string/title_dados_unidade" />
     <item
-        android:id="@+id/fazerLogin"
+        android:id="@+id/menu_fazer_login"
         android:title="@string/title_sair" />
 </menu>

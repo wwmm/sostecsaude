@@ -139,13 +139,13 @@ class Adapter(
             val request = object : StringRequest(
                 Method.POST, "$myServerURL/unidade_manutencao_atualizar_interesse",
                 Response.Listener { response ->
-                    when(val msg = response.toString()){
-                        "invalid_token" ->{
+                    when (val msg = response.toString()) {
+                        "invalid_token" -> {
                             val controller = fragment.findNavController()
                             controller.navigate(R.id.action_global_fazerLogin)
                         }
 
-                        "no_permission" ->{
+                        "no_permission" -> {
                             fragment.progressBar.visibility = View.GONE
 
                             holder.view.switch_consertar.setOnCheckedChangeListener(null)

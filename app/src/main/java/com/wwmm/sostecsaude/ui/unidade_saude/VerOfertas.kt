@@ -14,7 +14,6 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
 import androidx.navigation.fragment.findNavController
-import androidx.navigation.ui.onNavDestinationSelected
 import androidx.navigation.ui.setupWithNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.android.volley.Request
@@ -185,7 +184,7 @@ class VerOfertas : Fragment(), Toolbar.OnMenuItemClickListener, SearchView.OnQue
 
     override fun onMenuItemClick(item: MenuItem): Boolean {
         when (item.itemId) {
-            R.id.fazerLogin -> {
+            R.id.menu_fazer_login -> {
                 val prefs = requireContext().getSharedPreferences(
                     "UserInfo",
                     0
@@ -199,7 +198,9 @@ class VerOfertas : Fragment(), Toolbar.OnMenuItemClickListener, SearchView.OnQue
 
                 editor.apply()
 
-                return item.onNavDestinationSelected(mActivityController)
+                mActivityController.navigate(R.id.action_global_fazerLogin)
+
+                return true
             }
 
             R.id.menu_atualizar_perfil -> {
