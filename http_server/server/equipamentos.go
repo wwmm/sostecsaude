@@ -13,6 +13,12 @@ func unidadeSaudeAdicionarEquipamento(w http.ResponseWriter, r *http.Request) {
 	status, _, email, _ := verifyToken(w, r)
 
 	if status {
+		if !HasPermission(email) {
+			fmt.Fprintf(w, "no_permission")
+
+			return
+		}
+
 		err := r.ParseForm()
 
 		if err != nil {
@@ -37,9 +43,15 @@ func unidadeSaudeAdicionarEquipamento(w http.ResponseWriter, r *http.Request) {
 }
 
 func unidadeSaudeAtualizarEquipamento(w http.ResponseWriter, r *http.Request) {
-	status, _, _, _ := verifyToken(w, r)
+	status, _, email, _ := verifyToken(w, r)
 
 	if status {
+		if !HasPermission(email) {
+			fmt.Fprintf(w, "no_permission")
+
+			return
+		}
+
 		err := r.ParseForm()
 
 		if err != nil {
@@ -61,9 +73,15 @@ func unidadeSaudeAtualizarEquipamento(w http.ResponseWriter, r *http.Request) {
 }
 
 func unidadeSaudeRemoverEquipamento(w http.ResponseWriter, r *http.Request) {
-	status, _, _, _ := verifyToken(w, r)
+	status, _, email, _ := verifyToken(w, r)
 
 	if status {
+		if !HasPermission(email) {
+			fmt.Fprintf(w, "no_permission")
+
+			return
+		}
+
 		err := r.ParseForm()
 
 		if err != nil {
@@ -121,6 +139,12 @@ func unidadeManutencaoAtualizarInteresse(w http.ResponseWriter, r *http.Request)
 	status, _, email, _ := verifyToken(w, r)
 
 	if status {
+		if !HasPermission(email) {
+			fmt.Fprintf(w, "no_permission")
+
+			return
+		}
+
 		err := r.ParseForm()
 
 		if err != nil {

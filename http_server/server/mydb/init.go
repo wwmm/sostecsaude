@@ -125,6 +125,33 @@ func InitTables() {
 		log.Fatal(err.Error())
 	}
 
+	queryStr = `create table if not exists whitelist (
+		id integer primary key autoincrement,
+		email text unique,
+		foreign key(email) references usuarios(email) on delete cascade
+	);
+	`
+
+	_, err = db.Exec(queryStr)
+
+	if err != nil {
+		log.Fatal(err.Error())
+	}
+
+	queryStr = `create table if not exists fb_tokens (
+		id integer primary key autoincrement,
+		email text unique,
+		token text,
+		foreign key(email) references usuarios(email) on delete cascade
+	);
+	`
+
+	_, err = db.Exec(queryStr)
+
+	if err != nil {
+		log.Fatal(err.Error())
+	}
+
 	// create triggers
 
 	queryStr = `create trigger if not exists add_unidade_saude after insert on usuarios

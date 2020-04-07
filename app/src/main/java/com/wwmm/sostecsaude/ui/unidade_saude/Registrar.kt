@@ -84,24 +84,36 @@ class Registrar : Fragment(), Toolbar.OnMenuItemClickListener {
                     Method.POST, "$myServerURL/unidade_saude_adicionar_equipamento",
                     Response.Listener { response ->
                         if (isAdded) {
-                            val msg = response.toString()
+                            when(val msg = response.toString()){
+                                "invalid_token" ->{
+                                    mActivityController.navigate(R.id.action_global_fazerLogin)
+                                }
 
-                            if (msg == "invalid_token") {
-                                mActivityController.navigate(R.id.action_global_fazerLogin)
-                            } else {
-                                editText_nome.text.clear()
-                                editText_fabricante.text.clear()
-                                editText_modelo.text.clear()
-                                editText_numero_serie.text.clear()
-                                editText_quantidade.text.clear()
-                                editText_defeito.text.clear()
+                                "no_permission" ->{
+                                    progressBar.visibility = View.GONE
 
-                                progressBar.visibility = View.GONE
+                                    Snackbar.make(
+                                        main_layout_registrar,
+                                        "Você ainda não tem permissão para realizar esta operação!",
+                                        Snackbar.LENGTH_SHORT
+                                    ).show()
+                                }
 
-                                Snackbar.make(
-                                    main_layout_registrar, msg,
-                                    Snackbar.LENGTH_SHORT
-                                ).show()
+                                else -> {
+                                    editText_nome.text.clear()
+                                    editText_fabricante.text.clear()
+                                    editText_modelo.text.clear()
+                                    editText_numero_serie.text.clear()
+                                    editText_quantidade.text.clear()
+                                    editText_defeito.text.clear()
+
+                                    progressBar.visibility = View.GONE
+
+                                    Snackbar.make(
+                                        main_layout_registrar, msg,
+                                        Snackbar.LENGTH_SHORT
+                                    ).show()
+                                }
                             }
                         }
                     },

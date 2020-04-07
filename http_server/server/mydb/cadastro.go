@@ -138,3 +138,32 @@ func GetUnidadeManutencao(email string) (string, string, string, string, string)
 
 	return nome, setor, local, cnpj, telefone
 }
+
+// GetWhitelist retorna uma lista com todos os emails da whitelist
+func GetWhitelist() []string {
+	queryStr := "select email from whitelist"
+
+	rows, err := db.Query(queryStr)
+
+	if err != nil {
+		log.Fatal(err.Error())
+	}
+
+	defer rows.Close()
+
+	var emails []string
+
+	for rows.Next() {
+		var email string
+
+		err = rows.Scan(&email)
+
+		if err != nil {
+			log.Fatal(err.Error())
+		}
+
+		emails = append(emails, email)
+	}
+
+	return emails
+}

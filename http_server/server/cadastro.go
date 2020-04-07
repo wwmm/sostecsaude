@@ -242,3 +242,16 @@ func getUnidade(w http.ResponseWriter, r *http.Request) {
 		}
 	}
 }
+
+//HasPermission verifica se o usário está na whitelist
+func HasPermission(email string) bool {
+	emails := mydb.GetWhitelist()
+
+	for _, dbEmail := range emails {
+		if email == dbEmail {
+			return true
+		}
+	}
+
+	return false
+}

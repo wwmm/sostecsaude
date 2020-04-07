@@ -139,39 +139,54 @@ class Adapter(
             val request = object : StringRequest(
                 Method.POST, "$myServerURL/unidade_manutencao_atualizar_interesse",
                 Response.Listener { response ->
-                    val msg = response.toString()
+                    when(val msg = response.toString()){
+                        "invalid_token" ->{
+                            val controller = fragment.findNavController()
+                            controller.navigate(R.id.action_global_fazerLogin)
+                        }
 
-                    if (msg == "invalid_token") {
-                        val controller = fragment.findNavController()
-                        controller.navigate(R.id.action_global_fazerLogin)
-                    } else {
-                        // Temos que atualizar a lista de equipamentos em que há interesse de reparo
-                        // para que o filtro atualize corretamente o status dos switches
+                        "no_permission" ->{
+                            fragment.progressBar.visibility = View.GONE
 
-                        var naLista = false
+                            holder.view.switch_consertar.setOnCheckedChangeListener(null)
+                            holder.view.switch_consertar.isEnabled = false
 
-                        for (idx in 0 until idNumbers.length()) {
-                            if (idNumbers[idx] == id) {
-                                naLista = true
+                            Snackbar.make(
+                                fragment.layout_manutencao_pedidos,
+                                "Você ainda não tem permissão para realizar esta operação!",
+                                Snackbar.LENGTH_SHORT
+                            ).show()
+                        }
 
-                                if (!state) {
-                                    idNumbers.remove(idx)
+                        else -> {
+                            // Temos que atualizar a lista de equipamentos em que há interesse de reparo
+                            // para que o filtro atualize corretamente o status dos switches
+
+                            var naLista = false
+
+                            for (idx in 0 until idNumbers.length()) {
+                                if (idNumbers[idx] == id) {
+                                    naLista = true
+
+                                    if (!state) {
+                                        idNumbers.remove(idx)
+                                    }
+
+                                    break
                                 }
-
-                                break
                             }
+
+                            if (!naLista && state) {
+                                idNumbers.put(id)
+                            }
+
+                            fragment.progressBar.visibility = View.GONE
+
+                            Snackbar.make(
+                                fragment.layout_manutencao_pedidos, msg,
+                                Snackbar.LENGTH_SHORT
+                            ).show()
                         }
-
-                        if (!naLista && state) {
-                            idNumbers.put(id)
-                        }
-
-                        fragment.progressBar.visibility = View.GONE
-
-                        Snackbar.make(
-                            fragment.layout_manutencao_pedidos, msg,
-                            Snackbar.LENGTH_SHORT
-                        ).show()
                     }
                 },
                 Response.ErrorListener {
