@@ -55,4 +55,11 @@
     <string name="title_check_credentials">Conectando…</string>
     <string name="title_carregar_perfil">Carregando…</string>
     <string name="title_retry">Tentar Novamente</string>
+
+    <string name="title_welcome">
+        Seu cadastro foi realizado. Por questões de segurança, algumas funcionalidades estarão
+        bloqueadas até que seus dados sejam validados pelo nosso time. Você receberá uma
+        notificação quando o acesso à áreas restritas for permitido.
+    </string>
+    <string name="title_continuar">Continuar</string>
 </resources>

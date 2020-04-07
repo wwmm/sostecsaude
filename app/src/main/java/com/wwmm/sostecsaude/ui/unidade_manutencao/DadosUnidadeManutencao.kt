@@ -52,6 +52,7 @@ class DadosUnidadeManutencao : Fragment(), Toolbar.OnMenuItemClickListener {
         )
 
         val token = prefs.getString("Token", "")!!
+        val criandoConta = prefs.getBoolean("CriandoConta", false)
 
         val queue = Volley.newRequestQueue(requireContext())
 
@@ -120,7 +121,11 @@ class DadosUnidadeManutencao : Fragment(), Toolbar.OnMenuItemClickListener {
                                 Snackbar.LENGTH_SHORT
                             ).show()
 
-                            controller.navigate(R.id.action_dadosUnidadeManutencao_to_unidadeManutencao)
+                            if(criandoConta){
+                                controller.navigate(R.id.action_dadosUnidadeManutencao_to_welcome)
+                            }else{
+                                controller.navigate(R.id.action_dadosUnidadeManutencao_to_unidadeManutencao)
+                            }
                         }
                     },
                     Response.ErrorListener {
@@ -169,12 +174,6 @@ class DadosUnidadeManutencao : Fragment(), Toolbar.OnMenuItemClickListener {
                 editor.apply()
 
                 mActivityController.navigate(R.id.action_global_fazerLogin)
-
-                return true
-            }
-
-            R.id.menu_atualizar_perfil -> {
-                mActivityController.navigate(R.id.action_dadosUnidadeManutencao_to_unidadeManutencao)
 
                 return true
             }

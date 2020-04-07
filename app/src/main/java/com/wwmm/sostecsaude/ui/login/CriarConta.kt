@@ -111,6 +111,7 @@ class CriarConta : Fragment() {
                                 editor.putString("Token", msg)
                                 editor.putString("Perfil", perfil)
                                 editor.putString("Email", editText_email.text.toString())
+                                editor.putBoolean("CriandoConta", true)
 
                                 editor.apply()
 

@@ -20,6 +20,13 @@
         android:label="@string/title_dados_unidade"
         tools:layout="@layout/fragment_dados_unidade_saude">
         <action
+            android:id="@+id/action_dadosUnidadeSaude_to_welcome"
+            app:destination="@id/welcome"
+            app:enterAnim="@android:anim/slide_in_left"
+            app:exitAnim="@android:anim/slide_out_right"
+            app:popEnterAnim="@android:anim/slide_in_left"
+            app:popExitAnim="@android:anim/slide_out_right" />
+        <action
             android:id="@+id/action_dadosUnidadeSaude_to_unidadeSaude"
             app:destination="@id/unidadeSaude"
             app:enterAnim="@android:anim/slide_in_left"
@@ -32,6 +39,13 @@
         android:name="com.wwmm.sostecsaude.ui.unidade_manutencao.DadosUnidadeManutencao"
         android:label="@string/title_dados_unidade"
         tools:layout="@layout/fragment_dados_unidade_manutencao">
+        <action
+            android:id="@+id/action_dadosUnidadeManutencao_to_welcome"
+            app:destination="@id/welcome"
+            app:enterAnim="@android:anim/slide_in_left"
+            app:exitAnim="@android:anim/slide_out_right"
+            app:popEnterAnim="@android:anim/slide_in_left"
+            app:popExitAnim="@android:anim/slide_out_right" />
         <action
             android:id="@+id/action_dadosUnidadeManutencao_to_unidadeManutencao"
             app:destination="@id/unidadeManutencao"
@@ -126,4 +140,24 @@
             app:popUpToInclusive="true" />
     </fragment>
     <action android:id="@+id/action_global_fazerLogin" app:destination="@id/menu_fazer_login" />
+    <fragment
+        android:id="@+id/welcome"
+        android:name="com.wwmm.sostecsaude.ui.login.Welcome"
+        android:label="fragment_welcome"
+        tools:layout="@layout/fragment_welcome" >
+        <action
+            android:id="@+id/action_welcome_to_unidadeManutencao"
+            app:destination="@id/unidadeManutencao"
+            app:enterAnim="@android:anim/slide_in_left"
+            app:exitAnim="@android:anim/slide_out_right"
+            app:popEnterAnim="@android:anim/slide_in_left"
+            app:popExitAnim="@android:anim/slide_out_right" />
+        <action
+            android:id="@+id/action_welcome_to_unidadeSaude"
+            app:destination="@id/unidadeSaude"
+            app:enterAnim="@android:anim/slide_in_left"
+            app:exitAnim="@android:anim/slide_out_right"
+            app:popEnterAnim="@android:anim/slide_in_left"
+            app:popExitAnim="@android:anim/slide_out_right" />
+    </fragment>
 </navigation>
