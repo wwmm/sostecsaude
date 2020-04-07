@@ -167,3 +167,26 @@ func GetWhitelist() []string {
 
 	return emails
 }
+
+//RemoverUsuario remove um usuario da tabela "usuarios". As entradas das outras tabelas são removidas pelas regras
+// das foreign keys em init.go
+func RemoverUsuario(email string) {
+	queryStr := "delete from usuarios where email=?"
+
+	_, err := db.Exec(queryStr, email)
+
+	if err != nil {
+		log.Println(err.Error())
+	}
+}
+
+//RemoveFromWhitelist remove um usuario da whitelist
+func RemoveFromWhitelist(email string) {
+	queryStr := "delete from whitelist where email=?"
+
+	_, err := db.Exec(queryStr, email)
+
+	if err != nil {
+		log.Println(err.Error())
+	}
+}
