@@ -11,6 +11,7 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.setupWithNavController
+import androidx.preference.PreferenceManager
 import com.android.volley.Response
 import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
@@ -101,10 +102,8 @@ class CriarConta : Fragment() {
                                     Snackbar.LENGTH_SHORT
                                 ).show()
                             } else {
-                                val prefs = requireContext().getSharedPreferences(
-                                    "UserInfo",
-                                    0
-                                )
+                                val prefs =
+                                    PreferenceManager.getDefaultSharedPreferences(requireContext())
 
                                 val editor = prefs.edit()
 

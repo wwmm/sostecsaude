@@ -14,6 +14,7 @@ import androidx.navigation.NavController
 import androidx.navigation.Navigation
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.setupWithNavController
+import androidx.preference.PreferenceManager
 import com.android.volley.Response
 import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
@@ -46,10 +47,7 @@ class DadosUnidadeManutencao : Fragment(), Toolbar.OnMenuItemClickListener {
         toolbar.menu.findItem(R.id.menu_atualizar_perfil).isVisible = false
         toolbar.setOnMenuItemClickListener(this)
 
-        val prefs = requireActivity().getSharedPreferences(
-            "UserInfo",
-            0
-        )
+        val prefs = PreferenceManager.getDefaultSharedPreferences(requireContext())
 
         val token = prefs.getString("Token", "")!!
         val criandoConta = prefs.getBoolean("CriandoConta", false)
@@ -121,9 +119,9 @@ class DadosUnidadeManutencao : Fragment(), Toolbar.OnMenuItemClickListener {
                                 Snackbar.LENGTH_SHORT
                             ).show()
 
-                            if(criandoConta){
+                            if (criandoConta) {
                                 controller.navigate(R.id.action_dadosUnidadeManutencao_to_welcome)
-                            }else{
+                            } else {
                                 controller.navigate(R.id.action_dadosUnidadeManutencao_to_unidadeManutencao)
                             }
                         }
@@ -160,10 +158,8 @@ class DadosUnidadeManutencao : Fragment(), Toolbar.OnMenuItemClickListener {
     override fun onMenuItemClick(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.menu_fazer_login -> {
-                val prefs = requireContext().getSharedPreferences(
-                    "UserInfo",
-                    0
-                )
+                val prefs =
+                    PreferenceManager.getDefaultSharedPreferences(requireContext())
 
                 val editor = prefs.edit()
 

@@ -10,6 +10,7 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.setupWithNavController
+import androidx.preference.PreferenceManager.getDefaultSharedPreferences
 import com.android.volley.RequestQueue
 import com.android.volley.Response
 import com.android.volley.toolbox.StringRequest
@@ -38,7 +39,7 @@ class CheckCredentials : Fragment() {
 
         toolbar.setupWithNavController(mController)
 
-        mMyPrefs = requireActivity().getSharedPreferences("UserInfo", 0)
+        mMyPrefs = getDefaultSharedPreferences(requireContext())
 
         mQueue = Volley.newRequestQueue(requireContext())
 

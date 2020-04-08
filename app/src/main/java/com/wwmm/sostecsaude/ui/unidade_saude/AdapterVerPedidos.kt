@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import android.widget.Filter
 import android.widget.Filterable
 import androidx.navigation.fragment.findNavController
+import androidx.preference.PreferenceManager
 import androidx.recyclerview.widget.RecyclerView
 import com.android.volley.Response
 import com.android.volley.toolbox.StringRequest
@@ -26,7 +27,7 @@ import kotlin.collections.HashMap
 class AdapterVerPedidos(private val frag: VerPedidos, private val lines: JSONArray) :
     RecyclerView.Adapter<AdapterVerPedidos.ViewHolder>(), Filterable {
     private var mFilterArray = lines
-    private var mMyPrefs = frag.requireActivity().getSharedPreferences("UserInfo", 0)
+    private var mMyPrefs = PreferenceManager.getDefaultSharedPreferences(frag.requireContext())
     private var mToken = mMyPrefs.getString("Token", "")!!
     private var mQueue = Volley.newRequestQueue(frag.requireContext())
 

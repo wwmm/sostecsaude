@@ -13,6 +13,7 @@ import androidx.navigation.NavController
 import androidx.navigation.Navigation
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.setupWithNavController
+import androidx.preference.PreferenceManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.android.volley.Request
 import com.android.volley.Response
@@ -58,10 +59,7 @@ class UnidadeManutencao : Fragment(), Toolbar.OnMenuItemClickListener,
             layoutManager = LinearLayoutManager(requireContext())
         }
 
-        val prefs = requireActivity().getSharedPreferences(
-            "UserInfo",
-            0
-        )
+        val prefs = PreferenceManager.getDefaultSharedPreferences(requireContext())
 
         val token = prefs.getString("Token", "")!!
 
@@ -115,10 +113,7 @@ class UnidadeManutencao : Fragment(), Toolbar.OnMenuItemClickListener,
     override fun onMenuItemClick(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.menu_fazer_login -> {
-                val prefs = requireContext().getSharedPreferences(
-                    "UserInfo",
-                    0
-                )
+                val prefs = PreferenceManager.getDefaultSharedPreferences(requireContext())
 
                 val editor = prefs.edit()
 

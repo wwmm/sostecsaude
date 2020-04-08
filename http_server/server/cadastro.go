@@ -205,11 +205,11 @@ func updateUnidade(w http.ResponseWriter, r *http.Request) {
 			log.Println(logTag + err.Error())
 		}
 
-		if perfil == "unidade_saude" {
+		if perfil == perfilUnidadeSaude {
 			nome, local := r.FormValue("nome"), r.FormValue("local")
 
 			mydb.UpdateUnidadeSaude(nome, local, email)
-		} else if perfil == "unidade_manutencao" {
+		} else if perfil == perfilUnidadeManutencao {
 			nome, setor, local := r.FormValue("nome"), r.FormValue("setor"), r.FormValue("local")
 
 			cnpj, telefone := r.FormValue("cnpj"), r.FormValue("telefone")
@@ -231,11 +231,11 @@ func getUnidade(w http.ResponseWriter, r *http.Request) {
 			log.Println(logTag + err.Error())
 		}
 
-		if perfil == "unidade_saude" {
+		if perfil == perfilUnidadeSaude {
 			nome, local := mydb.GetUnidadeSaude(email)
 
 			fmt.Fprintf(w, nome+"<&>"+local)
-		} else if perfil == "unidade_manutencao" {
+		} else if perfil == perfilUnidadeManutencao {
 			nome, setor, local, cnpj, telefone := mydb.GetUnidadeManutencao(email)
 
 			fmt.Fprintf(w, nome+"<&>"+setor+"<&>"+local+"<&>"+cnpj+"<&>"+telefone)
@@ -243,8 +243,8 @@ func getUnidade(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-//HasPermission verifica se o usário está na whitelist
-func HasPermission(email string) bool {
+//HasWritePermission verifica se o usário está na whitelist
+func HasWritePermission(email string) bool {
 	emails := mydb.GetWhitelist()
 
 	for _, dbEmail := range emails {
@@ -254,4 +254,16 @@ func HasPermission(email string) bool {
 	}
 
 	return false
+}
+
+func checkWritePermission(w http.ResponseWriter, r *http.Request) {
+	status, _, email, _ := verifyToken(w, r)
+
+	if status {
+		if HasWritePermission(email) {
+			fmt.Fprintf(w, "has_write_permission")
+		} else {
+			fmt.Fprintf(w, "no_write_permission")
+		}
+	}
 }

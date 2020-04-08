@@ -13,6 +13,7 @@ import androidx.navigation.NavController
 import androidx.navigation.Navigation
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.setupWithNavController
+import androidx.preference.PreferenceManager.getDefaultSharedPreferences
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.android.volley.Request
 import com.android.volley.Response
@@ -56,10 +57,7 @@ class VerPedidos : Fragment(), Toolbar.OnMenuItemClickListener, SearchView.OnQue
             layoutManager = LinearLayoutManager(requireContext())
         }
 
-        val prefs = requireActivity().getSharedPreferences(
-            "UserInfo",
-            0
-        )
+        val prefs = getDefaultSharedPreferences(requireContext())
 
         val token = prefs.getString("Token", "")!!
 
@@ -93,6 +91,10 @@ class VerPedidos : Fragment(), Toolbar.OnMenuItemClickListener, SearchView.OnQue
             Response.ErrorListener {
                 Log.d(LOGTAG, "failed request: $it")
 
+                if (isAdded) {
+                    progressBar.visibility = View.GONE
+                }
+
                 connectionErrorMessage(main_layout_ver_pedidos, it)
             }
         )
@@ -103,10 +105,7 @@ class VerPedidos : Fragment(), Toolbar.OnMenuItemClickListener, SearchView.OnQue
     override fun onMenuItemClick(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.menu_fazer_login -> {
-                val prefs = requireContext().getSharedPreferences(
-                    "UserInfo",
-                    0
-                )
+                val prefs = getDefaultSharedPreferences(requireContext())
 
                 val editor = prefs.edit()
 

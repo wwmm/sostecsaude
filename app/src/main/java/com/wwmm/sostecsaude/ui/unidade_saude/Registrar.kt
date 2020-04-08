@@ -14,6 +14,7 @@ import androidx.navigation.NavController
 import androidx.navigation.Navigation
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.setupWithNavController
+import androidx.preference.PreferenceManager
 import com.android.volley.Response
 import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
@@ -70,10 +71,8 @@ class Registrar : Fragment(), Toolbar.OnMenuItemClickListener {
 
                 progressBar.visibility = View.VISIBLE
 
-                val prefs = requireActivity().getSharedPreferences(
-                    "UserInfo",
-                    0
-                )
+                val prefs =
+                    PreferenceManager.getDefaultSharedPreferences(requireContext())
 
                 val token = prefs.getString("Token", "")!!
 
@@ -150,10 +149,8 @@ class Registrar : Fragment(), Toolbar.OnMenuItemClickListener {
     override fun onMenuItemClick(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.menu_fazer_login -> {
-                val prefs = requireContext().getSharedPreferences(
-                    "UserInfo",
-                    0
-                )
+                val prefs =
+                    PreferenceManager.getDefaultSharedPreferences(requireContext())
 
                 val editor = prefs.edit()
 

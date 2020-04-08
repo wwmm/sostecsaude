@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
+import androidx.preference.PreferenceManager
 import com.android.volley.Response
 import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
@@ -36,10 +37,7 @@ class Login : Fragment() {
 
         toolbar.title = getString(R.string.app_name)
 
-        val prefs = requireActivity().getSharedPreferences(
-            "UserInfo",
-            0
-        )
+        val prefs = PreferenceManager.getDefaultSharedPreferences(requireContext())
 
         button_login.setOnClickListener {
             val imm = requireActivity().getSystemService(Context.INPUT_METHOD_SERVICE) as

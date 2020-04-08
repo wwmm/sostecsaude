@@ -7,14 +7,14 @@
     tools:context=".ui.login.Welcome" >
 
     <TextView
-        android:id="@+id/textView43"
+        android:id="@+id/textView_welcome"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="16dp"
         android:layout_marginBottom="8dp"
-        android:text="@string/title_welcome"
+        android:text="@string/title_welcome_unidade_saude"
         android:textAppearance="@style/TextAppearance.AppCompat.Medium"
         app:layout_constraintBottom_toTopOf="@+id/button_continuar"
         app:layout_constraintEnd_toEndOf="parent"

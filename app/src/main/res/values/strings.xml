@@ -56,10 +56,25 @@
     <string name="title_carregar_perfil">Carregando…</string>
     <string name="title_retry">Tentar Novamente</string>
 
-    <string name="title_welcome">
-        Seu cadastro foi realizado. Por questões de segurança, algumas funcionalidades estarão
-        bloqueadas até que seus dados sejam validados pelo nosso time. Você receberá uma
-        notificação quando o acesso à áreas restritas for permitido.
+    <string name="title_welcome_unidade_saude">
+        Seu cadastro foi realizado. Por questões de segurança, algumas funcionalidades
+        que envolvem a inserção de dados no nosso banco estarão bloqueadas até que seus dados sejam
+        validados pelo nosso time. Você receberá uma notificação quando o acesso à áreas restritas
+        for permitido. Somente após esta validação será possível inserir seu equipamentos no
+        sistema.
+    </string>
+    <string name="title_welcome_unidade_manutencao">
+        Seu cadastro foi realizado. Por questões de segurança, algumas funcionalidades
+        que envolvem a inserção de dados no nosso banco estarão bloqueadas até que seus dados sejam
+        validados pelo nosso time. Você receberá uma notificação quando o acesso à áreas restritas
+        for permitido. Somente após esta validação será possível manifestar interesse no reparo de
+        algum dos equipamentos exibidos na lista.
     </string>
     <string name="title_continuar">Continuar</string>
+
+    <string name="notification_check_permission_id">check_write_permission</string>
+    <string name="notification_check_permission_name">Banco de dados</string>
+    <string name="notification_check_permission_description">
+        Avisa o usuário que ele tem permissão para inserir informações no banco de dados
+    </string>
 </resources>

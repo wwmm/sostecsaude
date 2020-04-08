@@ -10,10 +10,16 @@ import (
 )
 
 func unidadeSaudeAdicionarEquipamento(w http.ResponseWriter, r *http.Request) {
-	status, _, email, _ := verifyToken(w, r)
+	status, perfil, email, _ := verifyToken(w, r)
+
+	if perfil != perfilUnidadeSaude {
+		fmt.Fprintf(w, "perfil_invalido")
+
+		return
+	}
 
 	if status {
-		if !HasPermission(email) {
+		if !HasWritePermission(email) {
 			fmt.Fprintf(w, "no_permission")
 
 			return
@@ -43,10 +49,16 @@ func unidadeSaudeAdicionarEquipamento(w http.ResponseWriter, r *http.Request) {
 }
 
 func unidadeSaudeAtualizarEquipamento(w http.ResponseWriter, r *http.Request) {
-	status, _, email, _ := verifyToken(w, r)
+	status, perfil, email, _ := verifyToken(w, r)
+
+	if perfil != perfilUnidadeSaude {
+		fmt.Fprintf(w, "perfil_invalido")
+
+		return
+	}
 
 	if status {
-		if !HasPermission(email) {
+		if !HasWritePermission(email) {
 			fmt.Fprintf(w, "no_permission")
 
 			return
@@ -73,10 +85,16 @@ func unidadeSaudeAtualizarEquipamento(w http.ResponseWriter, r *http.Request) {
 }
 
 func unidadeSaudeRemoverEquipamento(w http.ResponseWriter, r *http.Request) {
-	status, _, email, _ := verifyToken(w, r)
+	status, perfil, email, _ := verifyToken(w, r)
+
+	if perfil != perfilUnidadeSaude {
+		fmt.Fprintf(w, "perfil_invalido")
+
+		return
+	}
 
 	if status {
-		if !HasPermission(email) {
+		if !HasWritePermission(email) {
 			fmt.Fprintf(w, "no_permission")
 
 			return
@@ -97,7 +115,13 @@ func unidadeSaudeRemoverEquipamento(w http.ResponseWriter, r *http.Request) {
 }
 
 func unidadeSaudePegarEquipamentos(w http.ResponseWriter, r *http.Request) {
-	status, _, email, _ := verifyToken(w, r)
+	status, perfil, email, _ := verifyToken(w, r)
+
+	if perfil != perfilUnidadeSaude {
+		fmt.Fprintf(w, "perfil_invalido")
+
+		return
+	}
 
 	if status {
 		equipamentos := mydb.ListaEquipamentosUnidadeSaude(email)
@@ -136,10 +160,16 @@ func listaTodosEquipamentos(w http.ResponseWriter, r *http.Request) {
 }
 
 func unidadeManutencaoAtualizarInteresse(w http.ResponseWriter, r *http.Request) {
-	status, _, email, _ := verifyToken(w, r)
+	status, perfil, email, _ := verifyToken(w, r)
+
+	if perfil != perfilUnidadeManutencao {
+		fmt.Fprintf(w, "perfil_invalido")
+
+		return
+	}
 
 	if status {
-		if !HasPermission(email) {
+		if !HasWritePermission(email) {
 			fmt.Fprintf(w, "no_permission")
 
 			return
@@ -165,7 +195,13 @@ func unidadeManutencaoAtualizarInteresse(w http.ResponseWriter, r *http.Request)
 }
 
 func listaInteressadosManutencao(w http.ResponseWriter, r *http.Request) {
-	status, _, _, jsonArray := verifyToken(w, r)
+	status, perfil, _, jsonArray := verifyToken(w, r)
+
+	if perfil != perfilUnidadeSaude {
+		fmt.Fprintf(w, "perfil_invalido")
+
+		return
+	}
 
 	if status {
 		type Empresa struct {

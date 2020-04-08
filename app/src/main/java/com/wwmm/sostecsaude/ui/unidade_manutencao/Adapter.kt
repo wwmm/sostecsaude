@@ -9,6 +9,7 @@ import android.widget.Filter
 import android.widget.Filterable
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
+import androidx.preference.PreferenceManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.android.volley.Response
@@ -77,7 +78,7 @@ class Adapter(
 ) :
     RecyclerView.Adapter<Adapter.ViewHolder>(), Filterable {
     private var mFilterArray = equipamentos
-    private var mMyPrefs = fragment.requireActivity().getSharedPreferences("UserInfo", 0)
+    private var mMyPrefs = PreferenceManager.getDefaultSharedPreferences(fragment.requireContext())
     private var mToken = mMyPrefs.getString("Token", "")!!
     private var mQueue = Volley.newRequestQueue(fragment.requireContext())
 

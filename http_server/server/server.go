@@ -8,6 +8,11 @@ import (
 
 var logTag = "server: "
 
+const (
+	perfilUnidadeSaude      = "unidade_saude"
+	perfilUnidadeManutencao = "unidade_manutencao"
+)
+
 // Start http and websockets server
 func Start() {
 	InitConfig()
@@ -22,6 +27,7 @@ func Start() {
 	http.HandleFunc("/login", login)
 	http.HandleFunc("/cadastrar", cadastrar)
 	http.HandleFunc("/check_credentials", checkCredentials)
+	http.HandleFunc("/check_write_permission", checkWritePermission)
 
 	http.HandleFunc("/update_unidade", updateUnidade)
 	http.HandleFunc("/get_unidade", getUnidade)

@@ -1,14 +1,18 @@
 package com.wwmm.sostecsaude.ui.login
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
-
+import androidx.preference.PreferenceManager
+import androidx.work.ExistingPeriodicWorkPolicy
+import androidx.work.PeriodicWorkRequestBuilder
+import androidx.work.WorkManager
 import com.wwmm.sostecsaude.R
 import kotlinx.android.synthetic.main.fragment_welcome.*
+import java.util.concurrent.TimeUnit
 
 class Welcome : Fragment() {
 
@@ -24,18 +28,29 @@ class Welcome : Fragment() {
 
         val controller = findNavController()
 
-        val prefs = requireActivity().getSharedPreferences(
-            "UserInfo",
-            0
-        )
+        val prefs = PreferenceManager.getDefaultSharedPreferences(requireContext())
 
         val perfil = prefs.getString("Perfil", "")!!
+
+        if (perfil == "unidade_manutencao") {
+            textView_welcome.setText(R.string.title_welcome_unidade_manutencao)
+        }
 
         val editor = prefs.edit()
 
         editor.putBoolean("CriandoConta", false)
 
         editor.apply()
+
+        val worker = PeriodicWorkRequestBuilder<WorkerCheckPermission>(
+            15, TimeUnit.MINUTES
+        ).build()
+
+        WorkManager.getInstance(requireContext()).enqueueUniquePeriodicWork(
+            getString(R.string.notification_check_permission_id),
+            ExistingPeriodicWorkPolicy.REPLACE,
+            worker
+        )
 
         button_continuar.setOnClickListener {
             when (perfil) {
