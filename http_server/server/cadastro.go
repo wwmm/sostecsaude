@@ -261,6 +261,8 @@ func checkWritePermission(w http.ResponseWriter, r *http.Request) {
 
 	if status {
 		if HasWritePermission(email) {
+			log.Println("has write permission")
+
 			fmt.Fprintf(w, "has_write_permission")
 		} else {
 			fmt.Fprintf(w, "no_write_permission")

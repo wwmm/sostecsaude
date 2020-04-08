@@ -7,44 +7,33 @@ import android.util.Log
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import androidx.preference.PreferenceManager.getDefaultSharedPreferences
+import androidx.work.CoroutineWorker
 import androidx.work.WorkManager
-import androidx.work.Worker
 import androidx.work.WorkerParameters
-import com.android.volley.Response
+import com.android.volley.toolbox.RequestFuture
 import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
 import com.wwmm.sostecsaude.MainActivity
 import com.wwmm.sostecsaude.R
 import com.wwmm.sostecsaude.myServerURL
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
+import java.util.concurrent.TimeUnit
+
 
 class WorkerCheckPermission(private val appContext: Context, workerParams: WorkerParameters) :
-    Worker(appContext, workerParams) {
+    CoroutineWorker(appContext, workerParams) {
 
-    override fun doWork(): Result {
+    override suspend fun doWork(): Result = withContext(Dispatchers.IO) {
         val prefs = getDefaultSharedPreferences(appContext)
 
         val queue = Volley.newRequestQueue(appContext)
 
+        val future = RequestFuture.newFuture<String>()
+
         val request = object : StringRequest(
-            Method.POST, "$myServerURL/check_write_permission",
-            Response.Listener { response ->
-                val msg = response.toString()
-
-                Log.d(LOGTAG, msg)
-
-                if (msg == "has_write_permission") {
-                    WorkManager.getInstance(appContext).cancelUniqueWork(
-                        appContext.getString(
-                            R.string.notification_check_permission_id
-                        )
-                    )
-
-                    createNotification()
-                }
-            },
-            Response.ErrorListener {
-                Log.d(LOGTAG, "failed request: $it")
-            }) {
+            Method.POST, "$myServerURL/check_write_permission", future, future
+        ) {
             override fun getParams(): MutableMap<String, String> {
                 val params = HashMap<String, String>()
 
@@ -56,7 +45,19 @@ class WorkerCheckPermission(private val appContext: Context, workerParams: Worke
 
         queue.add(request)
 
-        return Result.success()
+        val msg = future.get(10, TimeUnit.SECONDS)
+
+        if (msg == "has_write_permission") {
+            createNotification()
+
+            WorkManager.getInstance(appContext).cancelUniqueWork(
+                appContext.getString(R.string.notification_check_permission_id)
+            )
+        } else {
+            Log.d(LOGTAG, msg)
+        }
+
+        Result.success()
     }
 
     private fun createNotification() {
