@@ -40,18 +40,18 @@ class Welcome : Fragment() {
 
         editor.apply()
 
-        val constraint = Constraints.Builder().setRequiredNetworkType(
-            NetworkType.CONNECTED).build()
-
-        val worker = PeriodicWorkRequestBuilder<WorkerCheckPermission>(
-            15, TimeUnit.MINUTES
-        ).setConstraints(constraint).build()
-
-        WorkManager.getInstance(requireContext()).enqueueUniquePeriodicWork(
-            getString(R.string.notification_check_permission_id),
-            ExistingPeriodicWorkPolicy.REPLACE,
-            worker
-        )
+//        val constraint = Constraints.Builder().setRequiredNetworkType(
+//            NetworkType.CONNECTED).build()
+//
+//        val worker = PeriodicWorkRequestBuilder<WorkerCheckPermission>(
+//            15, TimeUnit.MINUTES
+//        ).setConstraints(constraint).build()
+//
+//        WorkManager.getInstance(requireContext()).enqueueUniquePeriodicWork(
+//            getString(R.string.notification_check_permission_id),
+//            ExistingPeriodicWorkPolicy.REPLACE,
+//            worker
+//        )
 
         button_continuar.setOnClickListener {
             when (perfil) {

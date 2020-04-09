@@ -311,3 +311,27 @@ func isAdministrator(email string, senha string, w http.ResponseWriter) bool {
 
 	return false
 }
+
+func listaUnidadeSaude(w http.ResponseWriter, r *http.Request) {
+	status, perfil, email, _ := verifyToken(w, r)
+
+	if status {
+		if perfil == perfilAdministrador && email == cfg.AdminEmail {
+			unidades := mydb.GetListaUnidadeSaude()
+			whitelist := mydb.GetWhitelist()
+
+			if len(whitelist) == 0 {
+				whitelist = append(whitelist, "")
+			}
+
+			js, err := json.Marshal([]interface{}{unidades, whitelist})
+
+			if err != nil {
+				log.Println(err.Error())
+			}
+
+			// fmt.Fprintf(os.Stdout, "%s", js)
+			fmt.Fprintf(w, "%s", js)
+		}
+	}
+}

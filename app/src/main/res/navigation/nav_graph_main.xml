@@ -182,5 +182,5 @@
         android:id="@+id/homeAdministration"
         android:name="com.wwmm.sostecsaude.ui.administration.Home"
         android:label="@string/title_administration_area"
-        tools:layout="@layout/fragment_administration_home" />
+        tools:layout="@layout/fragment_admin_home" />
 </navigation>

@@ -4,6 +4,13 @@ import (
 	"log"
 )
 
+// UnidadeSaude é uma estrutura com dados da unidade usada para criar um objeto json
+type UnidadeSaude struct {
+	Nome  string
+	Local string
+	Email string
+}
+
 // GetEmails retorna uma lista com todos os emails
 func GetEmails() []string {
 	queryStr := "select email from usuarios"
@@ -200,4 +207,33 @@ func UpdateFBtoken(email string, token string) {
 	if err != nil {
 		log.Fatal(err.Error())
 	}
+}
+
+//GetListaUnidadeSaude retorna uma lista com as unidade de saúde
+func GetListaUnidadeSaude() []UnidadeSaude {
+	queryStr := "select nome,local,email from unidade_saude"
+
+	rows, err := db.Query(queryStr)
+
+	if err != nil {
+		log.Fatal(err.Error())
+	}
+
+	defer rows.Close()
+
+	var unidades []UnidadeSaude
+
+	for rows.Next() {
+		var unidade UnidadeSaude
+
+		err = rows.Scan(&unidade.Nome, &unidade.Local, &unidade.Email)
+
+		if err != nil {
+			log.Fatal(err.Error())
+		}
+
+		unidades = append(unidades, unidade)
+	}
+
+	return unidades
 }

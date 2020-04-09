@@ -79,4 +79,9 @@
 
     <string name="title_administration_area">Área Administrativa</string>
     <string name="title_usuarios">Usuários</string>
+    <string name="title_usuario">Usuário</string>
+    <string name="title_hospitais">Hospitais</string>
+    <string name="title_oficinas">Oficinas</string>
+    <string name="title_whitelist">Whitelist</string>
+    <string name="title_nome">Nome</string>
 </resources>
