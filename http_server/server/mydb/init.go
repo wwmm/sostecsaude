@@ -179,6 +179,18 @@ func InitTables() {
 	if err != nil {
 		log.Fatal(err.Error())
 	}
+
+	queryStr = `create trigger if not exists add_fb_token after insert on usuarios
+		begin
+			insert or ignore into fb_tokens values(null,new.email,"");
+		end;		
+	`
+
+	_, err = db.Exec(queryStr)
+
+	if err != nil {
+		log.Fatal(err.Error())
+	}
 }
 
 //Close closes the Conn connection

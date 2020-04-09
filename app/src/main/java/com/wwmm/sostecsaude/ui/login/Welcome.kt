@@ -7,9 +7,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.preference.PreferenceManager
-import androidx.work.ExistingPeriodicWorkPolicy
-import androidx.work.PeriodicWorkRequestBuilder
-import androidx.work.WorkManager
+import androidx.work.*
 import com.wwmm.sostecsaude.R
 import kotlinx.android.synthetic.main.fragment_welcome.*
 import java.util.concurrent.TimeUnit
@@ -42,9 +40,12 @@ class Welcome : Fragment() {
 
         editor.apply()
 
+        val constraint = Constraints.Builder().setRequiredNetworkType(
+            NetworkType.CONNECTED).build()
+
         val worker = PeriodicWorkRequestBuilder<WorkerCheckPermission>(
             15, TimeUnit.MINUTES
-        ).build()
+        ).setConstraints(constraint).build()
 
         WorkManager.getInstance(requireContext()).enqueueUniquePeriodicWork(
             getString(R.string.notification_check_permission_id),

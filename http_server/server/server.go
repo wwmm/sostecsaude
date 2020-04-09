@@ -28,6 +28,7 @@ func Start() {
 	http.HandleFunc("/cadastrar", cadastrar)
 	http.HandleFunc("/check_credentials", checkCredentials)
 	http.HandleFunc("/check_write_permission", checkWritePermission)
+	http.HandleFunc("/update_fb_token", updateFBtoken)
 
 	http.HandleFunc("/update_unidade", updateUnidade)
 	http.HandleFunc("/get_unidade", getUnidade)

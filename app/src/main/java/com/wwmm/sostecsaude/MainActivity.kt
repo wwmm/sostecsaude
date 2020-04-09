@@ -5,7 +5,12 @@ import android.app.NotificationManager
 import android.content.Context
 import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
+import androidx.preference.PreferenceManager
+import com.google.android.gms.tasks.OnCompleteListener
+import com.google.firebase.FirebaseApp
+import com.google.firebase.iid.FirebaseInstanceId
 
 
 class MainActivity : AppCompatActivity() {
@@ -40,5 +45,31 @@ class MainActivity : AppCompatActivity() {
 
             notificationManager.createNotificationChannel(channel)
         }
+
+        FirebaseInstanceId.getInstance().instanceId
+            .addOnCompleteListener(OnCompleteListener { task ->
+                if (!task.isSuccessful) {
+                    Log.w(LOGTAG, "getInstanceId failed", task.exception)
+
+                    return@OnCompleteListener
+                }
+
+                val token = task.result?.token
+
+                if (token != null) {
+                    val prefs = PreferenceManager
+                        .getDefaultSharedPreferences(this)
+
+                    val editor = prefs.edit()
+
+                    editor.putString("FBtoken", token)
+
+                    editor.apply()
+                }
+            })
+    }
+
+    companion object {
+        const val LOGTAG = "MainActivity"
     }
 }

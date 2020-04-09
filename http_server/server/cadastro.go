@@ -243,8 +243,8 @@ func getUnidade(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-//HasWritePermission verifica se o usário está na whitelist
-func HasWritePermission(email string) bool {
+//inTheWhitelist verifica se o usário está na whitelist
+func inTheWhitelist(email string) bool {
 	emails := mydb.GetWhitelist()
 
 	for _, dbEmail := range emails {
@@ -260,12 +260,24 @@ func checkWritePermission(w http.ResponseWriter, r *http.Request) {
 	status, _, email, _ := verifyToken(w, r)
 
 	if status {
-		if HasWritePermission(email) {
-			log.Println("has write permission")
-
+		if inTheWhitelist(email) {
 			fmt.Fprintf(w, "has_write_permission")
 		} else {
 			fmt.Fprintf(w, "no_write_permission")
 		}
+	}
+}
+
+func updateFBtoken(w http.ResponseWriter, r *http.Request) {
+	status, _, email, _ := verifyToken(w, r)
+
+	if status {
+		err := r.ParseForm()
+
+		if err != nil {
+			log.Println(logTag + err.Error())
+		}
+
+		mydb.UpdateFBtoken(email, r.FormValue("fb_token"))
 	}
 }

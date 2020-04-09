@@ -19,12 +19,6 @@ func unidadeSaudeAdicionarEquipamento(w http.ResponseWriter, r *http.Request) {
 	}
 
 	if status {
-		if !HasWritePermission(email) {
-			fmt.Fprintf(w, "no_permission")
-
-			return
-		}
-
 		err := r.ParseForm()
 
 		if err != nil {
@@ -49,7 +43,7 @@ func unidadeSaudeAdicionarEquipamento(w http.ResponseWriter, r *http.Request) {
 }
 
 func unidadeSaudeAtualizarEquipamento(w http.ResponseWriter, r *http.Request) {
-	status, perfil, email, _ := verifyToken(w, r)
+	status, perfil, _, _ := verifyToken(w, r)
 
 	if perfil != perfilUnidadeSaude {
 		fmt.Fprintf(w, "perfil_invalido")
@@ -58,12 +52,6 @@ func unidadeSaudeAtualizarEquipamento(w http.ResponseWriter, r *http.Request) {
 	}
 
 	if status {
-		if !HasWritePermission(email) {
-			fmt.Fprintf(w, "no_permission")
-
-			return
-		}
-
 		err := r.ParseForm()
 
 		if err != nil {
@@ -85,7 +73,7 @@ func unidadeSaudeAtualizarEquipamento(w http.ResponseWriter, r *http.Request) {
 }
 
 func unidadeSaudeRemoverEquipamento(w http.ResponseWriter, r *http.Request) {
-	status, perfil, email, _ := verifyToken(w, r)
+	status, perfil, _, _ := verifyToken(w, r)
 
 	if perfil != perfilUnidadeSaude {
 		fmt.Fprintf(w, "perfil_invalido")
@@ -94,12 +82,6 @@ func unidadeSaudeRemoverEquipamento(w http.ResponseWriter, r *http.Request) {
 	}
 
 	if status {
-		if !HasWritePermission(email) {
-			fmt.Fprintf(w, "no_permission")
-
-			return
-		}
-
 		err := r.ParseForm()
 
 		if err != nil {
@@ -169,12 +151,6 @@ func unidadeManutencaoAtualizarInteresse(w http.ResponseWriter, r *http.Request)
 	}
 
 	if status {
-		if !HasWritePermission(email) {
-			fmt.Fprintf(w, "no_permission")
-
-			return
-		}
-
 		err := r.ParseForm()
 
 		if err != nil {

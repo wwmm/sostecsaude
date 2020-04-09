@@ -99,7 +99,7 @@ func ListaEquipamentosUnidadeSaude(email string) []Equipamento {
 //ListaTodosEquipamentos retorna uma lista com todos os equipamentos defeituosos
 func ListaTodosEquipamentos() []Equipamento {
 	queryStr := `select id,nome,fabricante,modelo,numero_serie,quantidade,defeito,unidade,local from equipamentos
-		order by nome
+		where email in (select email from whitelist) order by nome
 	`
 
 	rows, err := db.Query(queryStr)
