@@ -11,6 +11,7 @@ var logTag = "server: "
 const (
 	perfilUnidadeSaude      = "unidade_saude"
 	perfilUnidadeManutencao = "unidade_manutencao"
+	perfilAdministrador     = "administrador"
 )
 
 // Start http and websockets server

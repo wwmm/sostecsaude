@@ -9,8 +9,10 @@ import (
 
 //Config é uma estrutura com algumas configurações como nome e e-mail
 type Config struct {
-	ServerPort  string
-	TokenSecret string
+	ServerPort    string
+	TokenSecret   string
+	AdminEmail    string
+	AdminPassword string
 }
 
 var cfg Config
@@ -18,7 +20,7 @@ var cfg Config
 //InitConfig inicializa a estrutura com as configurações
 func InitConfig() {
 	cfg = Config{
-		ServerPort: "8081", TokenSecret: ""}
+		ServerPort: "8081", TokenSecret: "", AdminEmail: "", AdminPassword: ""}
 
 	if _, err := os.Stat("config.json"); err != nil {
 		if os.IsNotExist(err) {

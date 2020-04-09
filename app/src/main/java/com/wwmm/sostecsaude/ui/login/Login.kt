@@ -91,11 +91,15 @@ class Login : Fragment() {
 
                                 when (perfil) {
                                     "unidade_saude" -> {
-                                        controller.navigate(R.id.action_fazerLogin_to_unidadeSaude)
+                                        controller.navigate(R.id.action_login_to_unidadeSaude)
                                     }
 
                                     "unidade_manutencao" -> {
                                         controller.navigate(R.id.action_fazerLogin_to_unidadeManutencao)
+                                    }
+
+                                    "administrador" -> {
+                                        controller.navigate(R.id.action_login_to_homeAdministration)
                                     }
                                 }
                             } else {

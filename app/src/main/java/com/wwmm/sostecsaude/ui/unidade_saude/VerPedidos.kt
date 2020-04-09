@@ -104,7 +104,7 @@ class VerPedidos : Fragment(), Toolbar.OnMenuItemClickListener, SearchView.OnQue
 
     override fun onMenuItemClick(item: MenuItem): Boolean {
         when (item.itemId) {
-            R.id.menu_fazer_login -> {
+            R.id.menu_login -> {
                 val prefs = getDefaultSharedPreferences(requireContext())
 
                 val editor = prefs.edit()

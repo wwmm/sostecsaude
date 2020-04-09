@@ -112,7 +112,7 @@ class UnidadeManutencao : Fragment(), Toolbar.OnMenuItemClickListener,
 
     override fun onMenuItemClick(item: MenuItem): Boolean {
         when (item.itemId) {
-            R.id.menu_fazer_login -> {
+            R.id.menu_login -> {
                 val prefs = PreferenceManager.getDefaultSharedPreferences(requireContext())
 
                 val editor = prefs.edit()

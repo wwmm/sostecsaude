@@ -76,6 +76,10 @@ func verifyToken(w http.ResponseWriter, r *http.Request) (bool, string, string, 
 		perfil = fmt.Sprintf("%v", claims["perfil"])
 		email = fmt.Sprintf("%v", claims["email"])
 
+		if email == cfg.AdminEmail && perfil == perfilAdministrador {
+			return true, perfil, email, jasonArray
+		}
+
 		emails := mydb.GetEmails()
 
 		for _, dbEmail := range emails {
@@ -127,6 +131,12 @@ func cadastrar(w http.ResponseWriter, r *http.Request) {
 
 	email := r.FormValue("email")
 
+	if email == cfg.AdminEmail {
+		fmt.Fprintf(w, "invalid_email")
+
+		return
+	}
+
 	emails := mydb.GetEmails()
 
 	for _, dbEmail := range emails {
@@ -161,6 +171,10 @@ func login(w http.ResponseWriter, r *http.Request) {
 	}
 
 	email, senha := r.FormValue("email"), r.FormValue("senha")
+
+	if isAdministrator(email, senha, w) {
+		return
+	}
 
 	emails := mydb.GetEmails()
 
@@ -280,4 +294,20 @@ func updateFBtoken(w http.ResponseWriter, r *http.Request) {
 
 		mydb.UpdateFBtoken(email, r.FormValue("fb_token"))
 	}
+}
+
+func isAdministrator(email string, senha string, w http.ResponseWriter) bool {
+	if email == cfg.AdminEmail {
+		if senha == cfg.AdminPassword {
+			token := createToken(w, perfilAdministrador, email) // renovando o token
+
+			fmt.Fprintf(w, token+"<&>"+perfilAdministrador+"<&>"+email)
+		} else {
+			fmt.Fprintf(w, "Senha inválida!")
+		}
+
+		return true
+	}
+
+	return false
 }

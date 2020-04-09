@@ -5,6 +5,7 @@
     <string name="title_pedidos">Pedidos</string>
     <string name="title_remove">Remover</string>
     <string name="title_unidade_saude">Unidade de Saúde</string>
+    <string name="title_unidades_saude">Unidades de Saúde</string>
 
     <string name="title_endereco">Endereço</string>
     <string name="title_endereco_unidade">Endereço da Unidade</string>
@@ -57,18 +58,16 @@
     <string name="title_retry">Tentar Novamente</string>
 
     <string name="title_welcome_unidade_saude">
-        Seu cadastro foi realizado. Por questões de segurança, algumas funcionalidades
-        que envolvem a inserção de dados no nosso banco estarão bloqueadas até que seus dados sejam
-        validados pelo nosso time. Você receberá uma notificação quando o acesso à áreas restritas
-        for permitido. Somente após esta validação será possível inserir seu equipamentos no
-        sistema.
+        Seu cadastro foi realizado e você já poderá inserir informações em nosso banco. Mas por
+        questões de segurança, seus pedidos de reparo somente estarão visíveis para as unidades de
+        manutenção após o nosso time validar seus dados cadastrais. Você receberá uma notificação
+        em caso de aprovação.
     </string>
     <string name="title_welcome_unidade_manutencao">
-        Seu cadastro foi realizado. Por questões de segurança, algumas funcionalidades
-        que envolvem a inserção de dados no nosso banco estarão bloqueadas até que seus dados sejam
-        validados pelo nosso time. Você receberá uma notificação quando o acesso à áreas restritas
-        for permitido. Somente após esta validação será possível manifestar interesse no reparo de
-        algum dos equipamentos exibidos na lista.
+        Seu cadastro foi realizado e você já poderá inserir informações em nosso banco. Mas por
+        questões de segurança, suas manifestações de interesse em reparo de equipamentos somente
+        estarão visíveis para as unidades de saúde após o nosso time validar seus dados cadastrais.
+        Você receberá uma notificação em caso de aprovação.
     </string>
     <string name="title_continuar">Continuar</string>
 
@@ -77,4 +76,7 @@
     <string name="notification_check_permission_description">
         Avisa o usuário que ele tem permissão para inserir informações no banco de dados
     </string>
+
+    <string name="title_administration_area">Área Administrativa</string>
+    <string name="title_usuarios">Usuários</string>
 </resources>

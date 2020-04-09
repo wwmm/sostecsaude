@@ -84,6 +84,10 @@ class CheckCredentials : Fragment() {
                             "unidade_manutencao" -> {
                                 mController.navigate(R.id.action_checkCredentials_to_unidadeManutencao)
                             }
+
+                            "administrador" -> {
+                                mController.navigate(R.id.action_checkCredentials_to_homeAdministration)
+                            }
                         }
                     }
                 }
