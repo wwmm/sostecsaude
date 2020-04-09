@@ -335,3 +335,28 @@ func listaUnidadeSaude(w http.ResponseWriter, r *http.Request) {
 		}
 	}
 }
+
+func updateWhitelist(w http.ResponseWriter, r *http.Request) {
+	status, perfil, email, _ := verifyToken(w, r)
+
+	if status {
+		if perfil == perfilAdministrador && email == cfg.AdminEmail {
+			err := r.ParseForm()
+
+			if err != nil {
+				log.Println(logTag + err.Error())
+			}
+
+			emailUnidade := r.FormValue("email")
+			state := r.FormValue("state")
+
+			if state == "true" {
+				mydb.AddToWhitelist(emailUnidade)
+			} else {
+				mydb.RemoveFromWhitelist(emailUnidade)
+			}
+
+			fmt.Fprintf(w, "Operação realizada!")
+		}
+	}
+}

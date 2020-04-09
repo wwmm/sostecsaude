@@ -187,6 +187,17 @@ func RemoverUsuario(email string) {
 	}
 }
 
+//AddToWhitelist adiciona um usuario na whitelist
+func AddToWhitelist(email string) {
+	queryStr := "insert or ignore into whitelist values(null,?)"
+
+	_, err := db.Exec(queryStr, email)
+
+	if err != nil {
+		log.Println(err.Error())
+	}
+}
+
 //RemoveFromWhitelist remove um usuario da whitelist
 func RemoveFromWhitelist(email string) {
 	queryStr := "delete from whitelist where email=?"

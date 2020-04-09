@@ -146,19 +146,6 @@ class Adapter(
                             controller.navigate(R.id.action_global_fazerLogin)
                         }
 
-                        "no_permission" -> {
-                            fragment.progressBar.visibility = View.GONE
-
-                            holder.view.switch_consertar.setOnCheckedChangeListener(null)
-                            holder.view.switch_consertar.isEnabled = false
-
-                            Snackbar.make(
-                                fragment.layout_manutencao_pedidos,
-                                "Você ainda não tem permissão para realizar esta operação!",
-                                Snackbar.LENGTH_SHORT
-                            ).show()
-                        }
-
                         else -> {
                             // Temos que atualizar a lista de equipamentos em que há interesse de reparo
                             // para que o filtro atualize corretamente o status dos switches

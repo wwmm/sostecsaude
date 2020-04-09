@@ -88,6 +88,27 @@ class AdapterLista(
                         }
 
                         else -> {
+                            // Temos que atualizar a whitelist para que o filtro atualize
+                            // corretamente o status dos switches
+
+                            var naLista = false
+
+                            for (idx in 0 until whitelist.length()) {
+                                if (whitelist[idx] == email) {
+                                    naLista = true
+
+                                    if (!state) {
+                                        whitelist.remove(idx)
+                                    }
+
+                                    break
+                                }
+                            }
+
+                            if (!naLista && state) {
+                                whitelist.put(email)
+                            }
+
                             fragment.progressBar.visibility = View.GONE
 
                             Snackbar.make(
