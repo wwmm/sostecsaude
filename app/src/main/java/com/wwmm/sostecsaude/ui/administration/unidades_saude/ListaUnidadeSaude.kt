@@ -4,15 +4,11 @@ import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
-import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.widget.SearchView
-import androidx.appcompat.widget.Toolbar
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
-import androidx.navigation.fragment.findNavController
-import androidx.navigation.ui.setupWithNavController
 import androidx.preference.PreferenceManager.getDefaultSharedPreferences
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.android.volley.Request
@@ -26,7 +22,7 @@ import com.wwmm.sostecsaude.myServerURL
 import kotlinx.android.synthetic.main.fragment_admin_lista_unidades.*
 import org.json.JSONArray
 
-class ListaUnidades : Fragment(), SearchView.OnQueryTextListener {
+class ListaUnidadeSaude : Fragment(), SearchView.OnQueryTextListener {
     private lateinit var mActivityController: NavController
     private var mAdapterLista: AdapterLista? = null
 
@@ -81,7 +77,7 @@ class ListaUnidades : Fragment(), SearchView.OnQueryTextListener {
                             val whitelist = response[1] as JSONArray
 
                             if (unidades != null) {
-                                mAdapterLista = AdapterLista(this@ListaUnidades, unidades,
+                                mAdapterLista = AdapterLista(this@ListaUnidadeSaude, unidades,
                                     whitelist)
 
                                 recyclerview.apply {
@@ -101,7 +97,7 @@ class ListaUnidades : Fragment(), SearchView.OnQueryTextListener {
                     progressBar.visibility = View.GONE
                 }
 
-                connectionErrorMessage(layout_admin_unidades_saude, it)
+                connectionErrorMessage(layout_admin_unidades, it)
             }
         )
 
@@ -119,6 +115,6 @@ class ListaUnidades : Fragment(), SearchView.OnQueryTextListener {
     }
 
     companion object {
-        const val LOGTAG = "Usuarios"
+        const val LOGTAG = "ListaUnidades"
     }
 }

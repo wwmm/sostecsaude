@@ -1,4 +1,4 @@
-package com.wwmm.sostecsaude.ui.administration.unidades_saude
+package com.wwmm.sostecsaude.ui.administration.unidades_manutencao
 
 import android.content.DialogInterface
 import android.util.Log
@@ -20,7 +20,7 @@ import com.wwmm.sostecsaude.R
 import com.wwmm.sostecsaude.connectionErrorMessage
 import com.wwmm.sostecsaude.myServerURL
 import kotlinx.android.synthetic.main.fragment_admin_lista_unidades.*
-import kotlinx.android.synthetic.main.recyclerview_admin_unidade_saude.view.*
+import kotlinx.android.synthetic.main.recyclerview_admin_unidade_manutencao.view.*
 import org.json.JSONArray
 import org.json.JSONObject
 import java.util.*
@@ -44,7 +44,7 @@ class AdapterLista(
         viewType: Int
     ): ViewHolder {
         val view = LayoutInflater.from(parent.context)
-            .inflate(R.layout.recyclerview_admin_unidade_saude, parent, false)
+            .inflate(R.layout.recyclerview_admin_unidade_manutencao, parent, false)
 
         return ViewHolder(view)
     }
@@ -53,10 +53,16 @@ class AdapterLista(
         val line = mFilterArray[position] as JSONObject
 
         val nome = line.getString("Nome")
+        val setor = line.getString("Setor")
+        val cnpj = line.getString("CNPJ")
+        val telefone = line.getString("Telefone")
         val local = line.getString("Local")
         val email = line.getString("Email")
 
         holder.view.textView_nome.text = nome
+        holder.view.textView_setor.text = setor
+        holder.view.textView_cnpj.text = cnpj
+        holder.view.textView_telefone.text = telefone
         holder.view.textView_local.text = local
         holder.view.textView_email.text = email
 

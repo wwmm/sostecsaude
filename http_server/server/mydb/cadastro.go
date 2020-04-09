@@ -4,11 +4,21 @@ import (
 	"log"
 )
 
-// UnidadeSaude é uma estrutura com dados da unidade usada para criar um objeto json
+// UnidadeSaude é uma estrutura com dados da unidade de saúde usada para criar um objeto json
 type UnidadeSaude struct {
 	Nome  string
 	Local string
 	Email string
+}
+
+// UnidadeManutencao é uma estrutura com dados da unidade de manutenção usada para criar um objeto json
+type UnidadeManutencao struct {
+	Nome     string
+	Setor    string
+	Local    string
+	CNPJ     string
+	Telefone string
+	Email    string
 }
 
 // GetEmails retorna uma lista com todos os emails
@@ -238,6 +248,35 @@ func GetListaUnidadeSaude() []UnidadeSaude {
 		var unidade UnidadeSaude
 
 		err = rows.Scan(&unidade.Nome, &unidade.Local, &unidade.Email)
+
+		if err != nil {
+			log.Fatal(err.Error())
+		}
+
+		unidades = append(unidades, unidade)
+	}
+
+	return unidades
+}
+
+//GetListaUnidadeManutencao retorna uma lista com as unidade de saúde
+func GetListaUnidadeManutencao() []UnidadeManutencao {
+	queryStr := "select nome,setor,local,cnpj,telefone,email from unidade_manutencao"
+
+	rows, err := db.Query(queryStr)
+
+	if err != nil {
+		log.Fatal(err.Error())
+	}
+
+	defer rows.Close()
+
+	var unidades []UnidadeManutencao
+
+	for rows.Next() {
+		var unidade UnidadeManutencao
+
+		err = rows.Scan(&unidade.Nome, &unidade.Setor, &unidade.Local, &unidade.CNPJ, &unidade.Telefone, &unidade.Email)
 
 		if err != nil {
 			log.Fatal(err.Error())
