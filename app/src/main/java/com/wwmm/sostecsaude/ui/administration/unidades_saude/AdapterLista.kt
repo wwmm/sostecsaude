@@ -150,6 +150,7 @@ class AdapterLista(
 
                 builder.apply {
                     setPositiveButton("Sim", DialogInterface.OnClickListener { _, _ ->
+                        removeUser(email, position, line)
                     })
 
                     setNegativeButton("Não", DialogInterface.OnClickListener { _, _ ->
@@ -200,6 +201,60 @@ class AdapterLista(
                 notifyDataSetChanged()
             }
         }
+    }
+
+    private fun removeUser(email: String, position: Int, line: JSONObject){
+        val request = object : StringRequest(
+            Method.POST, "$myServerURL/remover_usuario",
+            Response.Listener { response ->
+                when (val msg = response.toString()) {
+                    "invalid_token" -> {
+                        val controller = fragment.findNavController()
+
+                        controller.navigate(R.id.action_global_fazerLogin)
+                    }
+
+                    else -> {
+                        mFilterArray.remove(position)
+
+                        for (n in 0 until unidades.length()) {
+                            if (unidades[n] == line) {
+                                unidades.remove(n)
+
+                                break
+                            }
+                        }
+
+                        notifyItemRemoved(position)
+
+                        fragment.progressBar.visibility = View.GONE
+
+                        Snackbar.make(
+                            fragment.layout_admin_unidades_saude, msg,
+                            Snackbar.LENGTH_SHORT
+                        ).show()
+                    }
+                }
+            },
+            Response.ErrorListener {
+                Log.d(LOGTAG, "failed request: $it")
+
+                if (fragment.isAdded) {
+                    fragment.progressBar.visibility = View.GONE
+                }
+            }
+        ) {
+            override fun getParams(): MutableMap<String, String> {
+                val parameters = HashMap<String, String>()
+
+                parameters["token"] = mToken
+                parameters["email"] = email
+
+                return parameters
+            }
+        }
+
+        mQueue.add(request)
     }
 
     companion object {

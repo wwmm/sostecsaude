@@ -31,6 +31,7 @@ func Start() {
 	http.HandleFunc("/check_write_permission", checkWritePermission)
 	http.HandleFunc("/update_fb_token", updateFBtoken)
 	http.HandleFunc("/update_whitelist", updateWhitelist)
+	http.HandleFunc("/remover_usuario", removerUsuario)
 
 	http.HandleFunc("/update_unidade", updateUnidade)
 	http.HandleFunc("/get_unidade", getUnidade)
