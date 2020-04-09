@@ -182,7 +182,9 @@ func ListaInteresseManutencao(email string) []string {
 
 //ListaInteressadosManutencao retorna uma lista com as unidades interessadas em consertar o equipamento
 func ListaInteressadosManutencao(id string) []string {
-	queryStr := "select email from interessados_manutencao where id_equipamento=?"
+	queryStr := `select email from interessados_manutencao where id_equipamento=? and 
+		email in (select email from whitelist)
+	`
 
 	rows, err := db.Query(queryStr, id)
 
