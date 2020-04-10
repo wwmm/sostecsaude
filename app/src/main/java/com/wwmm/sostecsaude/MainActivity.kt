@@ -24,13 +24,11 @@ class MainActivity : AppCompatActivity() {
         // Create the NotificationChannel, but only on API 26+ because
         // the NotificationChannel class is new and not in the support library
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            val id = getString(R.string.notification_check_permission_id)
+            val id = getString(R.string.notification_avisos_id)
 
-            val name = getString(R.string.notification_check_permission_name)
+            val name = getString(R.string.notification_avisos_name)
 
-            val descriptionText = getString(
-                R.string.notification_check_permission_description
-            )
+            val descriptionText = getString(R.string.notification_avisos_description)
 
             val importance = NotificationManager.IMPORTANCE_DEFAULT
 

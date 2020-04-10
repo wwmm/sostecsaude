@@ -71,10 +71,10 @@
     </string>
     <string name="title_continuar">Continuar</string>
 
-    <string name="notification_check_permission_id">check_write_permission</string>
-    <string name="notification_check_permission_name">Banco de dados</string>
-    <string name="notification_check_permission_description">
-        Avisa o usuário que ele tem permissão para inserir informações no banco de dados
+    <string name="notification_avisos_id">avisos</string>
+    <string name="notification_avisos_name">Avisos</string>
+    <string name="notification_avisos_description">
+        Avisos
     </string>
 
     <string name="title_administration_area">Área Administrativa</string>
@@ -84,7 +84,4 @@
     <string name="title_oficinas">Oficinas</string>
     <string name="title_whitelist">Whitelist</string>
     <string name="title_nome">Nome</string>
-
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

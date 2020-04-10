@@ -380,6 +380,10 @@ func updateWhitelist(w http.ResponseWriter, r *http.Request) {
 
 			if state == "true" {
 				mydb.AddToWhitelist(emailUnidade)
+
+				fbToken := mydb.GetFBtoken(emailUnidade)
+
+				sendFirebaseMessage(fbToken, "Validação de Cadastro", "Seu cadastro foi validado!")
 			} else {
 				mydb.RemoveFromWhitelist(emailUnidade)
 			}

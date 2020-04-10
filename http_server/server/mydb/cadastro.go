@@ -230,6 +230,23 @@ func UpdateFBtoken(email string, token string) {
 	}
 }
 
+//GetFBtoken pega o token do firebase
+func GetFBtoken(email string) string {
+	queryStr := "select token from fb_tokens where email=?"
+
+	row := db.QueryRow(queryStr, email)
+
+	var token string
+
+	err := row.Scan(&token)
+
+	if err != nil {
+		log.Println(err.Error())
+	}
+
+	return token
+}
+
 //GetListaUnidadeSaude retorna uma lista com as unidade de saúde
 func GetListaUnidadeSaude() []UnidadeSaude {
 	queryStr := "select nome,local,email from unidade_saude"
