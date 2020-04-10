@@ -221,7 +221,7 @@ func RemoveFromWhitelist(email string) {
 
 //UpdateFBtoken atualiza o token do firebase
 func UpdateFBtoken(email string, token string) {
-	queryStr := "update fb_token set token=? where email=?"
+	queryStr := "update fb_tokens set token=? where email=?"
 
 	_, err := db.Exec(queryStr, token, email)
 

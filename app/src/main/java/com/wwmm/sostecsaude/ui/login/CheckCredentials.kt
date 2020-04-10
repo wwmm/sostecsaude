@@ -18,6 +18,7 @@ import com.android.volley.toolbox.Volley
 import com.wwmm.sostecsaude.R
 import com.wwmm.sostecsaude.connectionErrorMessage
 import com.wwmm.sostecsaude.myServerURL
+import com.wwmm.sostecsaude.sendFirebaseToken
 import kotlinx.android.synthetic.main.fragment_check_credentials.*
 
 class CheckCredentials : Fragment() {
@@ -76,12 +77,18 @@ class CheckCredentials : Fragment() {
 
                         editor.apply()
 
+                        val fbToken = mMyPrefs.getString("FBtoken", "")!!
+
                         when (perfil) {
                             "unidade_saude" -> {
+                                sendFirebaseToken(mQueue, token, fbToken)
+
                                 mController.navigate(R.id.action_checkCredentials_to_unidadeSaude)
                             }
 
                             "unidade_manutencao" -> {
+                                sendFirebaseToken(mQueue, token, fbToken)
+
                                 mController.navigate(R.id.action_checkCredentials_to_unidadeManutencao)
                             }
 

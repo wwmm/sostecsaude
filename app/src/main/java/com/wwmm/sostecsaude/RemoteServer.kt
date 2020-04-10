@@ -1,8 +1,12 @@
 package com.wwmm.sostecsaude
 
+import android.util.Log
 import android.view.View
 import com.android.volley.NetworkError
+import com.android.volley.RequestQueue
+import com.android.volley.Response
 import com.android.volley.VolleyError
+import com.android.volley.toolbox.StringRequest
 import com.google.android.material.snackbar.Snackbar
 
 const val myServerURL = "http://albali.eic.cefet-rj.br:8081"
@@ -15,4 +19,25 @@ fun connectionErrorMessage(view: View, volleyError: VolleyError) {
             Snackbar.LENGTH_LONG
         ).show()
     }
+}
+
+fun sendFirebaseToken(queue: RequestQueue, token: String, fbToken: String) {
+    val request = object : StringRequest(
+        Method.POST, "$myServerURL/update_fb_token",
+        null,
+        Response.ErrorListener {
+            Log.d("sendFirebaseToken", "failed request: $it")
+        }
+    ) {
+        override fun getParams(): MutableMap<String, String> {
+            val params = HashMap<String, String>()
+
+            params["token"] = token
+            params["fb_token"] = fbToken
+
+            return params
+        }
+    }
+
+    queue.add(request)
 }

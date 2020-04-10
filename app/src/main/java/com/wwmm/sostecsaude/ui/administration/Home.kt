@@ -14,7 +14,6 @@ import androidx.preference.PreferenceManager
 import com.google.android.material.tabs.TabLayoutMediator
 import com.wwmm.sostecsaude.R
 import kotlinx.android.synthetic.main.fragment_admin_home.*
-import kotlinx.android.synthetic.main.fragment_admin_home.viewpager
 
 class Home : Fragment(), Toolbar.OnMenuItemClickListener {
     private lateinit var mController: NavController

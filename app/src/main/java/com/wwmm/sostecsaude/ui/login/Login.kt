@@ -17,6 +17,7 @@ import com.google.android.material.snackbar.Snackbar
 import com.wwmm.sostecsaude.R
 import com.wwmm.sostecsaude.connectionErrorMessage
 import com.wwmm.sostecsaude.myServerURL
+import com.wwmm.sostecsaude.sendFirebaseToken
 import kotlinx.android.synthetic.main.fragment_login.*
 
 class Login : Fragment() {
@@ -87,14 +88,20 @@ class Login : Fragment() {
 
                                 editor.apply()
 
+                                val fbToken = prefs.getString("FBtoken", "")!!
+
                                 progressBar.visibility = View.GONE
 
                                 when (perfil) {
                                     "unidade_saude" -> {
+                                        sendFirebaseToken(queue, token, fbToken)
+
                                         controller.navigate(R.id.action_login_to_unidadeSaude)
                                     }
 
                                     "unidade_manutencao" -> {
+                                        sendFirebaseToken(queue, token, fbToken)
+
                                         controller.navigate(R.id.action_fazerLogin_to_unidadeManutencao)
                                     }
 

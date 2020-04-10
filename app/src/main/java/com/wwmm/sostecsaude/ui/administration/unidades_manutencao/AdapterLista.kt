@@ -209,7 +209,7 @@ class AdapterLista(
         }
     }
 
-    private fun removeUser(email: String, position: Int, line: JSONObject){
+    private fun removeUser(email: String, position: Int, line: JSONObject) {
         val request = object : StringRequest(
             Method.POST, "$myServerURL/remover_usuario",
             Response.Listener { response ->

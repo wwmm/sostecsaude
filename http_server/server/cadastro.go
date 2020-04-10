@@ -283,9 +283,13 @@ func checkWritePermission(w http.ResponseWriter, r *http.Request) {
 }
 
 func updateFBtoken(w http.ResponseWriter, r *http.Request) {
-	status, _, email, _ := verifyToken(w, r)
+	status, perfil, email, _ := verifyToken(w, r)
 
 	if status {
+		if perfil == perfilAdministrador || email == cfg.AdminEmail {
+			return
+		}
+
 		err := r.ParseForm()
 
 		if err != nil {

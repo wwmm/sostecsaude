@@ -19,6 +19,7 @@ import com.google.android.material.snackbar.Snackbar
 import com.wwmm.sostecsaude.R
 import com.wwmm.sostecsaude.connectionErrorMessage
 import com.wwmm.sostecsaude.myServerURL
+import com.wwmm.sostecsaude.sendFirebaseToken
 import kotlinx.android.synthetic.main.fragment_criar_conta.*
 
 class CriarConta : Fragment() {
@@ -114,12 +115,18 @@ class CriarConta : Fragment() {
 
                                 editor.apply()
 
+                                val fbToken = prefs.getString("FBtoken", "")!!
+
                                 when (perfil) {
                                     "unidade_saude" -> {
+                                        sendFirebaseToken(queue, msg, fbToken)
+
                                         mController.navigate(R.id.action_criarConta_to_dadosUnidadeSaude)
                                     }
 
                                     "unidade_manutencao" -> {
+                                        sendFirebaseToken(queue, msg, fbToken)
+
                                         mController.navigate(R.id.action_criarConta_to_dadosUnidadeManutencao)
                                     }
                                 }

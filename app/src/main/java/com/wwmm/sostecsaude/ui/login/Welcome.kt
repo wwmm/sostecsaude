@@ -9,7 +9,6 @@ import androidx.navigation.fragment.findNavController
 import androidx.preference.PreferenceManager
 import com.wwmm.sostecsaude.R
 import kotlinx.android.synthetic.main.fragment_welcome.*
-import java.util.concurrent.TimeUnit
 
 class Welcome : Fragment() {
 

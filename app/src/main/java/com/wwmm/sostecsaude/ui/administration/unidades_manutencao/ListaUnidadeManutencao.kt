@@ -2,11 +2,11 @@ package com.wwmm.sostecsaude.ui.administration.unidades_manutencao
 
 import android.os.Bundle
 import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.widget.SearchView
+import androidx.fragment.app.Fragment
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
 import androidx.preference.PreferenceManager.getDefaultSharedPreferences
@@ -15,7 +15,6 @@ import com.android.volley.Request
 import com.android.volley.Response
 import com.android.volley.toolbox.JsonArrayRequest
 import com.android.volley.toolbox.Volley
-
 import com.wwmm.sostecsaude.R
 import com.wwmm.sostecsaude.connectionErrorMessage
 import com.wwmm.sostecsaude.myServerURL
@@ -72,13 +71,15 @@ class ListaUnidadeManutencao : Fragment(), SearchView.OnQueryTextListener {
                     if (response.length() > 0) {
                         if (response[0] == "invalid_token") {
                             mActivityController.navigate(R.id.action_global_fazerLogin)
-                        }else if (response.length() == 2) {
+                        } else if (response.length() == 2) {
                             val unidades = response[0] as? JSONArray
                             val whitelist = response[1] as JSONArray
 
                             if (unidades != null) {
-                                mAdapterLista = AdapterLista(this@ListaUnidadeManutencao, unidades,
-                                    whitelist)
+                                mAdapterLista = AdapterLista(
+                                    this@ListaUnidadeManutencao, unidades,
+                                    whitelist
+                                )
 
                                 recyclerview.apply {
                                     adapter = mAdapterLista

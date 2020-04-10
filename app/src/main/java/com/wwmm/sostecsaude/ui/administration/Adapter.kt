@@ -5,7 +5,7 @@ import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.wwmm.sostecsaude.ui.administration.unidades_manutencao.ListaUnidadeManutencao
 import com.wwmm.sostecsaude.ui.administration.unidades_saude.ListaUnidadeSaude
 
-class Adapter (fragment: Fragment) : FragmentStateAdapter(fragment) {
+class Adapter(fragment: Fragment) : FragmentStateAdapter(fragment) {
 
     override fun getItemCount(): Int = 2
 

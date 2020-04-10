@@ -9,7 +9,6 @@ import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.preference.PreferenceManager
 import com.google.android.gms.tasks.OnCompleteListener
-import com.google.firebase.FirebaseApp
 import com.google.firebase.iid.FirebaseInstanceId
 
 
