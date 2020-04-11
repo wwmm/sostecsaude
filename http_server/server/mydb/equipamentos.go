@@ -13,6 +13,7 @@ type Equipamento struct {
 	Defeito     string
 	Unidade     string
 	Local       string
+	Email       string
 }
 
 //UnidadeSaudeAdicionarEquipamento adiciona um equipamento com defeito no banco de dados
@@ -98,7 +99,7 @@ func ListaEquipamentosUnidadeSaude(email string) []Equipamento {
 
 //ListaTodosEquipamentos retorna uma lista com todos os equipamentos defeituosos
 func ListaTodosEquipamentos() []Equipamento {
-	queryStr := `select id,nome,fabricante,modelo,numero_serie,quantidade,defeito,unidade,local from equipamentos
+	queryStr := `select id,nome,fabricante,modelo,numero_serie,quantidade,defeito,unidade,local,email from equipamentos
 		where email in (select email from whitelist) order by nome
 	`
 
@@ -117,7 +118,7 @@ func ListaTodosEquipamentos() []Equipamento {
 
 		err = rows.Scan(&equipamento.ID, &equipamento.Nome, &equipamento.Fabricante, &equipamento.Modelo,
 			&equipamento.NumeroSerie, &equipamento.Quantidade, &equipamento.Defeito, &equipamento.Unidade,
-			&equipamento.Local)
+			&equipamento.Local, &equipamento.Email)
 
 		if err != nil {
 			log.Println(err.Error())
@@ -209,4 +210,25 @@ func ListaInteressadosManutencao(id string) []string {
 	}
 
 	return emails
+}
+
+//GetEquipamentoByID pega equipamento com o id dado
+func GetEquipamentoByID(id string) Equipamento {
+	queryStr := `select id,nome,fabricante,modelo,numero_serie,quantidade,defeito,unidade,local,email from equipamentos 
+		where id=?
+	`
+
+	row := db.QueryRow(queryStr, id)
+
+	var equipamento Equipamento
+
+	err := row.Scan(&equipamento.ID, &equipamento.Nome, &equipamento.Fabricante, &equipamento.Modelo,
+		&equipamento.NumeroSerie, &equipamento.Quantidade, &equipamento.Defeito, &equipamento.Unidade,
+		&equipamento.Local, &equipamento.Email)
+
+	if err != nil {
+		log.Println(err.Error())
+	}
+
+	return equipamento
 }

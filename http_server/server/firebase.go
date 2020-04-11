@@ -31,14 +31,14 @@ func sendFirebaseMessage(fbToken string, title string, body string) {
 			"Body":  body,
 		}}
 
-	_, err = client.Send(ctx, message)
+	response, err := client.Send(ctx, message)
 
 	if err != nil {
 		log.Println(err)
 	}
 
 	// Response is a message ID string.
-	// log.Println("Successfully sent message:", response)
+	log.Println("Successfully sent message:", response)
 }
 
 func sendFirebaseMessageToTopic(topic string, title string, body string) {

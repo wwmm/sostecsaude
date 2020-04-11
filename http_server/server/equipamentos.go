@@ -162,6 +162,15 @@ func unidadeManutencaoAtualizarInteresse(w http.ResponseWriter, r *http.Request)
 
 		if state == "true" {
 			mydb.UnidadeManutencaoAdicionarInteresse(email, id)
+
+			if inTheWhitelist(email) {
+				unidadeManutencao, _, _, _, _ := mydb.GetUnidadeManutencao(email)
+				equipamento := mydb.GetEquipamentoByID(id)
+
+				fbToken := mydb.GetFBtoken(equipamento.Email)
+
+				sendFirebaseMessage(fbToken, unidadeManutencao, "Interessado em consertar "+equipamento.Nome)
+			}
 		} else {
 			mydb.UnidadeManutencaoRemoverInteresse(email, id)
 		}
