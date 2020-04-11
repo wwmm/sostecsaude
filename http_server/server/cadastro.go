@@ -160,6 +160,12 @@ func cadastrar(w http.ResponseWriter, r *http.Request) {
 	token := createToken(w, perfil, email)
 
 	fmt.Fprintf(w, token)
+
+	if perfil == perfilUnidadeSaude {
+		sendFirebaseMessageToTopic(topicAdministration, "Nova unidade de saúde", "E-mail: "+email)
+	} else if perfil == perfilUnidadeManutencao {
+		sendFirebaseMessageToTopic(topicAdministration, "Nova unidade de manutenção", "E-mail: "+email)
+	}
 }
 
 // Faz a autenticação do usuário administrador e carrega a página de professor

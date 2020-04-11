@@ -12,6 +12,7 @@ const (
 	perfilUnidadeSaude      = "unidade_saude"
 	perfilUnidadeManutencao = "unidade_manutencao"
 	perfilAdministrador     = "administrador"
+	topicAdministration     = "administration"
 )
 
 // Start http and websockets server

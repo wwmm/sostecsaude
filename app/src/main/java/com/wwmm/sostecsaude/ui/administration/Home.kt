@@ -12,11 +12,18 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.setupWithNavController
 import androidx.preference.PreferenceManager
 import com.google.android.material.tabs.TabLayoutMediator
+import com.google.firebase.messaging.FirebaseMessaging
 import com.wwmm.sostecsaude.R
 import kotlinx.android.synthetic.main.fragment_admin_home.*
 
 class Home : Fragment(), Toolbar.OnMenuItemClickListener {
     private lateinit var mController: NavController
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        FirebaseMessaging.getInstance().subscribeToTopic("administration")
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,

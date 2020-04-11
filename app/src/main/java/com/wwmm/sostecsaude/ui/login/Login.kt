@@ -14,6 +14,7 @@ import com.android.volley.Response
 import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
 import com.google.android.material.snackbar.Snackbar
+import com.google.firebase.messaging.FirebaseMessaging
 import com.wwmm.sostecsaude.R
 import com.wwmm.sostecsaude.connectionErrorMessage
 import com.wwmm.sostecsaude.myServerURL
@@ -21,6 +22,12 @@ import com.wwmm.sostecsaude.sendFirebaseToken
 import kotlinx.android.synthetic.main.fragment_login.*
 
 class Login : Fragment() {
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        FirebaseMessaging.getInstance().unsubscribeFromTopic("administration")
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
