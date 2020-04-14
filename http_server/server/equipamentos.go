@@ -39,6 +39,12 @@ func unidadeSaudeAdicionarEquipamento(w http.ResponseWriter, r *http.Request) {
 		mydb.UnidadeSaudeAdicionarEquipamento(nome, fabricante, modelo, numeroSerie, n, defeito, unidade, local, email)
 
 		fmt.Fprintf(w, "Dados inseridos!")
+
+		if inTheWhitelist(email) {
+			body := "Equipamento: " + nome + "<br>Unidade: " + unidade + "<br>Local: " + local
+
+			sendFirebaseMessageToTopic(messageTopicPedidoReparo, "Pedido de reparo", body, messageTopicPedidoReparo)
+		}
 	}
 }
 
@@ -169,7 +175,8 @@ func unidadeManutencaoAtualizarInteresse(w http.ResponseWriter, r *http.Request)
 
 				fbToken := mydb.GetFBtoken(equipamento.Email)
 
-				sendFirebaseMessage(fbToken, unidadeManutencao, "Interessado em consertar "+equipamento.Nome)
+				sendFirebaseMessage(fbToken, unidadeManutencao, "Interessado em consertar "+equipamento.Nome,
+					messageGroupOfertaReparo)
 			}
 		} else {
 			mydb.UnidadeManutencaoRemoverInteresse(email, id)

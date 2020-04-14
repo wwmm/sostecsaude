@@ -9,7 +9,7 @@ import (
 	"firebase.google.com/go/messaging"
 )
 
-func sendFirebaseMessage(fbToken string, title string, body string) {
+func sendFirebaseMessage(fbToken string, title string, body string, group string) {
 	ctx := context.Background()
 
 	app, err := firebase.NewApp(ctx, nil)
@@ -29,7 +29,7 @@ func sendFirebaseMessage(fbToken string, title string, body string) {
 		Data: map[string]string{
 			"Title": title,
 			"Body":  body,
-		}}
+			"Group": group}}
 
 	response, err := client.Send(ctx, message)
 
@@ -41,7 +41,7 @@ func sendFirebaseMessage(fbToken string, title string, body string) {
 	log.Println("Successfully sent message:", response)
 }
 
-func sendFirebaseMessageToTopic(topic string, title string, body string) {
+func sendFirebaseMessageToTopic(topic string, title string, body string, group string) {
 	ctx := context.Background()
 
 	app, err := firebase.NewApp(ctx, nil)
@@ -61,7 +61,7 @@ func sendFirebaseMessageToTopic(topic string, title string, body string) {
 		Data: map[string]string{
 			"Title": title,
 			"Body":  body,
-		}}
+			"Group": group}}
 
 	response, err := client.Send(ctx, message)
 

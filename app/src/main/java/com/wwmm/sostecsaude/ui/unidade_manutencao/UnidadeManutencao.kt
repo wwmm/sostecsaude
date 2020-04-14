@@ -19,6 +19,7 @@ import com.android.volley.Request
 import com.android.volley.Response
 import com.android.volley.toolbox.JsonArrayRequest
 import com.android.volley.toolbox.Volley
+import com.google.firebase.messaging.FirebaseMessaging
 import com.wwmm.sostecsaude.R
 import com.wwmm.sostecsaude.connectionErrorMessage
 import com.wwmm.sostecsaude.myServerURL
@@ -29,6 +30,12 @@ class UnidadeManutencao : Fragment(), Toolbar.OnMenuItemClickListener,
     SearchView.OnQueryTextListener {
     private lateinit var mActivityController: NavController
     private var mAdapter: Adapter? = null
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        FirebaseMessaging.getInstance().subscribeToTopic("pedido_reparo")
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,

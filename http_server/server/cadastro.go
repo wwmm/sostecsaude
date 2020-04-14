@@ -162,9 +162,11 @@ func cadastrar(w http.ResponseWriter, r *http.Request) {
 	fmt.Fprintf(w, token)
 
 	if perfil == perfilUnidadeSaude {
-		sendFirebaseMessageToTopic(topicAdministration, "Nova unidade de saúde", "E-mail: "+email)
+		sendFirebaseMessageToTopic(messageTopicAdministration, "Nova unidade de saúde", "E-mail: "+email,
+			messageGroupAdministration)
 	} else if perfil == perfilUnidadeManutencao {
-		sendFirebaseMessageToTopic(topicAdministration, "Nova unidade de manutenção", "E-mail: "+email)
+		sendFirebaseMessageToTopic(messageTopicAdministration, "Nova unidade de manutenção", "E-mail: "+email,
+			messageGroupAdministration)
 	}
 }
 
@@ -389,7 +391,8 @@ func updateWhitelist(w http.ResponseWriter, r *http.Request) {
 
 				fbToken := mydb.GetFBtoken(emailUnidade)
 
-				sendFirebaseMessage(fbToken, "Validação de Cadastro", "Seu cadastro foi validado!")
+				sendFirebaseMessage(fbToken, "Validação de Cadastro", "Seu cadastro foi validado!",
+					messageGroupCadastro)
 			} else {
 				mydb.RemoveFromWhitelist(emailUnidade)
 			}

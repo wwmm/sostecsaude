@@ -27,6 +27,7 @@ class Login : Fragment() {
         super.onCreate(savedInstanceState)
 
         FirebaseMessaging.getInstance().unsubscribeFromTopic("administration")
+        FirebaseMessaging.getInstance().unsubscribeFromTopic("pedido_reparo")
     }
 
     override fun onCreateView(

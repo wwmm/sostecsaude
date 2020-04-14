@@ -9,10 +9,15 @@ import (
 var logTag = "server: "
 
 const (
-	perfilUnidadeSaude      = "unidade_saude"
-	perfilUnidadeManutencao = "unidade_manutencao"
-	perfilAdministrador     = "administrador"
-	topicAdministration     = "administration"
+	perfilUnidadeSaude         = "unidade_saude"
+	perfilUnidadeManutencao    = "unidade_manutencao"
+	perfilAdministrador        = "administrador"
+	messageTopicAdministration = "administration"
+	messageTopicPedidoReparo   = "pedido_reparo"
+	messageGroupPedidoReparo   = "group_pedido_reparo"
+	messageGroupOfertaReparo   = "group_oferta_reparo"
+	messageGroupCadastro       = "group_cadastro"
+	messageGroupAdministration = "group_administration"
 )
 
 // Start http and websockets server
