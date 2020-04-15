@@ -19,7 +19,7 @@
 
     <string name="title_empresa">Empresa</string>
     <string name="title_equipamentos">Equipamentos</string>
-    <string name="title_quantidade_com_defeito">Quantidade de Equipamentos Danificados</string>
+    <string name="title_quantidade_com_defeito">Quantidade de Equipamentos Danificados:</string>
     <string name="title_local">Local</string>
     <string name="title_cnpj">CNPJ</string>
     <string name="title_telefone">Telefone</string>
