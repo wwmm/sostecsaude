@@ -105,7 +105,7 @@ func unidadeSaudeRemoverEquipamento(w http.ResponseWriter, r *http.Request) {
 func unidadeSaudePegarEquipamentos(w http.ResponseWriter, r *http.Request) {
 	status, perfil, email, _ := verifyToken(w, r)
 
-	if perfil == perfilUnidadeSaude {
+	if perfil != perfilUnidadeSaude {
 		fmt.Fprintf(w, "perfil_invalido")
 
 		return
@@ -113,35 +113,6 @@ func unidadeSaudePegarEquipamentos(w http.ResponseWriter, r *http.Request) {
 
 	if status {
 		equipamentos := mydb.ListaEquipamentosUnidadeSaude(email)
-
-		jsonEquipamentos, err := json.Marshal(equipamentos)
-
-		if err != nil {
-			log.Println(err.Error())
-		}
-
-		// fmt.Fprintf(os.Stdout, "%s", jsonEquipamentos)
-		fmt.Fprintf(w, "%s", jsonEquipamentos)
-	}
-}
-
-func adminPegarEquipamentos(w http.ResponseWriter, r *http.Request) {
-	status, perfil, email, jasonArray := verifyToken(w, r)
-
-	if perfil != perfilAdministrador || email != cfg.AdminEmail {
-		fmt.Fprintf(w, "perfil_invalido")
-
-		return
-	}
-
-	if status {
-		if len(jasonArray) != 2 {
-			return
-		}
-
-		emailUnidade := jasonArray[1]
-
-		equipamentos := mydb.ListaEquipamentosUnidadeSaude(emailUnidade)
 
 		jsonEquipamentos, err := json.Marshal(equipamentos)
 
