@@ -57,6 +57,11 @@ class Home : Fragment(), Toolbar.OnMenuItemClickListener {
                     tab.text = getString(R.string.title_oficinas)
                     tab.setIcon(R.drawable.ic_build)
                 }
+
+                2 -> {
+                    tab.text = getString(R.string.title_equipamentos)
+                    tab.setIcon(R.drawable.ic_scanner)
+                }
             }
         }.attach()
     }

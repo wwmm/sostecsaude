@@ -31,7 +31,7 @@
                 app:layout_constraintTop_toBottomOf="@+id/progressBar" />
 
             <EditText
-                android:id="@+id/editText_nome"
+                android:id="@+id/textView_nome"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
@@ -61,10 +61,10 @@
                 android:layout_marginTop="16dp"
                 android:text="@string/title_quantidade"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/editText_numero_serie" />
+                app:layout_constraintTop_toBottomOf="@+id/textView_numero_serie" />
 
             <EditText
-                android:id="@+id/editText_quantidade"
+                android:id="@+id/textView_quantidade"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
@@ -74,7 +74,7 @@
                 app:layout_constraintStart_toEndOf="@+id/textView4" />
 
             <EditText
-                android:id="@+id/editText_defeito"
+                android:id="@+id/textView_defeito"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
@@ -96,7 +96,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.498"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/editText_defeito" />
+                app:layout_constraintTop_toBottomOf="@+id/textView_defeito" />
 
             <ProgressBar
                 android:id="@+id/progressBar"
@@ -116,10 +116,10 @@
                 android:text="@string/title_fabricante"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/editText_nome" />
+                app:layout_constraintTop_toBottomOf="@+id/textView_nome" />
 
             <EditText
-                android:id="@+id/editText_fabricante"
+                android:id="@+id/textView_fabricante"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
@@ -139,10 +139,10 @@
                 android:text="@string/title_modelo"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/editText_fabricante" />
+                app:layout_constraintTop_toBottomOf="@+id/textView_fabricante" />
 
             <EditText
-                android:id="@+id/editText_modelo"
+                android:id="@+id/textView_modelo"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
@@ -162,10 +162,10 @@
                 android:text="@string/title_numero_serie"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/editText_modelo" />
+                app:layout_constraintTop_toBottomOf="@+id/textView_modelo" />
 
             <EditText
-                android:id="@+id/editText_numero_serie"
+                android:id="@+id/textView_numero_serie"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
@@ -182,9 +182,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/title_unidades_minusculo"
-                app:layout_constraintBaseline_toBaselineOf="@+id/editText_quantidade"
+                app:layout_constraintBaseline_toBaselineOf="@+id/textView_quantidade"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/editText_quantidade" />
+                app:layout_constraintStart_toEndOf="@+id/textView_quantidade" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>

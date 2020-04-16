@@ -48,11 +48,11 @@ class Registrar : Fragment(), Toolbar.OnMenuItemClickListener {
         progressBar.visibility = View.GONE
 
         button_add.setOnClickListener {
-            val nome = editText_nome.text.toString()
-            val fabricante = editText_fabricante.text.toString()
-            val modelo = editText_modelo.text.toString()
-            val numeroSerie = editText_numero_serie.text.toString()
-            val defeito = editText_defeito.text.toString()
+            val nome = textView_nome.text.toString()
+            val fabricante = textView_fabricante.text.toString()
+            val modelo = textView_modelo.text.toString()
+            val numeroSerie = textView_numero_serie.text.toString()
+            val defeito = textView_defeito.text.toString()
 
             val imm =
                 requireActivity().getSystemService(Context.INPUT_METHOD_SERVICE) as
@@ -65,9 +65,9 @@ class Registrar : Fragment(), Toolbar.OnMenuItemClickListener {
 
             if (nome.isNotBlank() && fabricante.isNotBlank() && modelo.isNotBlank()
                 && numeroSerie.isNotBlank() && defeito.isNotBlank() &&
-                editText_quantidade.text.isNotBlank()
+                textView_quantidade.text.isNotBlank()
             ) {
-                val quantidade = editText_quantidade.text.toString()
+                val quantidade = textView_quantidade.text.toString()
 
                 progressBar.visibility = View.VISIBLE
 
@@ -98,12 +98,12 @@ class Registrar : Fragment(), Toolbar.OnMenuItemClickListener {
                                 }
 
                                 else -> {
-                                    editText_nome.text.clear()
-                                    editText_fabricante.text.clear()
-                                    editText_modelo.text.clear()
-                                    editText_numero_serie.text.clear()
-                                    editText_quantidade.text.clear()
-                                    editText_defeito.text.clear()
+                                    textView_nome.text.clear()
+                                    textView_fabricante.text.clear()
+                                    textView_modelo.text.clear()
+                                    textView_numero_serie.text.clear()
+                                    textView_quantidade.text.clear()
+                                    textView_defeito.text.clear()
 
                                     progressBar.visibility = View.GONE
 

@@ -47,6 +47,8 @@ func Start() {
 	http.HandleFunc("/unidade_saude_remover_equipamento", unidadeSaudeRemoverEquipamento)
 	http.HandleFunc("/unidade_saude_pegar_equipamentos", unidadeSaudePegarEquipamentos)
 
+	http.HandleFunc("/admin_pegar_equipamentos", adminPegarEquipamentos)
+
 	http.HandleFunc("/lista_todos_equipamentos", listaTodosEquipamentos)
 	http.HandleFunc("/lista_unidade_saude", listaUnidadeSaude)
 	http.HandleFunc("/lista_unidade_manutencao", listaUnidadeManutencao)
