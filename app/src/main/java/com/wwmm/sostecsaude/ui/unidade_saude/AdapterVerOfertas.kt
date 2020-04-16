@@ -1,5 +1,6 @@
 package com.wwmm.sostecsaude.ui.unidade_saude
 
+import android.transition.TransitionManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -24,6 +25,17 @@ class AdapterVerOfertas(private val lines: JSONArray) :
     ): ViewHolder {
         val view = LayoutInflater.from(parent.context)
             .inflate(R.layout.recyclerview_unidade_saude_ver_ofertas, parent, false)
+
+        view.unidadeSaudeVerOfertasHeader.setOnClickListener {
+            TransitionManager.beginDelayedTransition(view as ViewGroup?);
+            if (view.unidadeSaudeVerOfertasDetail.visibility === View.VISIBLE) {
+                view.unidadeSaudeVerOfertasDetail.visibility = View.GONE
+                view.unidadeSaudeVerOfertasChevron.setImageResource(R.drawable.ic_arrow_drop_down_black_24dp)
+            } else {
+                view.unidadeSaudeVerOfertasDetail.visibility = View.VISIBLE
+                view.unidadeSaudeVerOfertasChevron.setImageResource(R.drawable.ic_arrow_drop_up_black_24dp)
+            }
+        }
 
         return ViewHolder(view)
     }
