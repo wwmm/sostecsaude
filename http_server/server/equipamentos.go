@@ -125,6 +125,35 @@ func unidadeSaudePegarEquipamentos(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
+func adminPegarEquipamentos(w http.ResponseWriter, r *http.Request) {
+	status, perfil, email, jasonArray := verifyToken(w, r)
+
+	if perfil != perfilAdministrador || email != cfg.AdminEmail {
+		fmt.Fprintf(w, "perfil_invalido")
+
+		return
+	}
+
+	if status {
+		if len(jasonArray) != 2 {
+			return
+		}
+
+		emailUnidade := jasonArray[1]
+
+		equipamentos := mydb.ListaEquipamentosUnidadeSaude(emailUnidade)
+
+		jsonEquipamentos, err := json.Marshal(equipamentos)
+
+		if err != nil {
+			log.Println(err.Error())
+		}
+
+		// fmt.Fprintf(os.Stdout, "%s", jsonEquipamentos)
+		fmt.Fprintf(w, "%s", jsonEquipamentos)
+	}
+}
+
 func listaTodosEquipamentos(w http.ResponseWriter, r *http.Request) {
 	status, _, email, _ := verifyToken(w, r)
 
