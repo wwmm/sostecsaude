@@ -30,6 +30,9 @@
     <string name="title_ofertas">Ofertas</string>
     <string name="title_ofertas_manutencao">Ofertas de Manutenção</string>
 
+    <string name="title_com_defeito">Com Defeito</string>
+    <string name="title_estou_consertando">Estou Consertando</string>
+
     <string name="title_email">Email</string>
     <string name="title_seu_email">Seu Email</string>
     <string name="title_contato">Contato</string>
@@ -84,4 +87,7 @@
     <string name="title_oficinas">Oficinas</string>
     <string name="title_whitelist">Whitelist</string>
     <string name="title_nome">Nome</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

@@ -1,12 +1,10 @@
 package com.wwmm.sostecsaude.ui.unidade_manutencao
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
-import androidx.appcompat.widget.SearchView
 import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.Fragment
 import androidx.navigation.NavController
@@ -14,22 +12,13 @@ import androidx.navigation.Navigation
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.setupWithNavController
 import androidx.preference.PreferenceManager
-import androidx.recyclerview.widget.LinearLayoutManager
-import com.android.volley.Request
-import com.android.volley.Response
-import com.android.volley.toolbox.JsonArrayRequest
-import com.android.volley.toolbox.Volley
+import com.google.android.material.tabs.TabLayoutMediator
 import com.google.firebase.messaging.FirebaseMessaging
 import com.wwmm.sostecsaude.R
-import com.wwmm.sostecsaude.connectionErrorMessage
-import com.wwmm.sostecsaude.myServerURL
 import kotlinx.android.synthetic.main.fragment_unidade_manutencao.*
-import org.json.JSONArray
 
-class UnidadeManutencao : Fragment(), Toolbar.OnMenuItemClickListener,
-    SearchView.OnQueryTextListener {
+class UnidadeManutencao : Fragment(), Toolbar.OnMenuItemClickListener {
     private lateinit var mActivityController: NavController
-    private var mAdapter: Adapter? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -49,72 +38,26 @@ class UnidadeManutencao : Fragment(), Toolbar.OnMenuItemClickListener,
 
         mActivityController = Navigation.findNavController(requireActivity(), R.id.nav_host_main)
 
-        val controller = findNavController()
-
         toolbar.setupWithNavController(findNavController())
         toolbar.inflateMenu(R.menu.menu_toolbar)
+        toolbar.menu.findItem(R.id.menu_search).isVisible = false
         toolbar.setOnMenuItemClickListener(this)
 
-        val actionView = toolbar.menu.findItem(R.id.menu_search).actionView as
-                SearchView
+        viewpager.adapter = ViewPagerAdapter(this)
 
-        actionView.setOnQueryTextListener(this)
-
-        recyclerview.apply {
-            setHasFixedSize(true)
-
-            layoutManager = LinearLayoutManager(requireContext())
-        }
-
-        val prefs = PreferenceManager.getDefaultSharedPreferences(requireContext())
-
-        val token = prefs.getString("Token", "")!!
-
-        val jsonToken = JSONArray()
-
-        jsonToken.put(0, token)
-
-        val queue = Volley.newRequestQueue(requireContext())
-
-        val request = JsonArrayRequest(
-            Request.Method.POST,
-            "$myServerURL/lista_todos_equipamentos",
-            jsonToken,
-            Response.Listener { response ->
-                if (isAdded) {
-                    if (response.length() > 0) {
-                        if (response[0] == "invalid_token") {
-                            controller.navigate(R.id.action_global_fazerLogin)
-                        } else {
-                            if (response.length() == 2) {
-                                val equipamentos = response[0] as? JSONArray
-                                val idNumbers = response[1] as JSONArray
-
-                                if (equipamentos != null) {
-                                    mAdapter = Adapter(
-                                        this@UnidadeManutencao, equipamentos,
-                                        idNumbers
-                                    )
-
-                                    recyclerview.apply {
-                                        adapter = mAdapter
-                                    }
-                                }
-                            }
-
-                            progressBar.visibility = View.GONE
-                        }
-                    }
+        TabLayoutMediator(tab_layout, viewpager) { tab, tabIdx ->
+            when (tabIdx) {
+                0 -> {
+                    tab.text = getString(R.string.title_com_defeito)
+                    tab.setIcon(R.drawable.ic_broken_image)
                 }
-            },
-            Response.ErrorListener {
-                Log.d(LOGTAG, "failed request: $it")
 
-                connectionErrorMessage(layout_unidade_manutencao, it)
+                1 -> {
+                    tab.text = getString(R.string.title_estou_consertando)
+                    tab.setIcon(R.drawable.ic_build)
+                }
             }
-        )
-
-        queue.add(request)
+        }.attach()
     }
 
     override fun onMenuItemClick(item: MenuItem): Boolean {
@@ -147,17 +90,7 @@ class UnidadeManutencao : Fragment(), Toolbar.OnMenuItemClickListener,
         }
     }
 
-    override fun onQueryTextSubmit(query: String?): Boolean {
-        return false
-    }
-
-    override fun onQueryTextChange(newText: String?): Boolean {
-        mAdapter?.filter?.filter(newText)
-
-        return true
-    }
-
     companion object {
-        const val LOGTAG = "manutencao ver pedidos"
+        const val LOGTAG = "UnidadeManutencao"
     }
 }

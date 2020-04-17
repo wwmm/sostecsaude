@@ -16,7 +16,6 @@ import com.google.android.material.snackbar.Snackbar
 import com.wwmm.sostecsaude.R
 import com.wwmm.sostecsaude.connectionErrorMessage
 import com.wwmm.sostecsaude.myServerURL
-import kotlinx.android.synthetic.main.fragment_unidade_manutencao.progressBar
 import kotlinx.android.synthetic.main.fragment_unidade_saude_ver_pedidos.*
 import kotlinx.android.synthetic.main.recyclerview_unidade_saude_ver_pedidos.view.*
 import org.json.JSONArray

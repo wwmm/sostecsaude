@@ -19,7 +19,7 @@ import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.tabs.TabLayoutMediator
 import com.wwmm.sostecsaude.R
 import com.wwmm.sostecsaude.myServerURL
-import kotlinx.android.synthetic.main.fragment_unidade_manutencao.*
+import kotlinx.android.synthetic.main.fragment_unidade_manutencao_ver_pedidos.*
 import kotlinx.android.synthetic.main.recyclerview_unidade_manutencao_ver_pedidos.*
 import kotlinx.android.synthetic.main.recyclerview_unidade_manutencao_ver_pedidos.view.*
 import org.json.JSONArray
@@ -27,7 +27,7 @@ import org.json.JSONObject
 import java.util.*
 import kotlin.collections.HashMap
 
-class ViewPager2Adapter(fragment: Fragment, private val line: JSONObject) :
+class ViewPagerAdapterVerPedidos(fragment: Fragment, private val line: JSONObject) :
     FragmentStateAdapter(fragment) {
 
     override fun getItemCount(): Int = 3
@@ -72,11 +72,11 @@ class ViewPager2Adapter(fragment: Fragment, private val line: JSONObject) :
     }
 }
 
-class Adapter(
+class AdapterVerPedidos(
     private val fragment: Fragment, private val equipamentos: JSONArray,
     private val idNumbers: JSONArray
 ) :
-    RecyclerView.Adapter<Adapter.ViewHolder>(), Filterable {
+    RecyclerView.Adapter<AdapterVerPedidos.ViewHolder>(), Filterable {
     private var mFilterArray = equipamentos
     private var mMyPrefs = PreferenceManager.getDefaultSharedPreferences(fragment.requireContext())
     private var mToken = mMyPrefs.getString("Token", "")!!
@@ -99,7 +99,7 @@ class Adapter(
 
         val id = line.getString("ID")
 
-        holder.view.viewpager.adapter = ViewPager2Adapter(fragment, line)
+        holder.view.viewpager.adapter = ViewPagerAdapterVerPedidos(fragment, line)
 
         TabLayoutMediator(holder.view.tab_layout, holder.view.viewpager) { tab, tabIdx ->
             when (tabIdx) {
