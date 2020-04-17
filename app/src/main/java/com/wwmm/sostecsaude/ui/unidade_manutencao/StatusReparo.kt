@@ -32,6 +32,7 @@ class StatusReparo : Fragment(), SearchView.OnQueryTextListener  {
     private lateinit var mQueue: RequestQueue
     private val listNomeUnidade = ArrayList<String>()
     private val listEmailCliente = ArrayList<String>()
+    private var mAdapterStatusReparo: AdapterStatusReparo? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -164,11 +165,11 @@ class StatusReparo : Fragment(), SearchView.OnQueryTextListener  {
                             mController.navigate(R.id.action_global_fazerLogin)
                         } else {
                             if (response[0] != "empty") {
-//                                mAdapterLista = AdapterLista(response)
-//
-//                                recyclerview.apply {
-//                                    adapter = mAdapterLista
-//                                }
+                                mAdapterStatusReparo = AdapterStatusReparo(this,response)
+
+                                recyclerview.apply {
+                                    adapter = mAdapterStatusReparo
+                                }
                             }
 
                             progressBar.visibility = View.GONE
@@ -195,7 +196,7 @@ class StatusReparo : Fragment(), SearchView.OnQueryTextListener  {
     }
 
     override fun onQueryTextChange(newText: String?): Boolean {
-//        mAdapterVerPedidos?.filter?.filter(newText)
+        mAdapterStatusReparo?.filter?.filter(newText)
 
         return true
     }
