@@ -19,6 +19,19 @@ type Equipamento struct {
 	Email       string
 }
 
+type EquipamentoV2 struct {
+	ID          string `json:"id"`
+	Nome        string `json:"nome"`
+	Fabricante  string `json:"fabricante"`
+	Modelo      string `json:"modelo"`
+	NumeroSerie string `json:"numeroSerie"`
+	Quantidade  string `json:"quantidade"`
+	Defeito     string `json:"defeito"`
+	Unidade     string `json:"unidade"`
+	Local       string `json:"local"`
+	Email       string `json:"email"`
+}
+
 type Empresa struct {
 	ID       int    `json:"id"`
 	Nome     string `json:"nome"`
@@ -115,6 +128,15 @@ func ListaEquipamentosUnidadeSaude(email string) []Equipamento {
 	}
 
 	return equipamentos
+}
+func ListaEquipamentosUnidadeSaudeV2(email string) []EquipamentoV2 {
+	// Infelizmente não dá pra typecast direto pro V2 :(
+	var equipamentosV2 []EquipamentoV2
+	equipamentos := ListaEquipamentosUnidadeSaude(email)
+	for _, equipamento := range equipamentos {
+		equipamentosV2 = append(equipamentosV2, EquipamentoV2(equipamento))
+	}
+	return equipamentosV2
 }
 
 //ListaTodosEquipamentos retorna uma lista com todos os equipamentos defeituosos
