@@ -46,6 +46,7 @@ func Start() {
 	http.HandleFunc("/unidade_saude_atualizar_equipamento", unidadeSaudeAtualizarEquipamento)
 	http.HandleFunc("/unidade_saude_remover_equipamento", unidadeSaudeRemoverEquipamento)
 	http.HandleFunc("/unidade_saude_pegar_equipamentos", unidadeSaudePegarEquipamentos)
+	http.HandleFunc("/v2/altera_estado_oferta", AlteraEstadoOferta)
 
 	http.HandleFunc("/admin_pegar_equipamentos", adminPegarEquipamentos)
 
@@ -56,6 +57,7 @@ func Start() {
 	http.HandleFunc("/unidade_manutencao_atualizar_interesse", unidadeManutencaoAtualizarInteresse)
 
 	http.HandleFunc("/lista_interessados_manutencao", listaInteressadosManutencao)
+	http.HandleFunc("/v2/lista_interessados_manutencao", listaInteressadosManutencaoV2)
 
 	/*
 		Start Server

@@ -1,6 +1,9 @@
 package mydb
 
-import "log"
+import (
+	"log"
+	"strconv"
+)
 
 // Equipamento é uma estrutura com dados dos equipamentos usadas para criar um objeto json
 type Equipamento struct {
@@ -14,6 +17,23 @@ type Equipamento struct {
 	Unidade     string
 	Local       string
 	Email       string
+}
+
+type Empresa struct {
+	ID       int    `json:"id"`
+	Nome     string `json:"nome"`
+	Setor    string `json:"setor"`
+	Local    string `json:"local"`
+	CNPJ     string `json:"cnpj"`
+	Telefone string `json:"telefone"`
+	Email    string `json:"email"`
+}
+
+func abs(num int) int {
+	if num < 0 {
+		return -num
+	}
+	return num
 }
 
 //UnidadeSaudeAdicionarEquipamento adiciona um equipamento com defeito no banco de dados
@@ -130,9 +150,34 @@ func ListaTodosEquipamentos() []Equipamento {
 	return equipamentos
 }
 
+func AlteraEstadoOferta(id string, estadoTo string) (bool, string) {
+	var estadoFrom string
+	row := db.QueryRow("SELECT estado FROM interessados_manutencao WHERE id=?", id)
+	err := row.Scan(&estadoFrom)
+
+	if err != nil {
+		log.Println(err.Error())
+		return false, err.Error()
+	}
+	estadoToN, _ := strconv.Atoi(estadoTo)
+	estadoFromN, _ := strconv.Atoi(estadoFrom)
+	// Cancelar (estado 0) sempre é permitido
+	// Só é pertido mudar de um estado para um imediatamente depois
+	if estadoTo != "0" && abs(estadoToN-estadoFromN) != 1 {
+		return false, "mismatched_state"
+	}
+
+	_, err = db.Exec("UPDATE interessados_manutencao SET estado=?, updated_at=strftime('%s', 'now') WHERE id=?", estadoTo, id)
+
+	if err != nil {
+		return false, err.Error()
+	}
+	return true, "ok"
+}
+
 //UnidadeManutencaoAdicionarInteresse adiciona na tabela um interesse de realizar manutenção
 func UnidadeManutencaoAdicionarInteresse(email string, idEquipamento string) {
-	queryStr := "insert or ignore into interessados_manutencao values (null,?,?)"
+	queryStr := "insert or ignore into interessados_manutencao(email,id_equipamento,updated_at) values (?,?,strftime('%s', 'now'))"
 
 	_, err := db.Exec(queryStr, email, idEquipamento)
 
@@ -210,6 +255,64 @@ func ListaInteressadosManutencao(id string) []string {
 	}
 
 	return emails
+}
+
+//ListaInteressadosManutencao V2 retorna também o estado da oferta
+type returnValue struct {
+	ID        string  `json:"id"`
+	Estado    int     `json:"estado"`
+	UpdatedAt int     `json:"updatedAt"`
+	Empresa   Empresa `json:"empresa"`
+}
+
+func ListaInteressadosManutencaoV2(id string) []returnValue {
+	queryStr := `
+		select im.id interesseId, im.estado, ifnull(im.updated_at, 0), um.*
+		from interessados_manutencao im
+		left join unidade_manutencao um using (email)
+		where id_equipamento=? and
+		um.email in (select email from whitelist)
+	`
+
+	rows, err := db.Query(queryStr, id)
+
+	if err != nil {
+		log.Fatal(err.Error())
+	}
+
+	defer rows.Close()
+
+	var result []returnValue
+
+	var interesseId string
+	var estado int
+	var updatedAt int
+	var empresaId int
+	var nome string
+	var setor string
+	var local string
+	var cnpj string
+	var telefone string
+	var email string
+
+	for rows.Next() {
+		err = rows.Scan(&interesseId, &estado, &updatedAt, &empresaId, &nome, &setor, &local, &cnpj, &telefone, &email)
+		result = append(result, returnValue{
+			interesseId,
+			estado,
+			updatedAt,
+			Empresa{
+				empresaId,
+				nome,
+				setor,
+				local,
+				cnpj,
+				telefone,
+				email,
+			},
+		})
+	}
+	return result
 }
 
 //GetEquipamentoByID pega equipamento com o id dado
