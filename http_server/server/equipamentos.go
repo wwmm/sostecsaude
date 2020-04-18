@@ -125,6 +125,29 @@ func unidadeSaudePegarEquipamentos(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
+func unidadeSaudePegarEquipamentosV2(w http.ResponseWriter, r *http.Request) {
+	status, perfil, email, _ := verifyToken(w, r)
+
+	if perfil != perfilUnidadeSaude {
+		fmt.Fprintf(w, "perfil_invalido")
+
+		return
+	}
+
+	if status {
+		equipamentos := mydb.ListaEquipamentosUnidadeSaudeV2(email)
+
+		jsonEquipamentos, err := json.Marshal(equipamentos)
+
+		if err != nil {
+			log.Println(err.Error())
+		}
+
+		// fmt.Fprintf(os.Stdout, "%s", jsonEquipamentos)
+		fmt.Fprintf(w, "%s", jsonEquipamentos)
+	}
+}
+
 func adminPegarEquipamentos(w http.ResponseWriter, r *http.Request) {
 	status, perfil, email, jasonArray := verifyToken(w, r)
 
@@ -172,6 +195,30 @@ func listaTodosEquipamentos(w http.ResponseWriter, r *http.Request) {
 		}
 
 		// fmt.Fprintf(os.Stdout, "%s", js)
+		fmt.Fprintf(w, "%s", js)
+	}
+}
+
+func AlteraEstadoOferta(w http.ResponseWriter, r *http.Request) {
+	status, perfil, _, jsonArray := verifyToken(w, r)
+
+	id := jsonArray[1]
+	estadoTo := jsonArray[2]
+	var tipoPerfil = perfilUnidadeManutencao
+
+	if estadoTo == "0" || estadoTo == "1" || estadoTo == "2" || estadoTo == "3" {
+		tipoPerfil = perfilUnidadeSaude
+	}
+
+	if perfil != tipoPerfil {
+		js, _ := json.Marshal([]interface{}{false, "perfil_invalido"})
+		fmt.Fprintf(w, "%s", js)
+		return
+	}
+
+	if status {
+		sucesso, err := mydb.AlteraEstadoOferta(id, estadoTo)
+		js, _ := json.Marshal([]interface{}{sucesso, err})
 		fmt.Fprintf(w, "%s", js)
 	}
 }
@@ -253,6 +300,41 @@ func listaInteressadosManutencao(w http.ResponseWriter, r *http.Request) {
 
 		if len(empresas) != 0 {
 			js, err := json.Marshal(empresas)
+
+			if err != nil {
+				log.Println(err.Error())
+			}
+
+			// fmt.Fprintf(os.Stdout, "%s", js)
+			fmt.Fprintf(w, "%s", js)
+		} else {
+			js, err := json.Marshal([]string{"empty"})
+
+			if err != nil {
+				log.Println(err.Error())
+			}
+
+			fmt.Fprintf(w, "%s", js)
+		}
+	}
+}
+
+func listaInteressadosManutencaoV2(w http.ResponseWriter, r *http.Request) {
+	status, perfil, _, jsonArray := verifyToken(w, r)
+
+	if perfil != perfilUnidadeSaude {
+		fmt.Fprintf(w, "perfil_invalido")
+
+		return
+	}
+
+	if status {
+		idEquipamento := jsonArray[1]
+
+		interessados := mydb.ListaInteressadosManutencaoV2(idEquipamento)
+
+		if len(interessados) != 0 {
+			js, err := json.Marshal(interessados)
 
 			if err != nil {
 				log.Println(err.Error())

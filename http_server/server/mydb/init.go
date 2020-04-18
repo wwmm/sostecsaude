@@ -21,6 +21,7 @@ func OpenDB() {
 	if err != nil {
 		log.Fatal(err.Error())
 	}
+	upgradeDatabase()
 }
 
 //InitTables creates and initializes tables if they do not exists
@@ -158,7 +159,7 @@ func InitTables() {
 		when new.perfil = "unidade_saude"
 		begin
 			insert or ignore into unidade_saude values(null,"","",new.email);
-		end;		
+		end;
 	`
 
 	_, err = db.Exec(queryStr)
@@ -171,7 +172,7 @@ func InitTables() {
 		when new.perfil = "unidade_manutencao"
 		begin
 			insert or ignore into unidade_manutencao values(null,"","","","","",new.email);
-		end;		
+		end;
 	`
 
 	_, err = db.Exec(queryStr)
@@ -183,13 +184,46 @@ func InitTables() {
 	queryStr = `create trigger if not exists add_fb_token after insert on usuarios
 		begin
 			insert or ignore into fb_tokens values(null,new.email,"");
-		end;		
+		end;
 	`
 
 	_, err = db.Exec(queryStr)
 
 	if err != nil {
 		log.Fatal(err.Error())
+	}
+}
+
+func upgradeDatabase() {
+	var version string
+	row := db.QueryRow("PRAGMA user_version")
+	err := row.Scan(&version)
+
+	if err != nil {
+		log.Fatal(err.Error())
+	}
+
+	if version == "0" {
+		log.Print("Upgrading database to version 1")
+		_, err = db.Exec("PRAGMA user_version=1")
+
+		if err != nil {
+			log.Println(err.Error())
+			return
+		}
+		_, err = db.Exec("ALTER TABLE interessados_manutencao ADD estado INT DEFAULT 0")
+
+		if err != nil {
+			log.Println(err.Error())
+			return
+		}
+		_, err = db.Exec("ALTER TABLE interessados_manutencao ADD updated_at INT")
+
+		if err != nil {
+			log.Println(err.Error())
+			return
+		}
+		version = "1"
 	}
 }
 
