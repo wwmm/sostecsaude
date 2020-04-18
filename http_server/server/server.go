@@ -56,6 +56,8 @@ func Start() {
 	http.HandleFunc("/lista_unidade_manutencao", listaUnidadeManutencao)
 
 	http.HandleFunc("/unidade_manutencao_atualizar_interesse", unidadeManutencaoAtualizarInteresse)
+	http.HandleFunc("/unidade_manutencao_lista_clientes", unidadeManutencaoListaClientes)
+	http.HandleFunc("/lista_equipamentos_cliente", unidadeManutencaoListaEquipamentosCliente)
 
 	http.HandleFunc("/lista_interessados_manutencao", listaInteressadosManutencao)
 	http.HandleFunc("/v2/lista_interessados_manutencao", listaInteressadosManutencaoV2)

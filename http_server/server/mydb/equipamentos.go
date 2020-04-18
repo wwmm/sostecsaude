@@ -219,6 +219,84 @@ func UnidadeManutencaoRemoverInteresse(email string, idEquipamento string) {
 	}
 }
 
+type infoCliente struct {
+	Nome  string `json:"nome"`
+	Email string `json:"email"`
+}
+
+func GetListaClientes(email string) []infoCliente {
+	rows, err := db.Query(`
+		select us.nome, us.email
+		from interessados_manutencao im
+		left join equipamentos e on (e.id = im.id_equipamento)
+		left join unidade_saude us on (e.email = us.email)
+		where im.email = ?
+		group by us.email
+	`, email)
+
+	if err != nil {
+		log.Fatal(err.Error())
+	}
+
+	var listaClientes []infoCliente
+	for rows.Next() {
+		var nome string
+		var email string
+
+		err = rows.Scan(&nome, &email)
+		listaClientes = append(listaClientes, infoCliente{nome, email})
+	}
+	return listaClientes
+}
+
+type equipamentoCliente struct {
+	Estado    int `json:"estado"`
+	UpdatedAt int `json:"updatedAt"`
+	EquipamentoV2
+}
+
+func GetEquipamentosCliente(emailManutencao string, emailSaude string) []equipamentoCliente {
+	rows, err := db.Query(`
+		select im.estado, im.updated_at, e.*
+		from interessados_manutencao im
+		left join equipamentos e on (e.id = im.id_equipamento)
+		where
+		im.email = ? and
+		e.email = ?
+	`, emailManutencao, emailSaude)
+
+	if err != nil {
+		log.Fatal(err.Error())
+	}
+
+	var equipamentos []equipamentoCliente
+	for rows.Next() {
+		var equipamento equipamentoCliente
+
+		err = rows.Scan(
+			&equipamento.Estado,
+			&equipamento.UpdatedAt,
+			&equipamento.ID,
+			&equipamento.Nome,
+			&equipamento.Fabricante,
+			&equipamento.Modelo,
+			&equipamento.NumeroSerie,
+			&equipamento.Quantidade,
+			&equipamento.Defeito,
+			&equipamento.Unidade,
+			&equipamento.Local,
+			&equipamento.Email,
+		)
+
+		if err != nil {
+			log.Fatal(err.Error())
+		}
+
+		equipamentos = append(equipamentos, equipamento)
+	}
+	return equipamentos
+}
+
 //ListaInteresseManutencao retorna uma lista com os equipamentos que a unidade tem interesse de consertar
 func ListaInteresseManutencao(email string) []string {
 	queryStr := "select id_equipamento from interessados_manutencao where email=?"
@@ -280,14 +358,14 @@ func ListaInteressadosManutencao(id string) []string {
 }
 
 //ListaInteressadosManutencao V2 retorna também o estado da oferta
-type returnValue struct {
+type interessadoValue struct {
 	ID        string  `json:"id"`
 	Estado    int     `json:"estado"`
 	UpdatedAt int     `json:"updatedAt"`
 	Empresa   Empresa `json:"empresa"`
 }
 
-func ListaInteressadosManutencaoV2(id string) []returnValue {
+func ListaInteressadosManutencaoV2(id string) []interessadoValue {
 	queryStr := `
 		select im.id interesseId, im.estado, ifnull(im.updated_at, 0), um.*
 		from interessados_manutencao im
@@ -304,7 +382,7 @@ func ListaInteressadosManutencaoV2(id string) []returnValue {
 
 	defer rows.Close()
 
-	var result []returnValue
+	var result []interessadoValue
 
 	var interesseId string
 	var estado int
@@ -319,7 +397,7 @@ func ListaInteressadosManutencaoV2(id string) []returnValue {
 
 	for rows.Next() {
 		err = rows.Scan(&interesseId, &estado, &updatedAt, &empresaId, &nome, &setor, &local, &cnpj, &telefone, &email)
-		result = append(result, returnValue{
+		result = append(result, interessadoValue{
 			interesseId,
 			estado,
 			updatedAt,

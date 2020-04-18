@@ -262,6 +262,48 @@ func unidadeManutencaoAtualizarInteresse(w http.ResponseWriter, r *http.Request)
 	}
 }
 
+func unidadeManutencaoListaClientes(w http.ResponseWriter, r *http.Request) {
+	status, perfil, email, _ := verifyToken(w, r)
+
+	if perfil != perfilUnidadeManutencao {
+		fmt.Fprintf(w, "[\"perfil_invalido\"]")
+		return
+	}
+	if !status {
+		return
+	}
+
+	clientes := mydb.GetListaClientes(email)
+	js, err := json.Marshal(clientes)
+	if err != nil {
+		log.Println(err.Error())
+	}
+
+	fmt.Fprintf(w, "%s", js)
+}
+
+func unidadeManutencaoListaEquipamentosCliente(w http.ResponseWriter, r *http.Request) {
+	status, perfil, emailManutencao, jsonArray := verifyToken(w, r)
+
+	if perfil != perfilUnidadeManutencao {
+		fmt.Fprintf(w, "[\"perfil_invalido\"]")
+		return
+	}
+	if !status {
+		return
+	}
+
+	emailSaude := jsonArray[1]
+
+	equipamentos := mydb.GetEquipamentosCliente(emailManutencao, emailSaude)
+	js, err := json.Marshal(equipamentos)
+	if err != nil {
+		log.Println(err.Error())
+	}
+
+	fmt.Fprintf(w, "%s", js)
+}
+
 func listaInteressadosManutencao(w http.ResponseWriter, r *http.Request) {
 	status, perfil, _, jsonArray := verifyToken(w, r)
 
