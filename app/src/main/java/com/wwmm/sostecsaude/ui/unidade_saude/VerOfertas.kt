@@ -27,12 +27,38 @@ import com.wwmm.sostecsaude.myServerURL
 import kotlinx.android.synthetic.main.fragment_unidade_saude_ver_ofertas.*
 import org.json.JSONArray
 import org.json.JSONObject
+import java.util.*
+import kotlin.collections.ArrayList
+import kotlin.math.floor
 
-class VerOfertas : Fragment(), Toolbar.OnMenuItemClickListener, SearchView.OnQueryTextListener {
+interface VerOfertasInterface {
+    fun replaceListItem(id: Int, item: JSONObject)
+    fun changeListItemState(id: Int, estado: Int)
+}
+
+class VerOfertas : Fragment(), Toolbar.OnMenuItemClickListener, SearchView.OnQueryTextListener,
+    VerOfertasInterface {
     private lateinit var mActivityController: NavController
     private lateinit var mController: NavController
     private var mIdList = ArrayList<String>()
     private var mAdapterVerOfertas: AdapterVerOfertas? = null
+    private lateinit var mOfertas: JSONArray
+
+    private fun getOfertaIdx(id: Int): Int {
+        for (i in 0 until mOfertas.length()) {
+            val item = mOfertas.getJSONObject(i)
+            if (id == item.getInt("id")) {
+                return i
+            }
+        }
+        return -1
+    }
+
+    private fun getOferta(id: Int): JSONObject? {
+        val idx = getOfertaIdx(id)
+        if (idx < 0) return null
+        return mOfertas.getJSONObject(idx)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -86,7 +112,7 @@ class VerOfertas : Fragment(), Toolbar.OnMenuItemClickListener, SearchView.OnQue
 
         val request = JsonArrayRequest(
             Request.Method.POST,
-            "$myServerURL/unidade_saude_pegar_equipamentos",
+            "$myServerURL/v2/unidade_saude_pegar_equipamentos",
             jsonToken,
             Response.Listener { response ->
                 if (response.length() > 0) {
@@ -100,8 +126,8 @@ class VerOfertas : Fragment(), Toolbar.OnMenuItemClickListener, SearchView.OnQue
                             for (n in 0 until response.length()) {
                                 val obj = response[n] as JSONObject
 
-                                list.add(obj.getString("Nome"))
-                                mIdList.add(obj.getString("ID"))
+                                list.add(obj.getString("nome"))
+                                mIdList.add(obj.getString("id"))
                             }
 
                             val adapter = ArrayAdapter(
@@ -130,6 +156,20 @@ class VerOfertas : Fragment(), Toolbar.OnMenuItemClickListener, SearchView.OnQue
         queue.add(request)
     }
 
+    override fun replaceListItem(id: Int, item: JSONObject) {
+        val idx = getOfertaIdx(id)
+        if (id == -1) return
+        mOfertas.put(idx, item)
+        recyclerview.adapter?.notifyDataSetChanged()
+    }
+
+    override fun changeListItemState(id: Int, estado: Int) {
+        val oferta = getOferta(id) ?: return
+        oferta.put("estado", estado)
+        oferta.put("updatedAt", floor((Calendar.getInstance().timeInMillis / 1000).toDouble()))
+        replaceListItem(id, oferta)
+    }
+
     private fun updateRecycler(idEquipamento: String) {
         progressBar.visibility = View.VISIBLE
 
@@ -150,7 +190,7 @@ class VerOfertas : Fragment(), Toolbar.OnMenuItemClickListener, SearchView.OnQue
 
         val request = JsonArrayRequest(
             Request.Method.POST,
-            "$myServerURL/lista_interessados_manutencao",
+            "$myServerURL/v2/lista_interessados_manutencao",
             jsonToken,
             Response.Listener { response ->
                 if (isAdded) {
@@ -159,7 +199,9 @@ class VerOfertas : Fragment(), Toolbar.OnMenuItemClickListener, SearchView.OnQue
                             mActivityController.navigate(R.id.action_global_fazerLogin)
                         } else {
                             if (response[0] != "empty") {
-                                mAdapterVerOfertas = AdapterVerOfertas(response)
+                                mOfertas = response
+                                mAdapterVerOfertas =
+                                    AdapterVerOfertas(mOfertas, requireContext(), this)
 
                                 recyclerview.apply {
                                     adapter = mAdapterVerOfertas
