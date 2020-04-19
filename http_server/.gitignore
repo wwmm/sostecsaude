@@ -4,4 +4,5 @@ config.json
 .vscode
 node_modules
 package-lock.json
-
+sostecsaude.*
+sostecsaude_firebase_key.json
