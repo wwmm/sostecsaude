@@ -25,7 +25,6 @@ func Start() {
 	InitConfig()
 
 	mydb.OpenDB()
-	mydb.InitTables()
 
 	log.Println("Starting server...")
 

@@ -21,11 +21,12 @@ func OpenDB() {
 	if err != nil {
 		log.Fatal(err.Error())
 	}
+	initTables()
 	upgradeDatabase()
 }
 
-//InitTables creates and initializes tables if they do not exists
-func InitTables() {
+//initTables creates and initializes tables if they do not exists
+func initTables() {
 	// Enable foreign keys
 
 	_, err := db.Exec("pragma foreign_keys=on")
