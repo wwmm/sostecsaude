@@ -114,6 +114,11 @@ func unidadeSaudePegarEquipamentos(w http.ResponseWriter, r *http.Request) {
 	if status {
 		equipamentos := mydb.ListaEquipamentosUnidadeSaude(email)
 
+		if len(equipamentos) == 0 {
+			fmt.Fprintf(w, "[]")
+			return
+		}
+
 		jsonEquipamentos, err := json.Marshal(equipamentos)
 
 		if err != nil {
@@ -136,6 +141,11 @@ func unidadeSaudePegarEquipamentosV2(w http.ResponseWriter, r *http.Request) {
 
 	if status {
 		equipamentos := mydb.ListaEquipamentosUnidadeSaudeV2(email)
+
+		if len(equipamentos) == 0 {
+			fmt.Fprintf(w, "[]")
+			return
+		}
 
 		jsonEquipamentos, err := json.Marshal(equipamentos)
 
@@ -166,6 +176,11 @@ func adminPegarEquipamentos(w http.ResponseWriter, r *http.Request) {
 
 		equipamentos := mydb.ListaEquipamentosUnidadeSaude(emailUnidade)
 
+		if len(equipamentos) == 0 {
+			fmt.Fprintf(w, "[]")
+			return
+		}
+
 		jsonEquipamentos, err := json.Marshal(equipamentos)
 
 		if err != nil {
@@ -186,6 +201,14 @@ func listaTodosEquipamentos(w http.ResponseWriter, r *http.Request) {
 
 		if len(idManutencao) == 0 {
 			idManutencao = append(idManutencao, "-1") // nenhum id válido pode ser menor que zero
+		}
+
+		// Força arrays vazios quando serializar em json
+		if len(equipamentos) == 0 {
+			equipamentos = []mydb.Equipamento{}
+		}
+		if len(idManutencao) == 0 {
+			idManutencao = []string{}
 		}
 
 		js, err := json.Marshal([]interface{}{equipamentos, idManutencao})
@@ -274,6 +297,10 @@ func unidadeManutencaoListaClientes(w http.ResponseWriter, r *http.Request) {
 	}
 
 	clientes := mydb.GetListaClientes(email)
+	if len(clientes) == 0 {
+		fmt.Fprintf(w, "[]")
+		return
+	}
 	js, err := json.Marshal(clientes)
 	if err != nil {
 		log.Println(err.Error())
@@ -296,11 +323,14 @@ func unidadeManutencaoListaEquipamentosCliente(w http.ResponseWriter, r *http.Re
 	emailSaude := jsonArray[1]
 
 	equipamentos := mydb.GetEquipamentosCliente(emailManutencao, emailSaude)
+	if len(equipamentos) == 0 {
+		fmt.Fprintf(w, "[]")
+		return
+	}
 	js, err := json.Marshal(equipamentos)
 	if err != nil {
 		log.Println(err.Error())
 	}
-
 	fmt.Fprintf(w, "%s", js)
 }
 
@@ -374,24 +404,18 @@ func listaInteressadosManutencaoV2(w http.ResponseWriter, r *http.Request) {
 		idEquipamento := jsonArray[1]
 
 		interessados := mydb.ListaInteressadosManutencaoV2(idEquipamento)
-
-		if len(interessados) != 0 {
-			js, err := json.Marshal(interessados)
-
-			if err != nil {
-				log.Println(err.Error())
-			}
-
-			// fmt.Fprintf(os.Stdout, "%s", js)
-			fmt.Fprintf(w, "%s", js)
-		} else {
-			js, err := json.Marshal([]string{"empty"})
-
-			if err != nil {
-				log.Println(err.Error())
-			}
-
-			fmt.Fprintf(w, "%s", js)
+		if len(interessados) == 0 {
+			fmt.Fprintf(w, "[]")
+			return
 		}
+
+		js, err := json.Marshal(interessados)
+
+		if err != nil {
+			log.Println(err.Error())
+		}
+
+		// fmt.Fprintf(os.Stdout, "%s", js)
+		fmt.Fprintf(w, "%s", js)
 	}
 }

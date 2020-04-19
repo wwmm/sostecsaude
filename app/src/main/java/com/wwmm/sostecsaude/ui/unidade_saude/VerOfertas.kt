@@ -14,7 +14,6 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
 import androidx.navigation.fragment.findNavController
-import androidx.navigation.ui.setupWithNavController
 import androidx.preference.PreferenceManager.getDefaultSharedPreferences
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.android.volley.Request
@@ -194,22 +193,18 @@ class VerOfertas : Fragment(), Toolbar.OnMenuItemClickListener, SearchView.OnQue
             jsonToken,
             Response.Listener { response ->
                 if (isAdded) {
-                    if (response.length() > 0) {
-                        if (response[0] == "invalid_token") {
-                            mActivityController.navigate(R.id.action_global_fazerLogin)
-                        } else {
-                            if (response[0] != "empty") {
-                                mOfertas = response
-                                mAdapterVerOfertas =
-                                    AdapterVerOfertas(mOfertas, requireContext(), this)
+                    if (response.length() > 0 && response[0] == "invalid_token") {
+                        mActivityController.navigate(R.id.action_global_fazerLogin)
+                    } else {
+                        mOfertas = response
+                        mAdapterVerOfertas =
+                            AdapterVerOfertas(mOfertas, requireContext(), this)
 
-                                recyclerview.apply {
-                                    adapter = mAdapterVerOfertas
-                                }
-                            }
-
-                            progressBar.visibility = View.GONE
+                        recyclerview.apply {
+                            adapter = mAdapterVerOfertas
                         }
+
+                        progressBar.visibility = View.GONE
                     }
                 }
             },
