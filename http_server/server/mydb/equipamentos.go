@@ -140,9 +140,18 @@ func ListaEquipamentosUnidadeSaudeV2(email string) []EquipamentoV2 {
 }
 
 //ListaTodosEquipamentos retorna uma lista com todos os equipamentos defeituosos
+//Esconde equipamentos que já foram aceitos por alguma unidade de manutenção
 func ListaTodosEquipamentos() []Equipamento {
-	queryStr := `select id,nome,fabricante,modelo,numero_serie,quantidade,defeito,unidade,local,email from equipamentos
-		where email in (select email from whitelist) order by nome
+	queryStr := `
+		select e.id,nome,fabricante,modelo,numero_serie,quantidade,defeito,unidade,local,e.email
+		from equipamentos e
+		where
+		e.email in (select email from whitelist) and
+		e.id not in (
+			select id_equipamento
+			from interessados_manutencao
+			where estado > 0)
+		order by nome
 	`
 
 	rows, err := db.Query(queryStr)
@@ -262,7 +271,9 @@ func GetEquipamentosCliente(emailManutencao string, emailSaude string) []equipam
 		left join equipamentos e on (e.id = im.id_equipamento)
 		where
 		im.email = ? and
-		e.email = ?
+		e.email = ? and
+		im.estado > 0
+		order by im.estado desc, im.updated_at desc
 	`, emailManutencao, emailSaude)
 
 	if err != nil {
@@ -357,7 +368,6 @@ func ListaInteressadosManutencao(id string) []string {
 	return emails
 }
 
-//ListaInteressadosManutencao V2 retorna também o estado da oferta
 type interessadoValue struct {
 	ID        string  `json:"id"`
 	Estado    int     `json:"estado"`
@@ -365,16 +375,24 @@ type interessadoValue struct {
 	Empresa   Empresa `json:"empresa"`
 }
 
+//ListaInteressadosManutencaoV2 retorna também o estado da oferta
+//Esconde ofertas para um equipamento que já está sendo consertado
 func ListaInteressadosManutencaoV2(id string) []interessadoValue {
 	queryStr := `
 		select im.id interesseId, im.estado, ifnull(im.updated_at, 0), um.*
 		from interessados_manutencao im
 		left join unidade_manutencao um using (email)
 		where id_equipamento=? and
+		(estado > 0 or id_equipamento not in (
+			select id_equipamento
+			from interessados_manutencao
+			where id_equipamento=? and
+			estado > 0
+		)) and
 		um.email in (select email from whitelist)
 	`
 
-	rows, err := db.Query(queryStr, id)
+	rows, err := db.Query(queryStr, id, id)
 
 	if err != nil {
 		log.Fatal(err.Error())
