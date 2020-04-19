@@ -38,7 +38,7 @@ class UnidadeManutencao : Fragment(), Toolbar.OnMenuItemClickListener {
 
         mActivityController = Navigation.findNavController(requireActivity(), R.id.nav_host_main)
 
-        toolbar.setupWithNavController(findNavController())
+        toolbar.title = getString(R.string.title_equipamento)
         toolbar.inflateMenu(R.menu.menu_toolbar)
         toolbar.menu.findItem(R.id.menu_search).isVisible = false
         toolbar.setOnMenuItemClickListener(this)

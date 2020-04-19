@@ -42,7 +42,7 @@ class VerPedidos : Fragment(), Toolbar.OnMenuItemClickListener, SearchView.OnQue
 
         mActivityController = Navigation.findNavController(requireActivity(), R.id.nav_host_main)
 
-        toolbar.setupWithNavController(findNavController())
+        toolbar.title = getString(R.string.title_ver_pedidos_conserto)
         toolbar.inflateMenu(R.menu.menu_toolbar)
         toolbar.setOnMenuItemClickListener(this)
 
