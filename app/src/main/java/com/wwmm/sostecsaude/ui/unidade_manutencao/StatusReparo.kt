@@ -25,15 +25,40 @@ import com.wwmm.sostecsaude.myServerURL
 import kotlinx.android.synthetic.main.fragment_unidade_manutencao_status_reparo.*
 import org.json.JSONArray
 import org.json.JSONObject
+import java.util.*
+import kotlin.collections.ArrayList
+import kotlin.math.floor
+
+interface StatusReparoInterface {
+    fun replaceListItem(id: Int, item: JSONObject)
+    fun changeListItemState(id: Int, estado: Int)
+}
 
 class StatusReparo : Fragment(), SearchView.OnQueryTextListener,
-    SwipeRefreshLayout.OnRefreshListener {
+    SwipeRefreshLayout.OnRefreshListener, StatusReparoInterface {
     private lateinit var mController: NavController
     private lateinit var mQueue: RequestQueue
     private val listNomeUnidade = ArrayList<String>()
     private val listEmailCliente = ArrayList<String>()
     private var mAdapterStatusReparo: AdapterStatusReparo? = null
     private lateinit var mSelectedEmail: String
+    private lateinit var mReparos: JSONArray
+
+    private fun getReparoIdx(id: Int): Int {
+        for (i in 0 until mReparos.length()) {
+            val item = mReparos.getJSONObject(i)
+            if (id == item.getInt("idOferta")) {
+                return i
+            }
+        }
+        return -1
+    }
+
+    private fun getReparo(id: Int): JSONObject? {
+        val idx = getReparoIdx(id)
+        if (idx < 0) return null
+        return mReparos.getJSONObject(idx)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -113,7 +138,8 @@ class StatusReparo : Fragment(), SearchView.OnQueryTextListener,
                     if (response.length() > 0 && response[0] == "invalid_token") {
                         mController.navigate(R.id.action_global_fazerLogin)
                     } else {
-                        mAdapterStatusReparo = AdapterStatusReparo(this, response)
+                        mReparos = response
+                        mAdapterStatusReparo = AdapterStatusReparo(response, requireContext(), this)
 
                         refreshView.isRefreshing = false
                         recyclerview.apply {
@@ -200,5 +226,19 @@ class StatusReparo : Fragment(), SearchView.OnQueryTextListener,
 
     override fun onRefresh() {
         refreshListaConsertos(mSelectedEmail)
+    }
+
+    override fun replaceListItem(id: Int, item: JSONObject) {
+        val idx = getReparoIdx(id)
+        if (id == -1) return
+        mReparos.put(idx, item)
+        recyclerview.adapter?.notifyDataSetChanged()
+    }
+
+    override fun changeListItemState(id: Int, estado: Int) {
+        val oferta = getReparo(id) ?: return
+        oferta.put("estado", estado)
+        oferta.put("updatedAt", floor((Calendar.getInstance().timeInMillis / 1000).toDouble()))
+        replaceListItem(id, oferta)
     }
 }
