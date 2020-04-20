@@ -83,16 +83,18 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:textSize="18dp"
                     android:layout_marginTop="16dp"
                     android:text="@string/title_equipamento"
-                    android:textColor="?attr/editTextColor"/>
+                    android:textColor="?attr/editTextColor"
+                    android:textSize="18dp" />
 
                 <TableLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp">
+
                     <TableRow>
+
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -105,8 +107,9 @@
                             android:layout_marginStart="8dp"
                             android:textColor="?attr/editTextColor" />
                     </TableRow>
-                    <TableRow
-                        android:layout_marginTop="8dp">
+
+                    <TableRow android:layout_marginTop="8dp">
+
                         <TextView
                             android:id="@+id/textView36"
                             android:layout_width="wrap_content"
@@ -120,13 +123,15 @@
                             android:layout_marginStart="8dp"
                             android:textColor="?attr/editTextColor" />
                     </TableRow>
-                    <TableRow
-                        android:layout_marginTop="8dp">
+
+                    <TableRow android:layout_marginTop="8dp">
+
                         <TextView
                             android:id="@+id/textView38"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="@string/title_modelo" />
+
                         <TextView
                             android:id="@+id/textView_modelo"
                             android:layout_width="match_parent"
@@ -134,12 +139,14 @@
                             android:layout_marginStart="8dp"
                             android:textColor="?attr/editTextColor" />
                     </TableRow>
-                    <TableRow
-                        android:layout_marginTop="8dp">
+
+                    <TableRow android:layout_marginTop="8dp">
+
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="@string/title_numero_serie" />
+
                         <TextView
                             android:id="@+id/textView_numero_serie"
                             android:layout_width="match_parent"
@@ -147,12 +154,14 @@
                             android:layout_marginStart="8dp"
                             android:textColor="?attr/editTextColor" />
                     </TableRow>
-                    <TableRow
-                        android:layout_marginTop="8dp">
+
+                    <TableRow android:layout_marginTop="8dp">
+
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="@string/title_quantidade" />
+
                         <TextView
                             android:id="@+id/textView_quantidade"
                             android:layout_width="match_parent"
@@ -161,11 +170,13 @@
                             android:textColor="?attr/editTextColor" />
                     </TableRow>
                 </TableLayout>
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
                     android:text="@string/title_defeito" />
+
                 <TextView
                     android:id="@+id/textView_defeito"
                     android:layout_width="match_parent"
@@ -175,20 +186,23 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:textSize="18dp"
                     android:layout_marginTop="16dp"
                     android:text="@string/title_unidade_saude"
-                    android:textColor="?attr/editTextColor"/>
+                    android:textColor="?attr/editTextColor"
+                    android:textSize="18dp" />
 
                 <TableLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp">
+
                     <TableRow>
+
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:text="@string/title_nome" />
+
                         <TextView
                             android:id="@+id/unidadeManutencaoSaudeNome"
                             android:layout_width="match_parent"
@@ -196,12 +210,14 @@
                             android:layout_marginStart="8dp"
                             android:autoLink="map" />
                     </TableRow>
-                    <TableRow
-                        android:layout_marginTop="8dp">
+
+                    <TableRow android:layout_marginTop="8dp">
+
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:text="@string/title_endereco" />
+
                         <TextView
                             android:id="@+id/unidadeManutencaoSaudeEndereco"
                             android:layout_width="match_parent"
@@ -209,12 +225,14 @@
                             android:layout_marginStart="8dp"
                             android:autoLink="map" />
                     </TableRow>
-                    <TableRow
-                        android:layout_marginTop="8dp">
+
+                    <TableRow android:layout_marginTop="8dp">
+
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:text="@string/title_email" />
+
                         <TextView
                             android:id="@+id/unidadeManutencaoSaudeEmail"
                             android:layout_width="match_parent"
@@ -240,14 +258,14 @@
                         android:layout_height="wrap_content"
                         android:layout_marginRight="8dp"
                         android:backgroundTint="#eeeeee"
-                        android:textColor="#993333"
-                        android:text="Cancelar"/>
+                        android:text="Cancelar"
+                        android:textColor="#993333" />
 
                     <Button
                         android:id="@+id/unidadeManutencaoOfertasBtnOK"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Aceitar"/>
+                        android:text="Aceitar" />
 
                 </LinearLayout>
 

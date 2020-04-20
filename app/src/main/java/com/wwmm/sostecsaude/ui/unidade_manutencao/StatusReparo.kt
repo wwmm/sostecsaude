@@ -134,7 +134,6 @@ class StatusReparo : Fragment(), SearchView.OnQueryTextListener,
             jsonToken,
             Response.Listener { response ->
                 if (isAdded) {
-                    println(response.toString())
                     if (response.length() > 0 && response[0] == "invalid_token") {
                         mController.navigate(R.id.action_global_fazerLogin)
                     } else {

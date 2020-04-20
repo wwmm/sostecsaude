@@ -104,6 +104,14 @@ func UpdateUnidadeSaude(nome string, local string, email string) {
 	if err != nil {
 		log.Fatal(err.Error())
 	}
+
+	queryStr = "update equipamentos set unidade=?,local=? where email=?"
+
+	_, err = db.Exec(queryStr, nome, local, email)
+
+	if err != nil {
+		log.Fatal(err.Error())
+	}
 }
 
 //GetUnidadeSaude pega nome e local da unidade de saúde
@@ -235,6 +243,43 @@ func GetFBtoken(email string) string {
 	queryStr := "select token from fb_tokens where email=?"
 
 	row := db.QueryRow(queryStr, email)
+
+	var token string
+
+	err := row.Scan(&token)
+
+	if err != nil {
+		log.Println(err.Error())
+	}
+
+	return token
+}
+
+//GetFBtokenUnidadeManutencaoByOfertaID pega o token do firebase da unidade de manutencao usando o id da oferta
+func GetFBtokenUnidadeManutencaoByOfertaID(id string) string {
+	queryStr := "select token from fb_tokens where email=(select email from interessados_manutencao where id=?)"
+
+	row := db.QueryRow(queryStr, id)
+
+	var token string
+
+	err := row.Scan(&token)
+
+	if err != nil {
+		log.Println(err.Error())
+	}
+
+	return token
+}
+
+//GetFBtokenUnidadeSaudeByOfertaID pega o token do firebase da unidade de manutencao usando o id da oferta
+func GetFBtokenUnidadeSaudeByOfertaID(id string) string {
+	queryStr := `select token from fb_tokens where email=(select email from equipamentos where 
+			id=(select id_equipamento from interessados_manutencao where id=?)
+		)
+	`
+
+	row := db.QueryRow(queryStr, id)
 
 	var token string
 

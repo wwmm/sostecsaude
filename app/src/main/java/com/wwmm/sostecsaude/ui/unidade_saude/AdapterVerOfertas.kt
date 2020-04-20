@@ -129,9 +129,11 @@ class AdapterVerOfertas(
         val prefs = PreferenceManager.getDefaultSharedPreferences(mContext)
         val token = prefs.getString("Token", "")!!
         val jsonArray = JSONArray()
+
         jsonArray.put(0, token)
         jsonArray.put(1, ofertaId.toString())
         jsonArray.put(2, estadoTo.toString())
+
         val queue = Volley.newRequestQueue(mContext)
 
         val request = JsonArrayRequest(
@@ -163,22 +165,24 @@ class AdapterVerOfertas(
         btnNegative: String? = null,
         btnNeutral: String? = null
     ) {
-        lateinit var dialog: AlertDialog
         val builder = AlertDialog.Builder(mContext)
 
         builder.setTitle(title)
         builder.setMessage(message)
+
         val dialogClickListener = DialogInterface.OnClickListener { _, which ->
             when (which) {
                 DialogInterface.BUTTON_POSITIVE -> mudaEstado(id, stateTo)
             }
         }
+
         builder.setPositiveButton(btnPositive, dialogClickListener)
+
         if (btnNegative != null) builder.setNegativeButton(btnNegative, dialogClickListener)
+
         if (btnNeutral != null) builder.setNeutralButton(btnNeutral, dialogClickListener)
 
-        dialog = builder.create()
-        dialog.show()
+        builder.create().show()
     }
 
     private fun onOKPress(view: View, id: Int, state: Int) {
@@ -269,7 +273,7 @@ class AdapterVerOfertas(
 
         view.unidadeSaudeVerOfertasHeader.setOnClickListener {
             TransitionManager.beginDelayedTransition(view as ViewGroup?)
-            if (view.unidadeSaudeVerOfertasDetail.visibility === View.VISIBLE) {
+            if (view.unidadeSaudeVerOfertasDetail.visibility == View.VISIBLE) {
                 view.unidadeSaudeVerOfertasDetail.visibility = View.GONE
                 view.unidadeSaudeVerOfertasChevron.setImageResource(R.drawable.ic_arrow_drop_down_black_24dp)
             } else {

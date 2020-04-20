@@ -41,7 +41,7 @@ func unidadeSaudeAdicionarEquipamento(w http.ResponseWriter, r *http.Request) {
 		fmt.Fprintf(w, "Dados inseridos!")
 
 		if inTheWhitelist(email) {
-			body := "Equipamento: " + nome + "<br>Unidade: " + unidade + "<br>Local: " + local
+			body := "Equipamento: " + nome + "Unidade: " + unidade + "Local: " + local
 
 			sendFirebaseMessageToTopic(messageTopicPedidoReparo, "Pedido de reparo", body, messageTopicPedidoReparo)
 		}
@@ -222,8 +222,8 @@ func listaTodosEquipamentos(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-func AlteraEstadoOferta(w http.ResponseWriter, r *http.Request) {
-	status, perfil, _, jsonArray := verifyToken(w, r)
+func alteraEstadoOferta(w http.ResponseWriter, r *http.Request) {
+	status, perfil, email, jsonArray := verifyToken(w, r)
 
 	id := jsonArray[1]
 	estadoTo := jsonArray[2]
@@ -243,6 +243,50 @@ func AlteraEstadoOferta(w http.ResponseWriter, r *http.Request) {
 		sucesso, err := mydb.AlteraEstadoOferta(id, estadoTo)
 		js, _ := json.Marshal([]interface{}{sucesso, err})
 		fmt.Fprintf(w, "%s", js)
+
+		if tipoPerfil == perfilUnidadeSaude {
+			nomeUnidadeSaude, _ := mydb.GetUnidadeSaude(email)
+
+			fbTokenManutencao := mydb.GetFBtokenUnidadeManutencaoByOfertaID(id)
+
+			var msg string
+
+			switch estadoTo {
+			case "1":
+				msg = "Oferta de reparo aceita!"
+			case "2":
+				msg = "Equipamento pronto para ser levado para manutenção!"
+			case "9":
+				msg = "Equipamento recebido!"
+			}
+
+			if len(msg) > 0 {
+				sendFirebaseMessage(fbTokenManutencao, nomeUnidadeSaude, msg, nomeUnidadeSaude)
+			}
+		} else if tipoPerfil == perfilUnidadeManutencao {
+			nomeUnidadeManutencao, _, _, _, _ := mydb.GetUnidadeManutencao(email)
+
+			fbTokenSaude := mydb.GetFBtokenUnidadeSaudeByOfertaID(id)
+
+			var msg string
+
+			switch estadoTo {
+			case "4":
+				msg = "Equipamento recebido pela unidade de manutenção!"
+			case "5":
+				msg = "Equipamento em triagem!"
+			case "6":
+				msg = "Equipamento em manutenção!"
+			case "7":
+				msg = "Equipamento em higienização!"
+			case "8":
+				msg = "Equipamento saiu para entrega!"
+			}
+
+			if len(msg) > 0 {
+				sendFirebaseMessage(fbTokenSaude, nomeUnidadeManutencao, msg, nomeUnidadeManutencao)
+			}
+		}
 	}
 }
 

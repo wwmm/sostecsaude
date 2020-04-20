@@ -147,9 +147,11 @@ class AdapterStatusReparo(
         val prefs = PreferenceManager.getDefaultSharedPreferences(mContext)
         val token = prefs.getString("Token", "")!!
         val jsonArray = JSONArray()
+
         jsonArray.put(0, token)
         jsonArray.put(1, ofertaId.toString())
         jsonArray.put(2, estadoTo.toString())
+
         val queue = Volley.newRequestQueue(mContext)
 
         val request = JsonArrayRequest(
@@ -181,22 +183,24 @@ class AdapterStatusReparo(
         btnNegative: String? = null,
         btnNeutral: String? = null
     ) {
-        lateinit var dialog: AlertDialog
         val builder = AlertDialog.Builder(mContext)
 
         builder.setTitle(title)
         builder.setMessage(message)
+
         val dialogClickListener = DialogInterface.OnClickListener { _, which ->
             when (which) {
                 DialogInterface.BUTTON_POSITIVE -> mudaEstado(id, stateTo)
             }
         }
+
         builder.setPositiveButton(btnPositive, dialogClickListener)
+
         if (btnNegative != null) builder.setNegativeButton(btnNegative, dialogClickListener)
+
         if (btnNeutral != null) builder.setNeutralButton(btnNeutral, dialogClickListener)
 
-        dialog = builder.create()
-        dialog.show()
+        builder.create().show()
     }
 
     private fun onOKPress(view: View, id: Int, state: Int) {
@@ -281,7 +285,7 @@ class AdapterStatusReparo(
 
         view.unidadeManutencaoOfertasHeader.setOnClickListener {
             TransitionManager.beginDelayedTransition(view as ViewGroup?)
-            if (view.unidadeManutencaoOfertasDetail.visibility === View.VISIBLE) {
+            if (view.unidadeManutencaoOfertasDetail.visibility == View.VISIBLE) {
                 view.unidadeManutencaoOfertasDetail.visibility = View.GONE
                 view.unidadeManutencaoOfertasChevron.setImageResource(R.drawable.ic_arrow_drop_down_black_24dp)
             } else {
@@ -324,6 +328,7 @@ class AdapterStatusReparo(
         holder.view.unidadeManutencaoOfertasBtnOK.setOnClickListener {
             onOKPress(holder.view, json.getInt("idOferta"), estado + 1)
         }
+
         holder.view.unidadeManutencaoOfertasBtnCancel.setOnClickListener {
             onCancelPress(holder.view, json.getInt("idOferta"), estado - 1)
         }
