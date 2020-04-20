@@ -140,9 +140,18 @@ func ListaEquipamentosUnidadeSaudeV2(email string) []EquipamentoV2 {
 }
 
 //ListaTodosEquipamentos retorna uma lista com todos os equipamentos defeituosos
+//Esconde equipamentos que já foram aceitos por alguma unidade de manutenção
 func ListaTodosEquipamentos() []Equipamento {
-	queryStr := `select id,nome,fabricante,modelo,numero_serie,quantidade,defeito,unidade,local,email from equipamentos
-		where email in (select email from whitelist) order by nome
+	queryStr := `
+		select e.id,nome,fabricante,modelo,numero_serie,quantidade,defeito,unidade,local,e.email
+		from equipamentos e
+		where
+		e.email in (select email from whitelist) and
+		e.id not in (
+			select id_equipamento
+			from interessados_manutencao
+			where estado > 0)
+		order by nome
 	`
 
 	rows, err := db.Query(queryStr)
@@ -219,6 +228,88 @@ func UnidadeManutencaoRemoverInteresse(email string, idEquipamento string) {
 	}
 }
 
+type infoCliente struct {
+	Nome  string `json:"nome"`
+	Email string `json:"email"`
+}
+
+func GetListaClientes(email string) []infoCliente {
+	rows, err := db.Query(`
+		select us.nome, us.email
+		from interessados_manutencao im
+		left join equipamentos e on (e.id = im.id_equipamento)
+		left join unidade_saude us on (e.email = us.email)
+		where im.email = ?
+		group by us.email
+	`, email)
+
+	if err != nil {
+		log.Fatal(err.Error())
+	}
+
+	var listaClientes []infoCliente
+	for rows.Next() {
+		var nome string
+		var email string
+
+		err = rows.Scan(&nome, &email)
+		listaClientes = append(listaClientes, infoCliente{nome, email})
+	}
+	return listaClientes
+}
+
+type equipamentoCliente struct {
+	IDOferta  int `json:"idOferta"`
+	Estado    int `json:"estado"`
+	UpdatedAt int `json:"updatedAt"`
+	EquipamentoV2
+}
+
+func GetEquipamentosCliente(emailManutencao string, emailSaude string) []equipamentoCliente {
+	rows, err := db.Query(`
+		select im.id, im.estado, im.updated_at, e.*
+		from interessados_manutencao im
+		left join equipamentos e on (e.id = im.id_equipamento)
+		where
+		im.email = ? and
+		e.email = ? and
+		im.estado > 0
+		order by im.estado desc, im.updated_at desc
+	`, emailManutencao, emailSaude)
+
+	if err != nil {
+		log.Fatal(err.Error())
+	}
+
+	var equipamentos []equipamentoCliente
+	for rows.Next() {
+		var equipamento equipamentoCliente
+
+		err = rows.Scan(
+			&equipamento.IDOferta,
+			&equipamento.Estado,
+			&equipamento.UpdatedAt,
+			&equipamento.ID,
+			&equipamento.Nome,
+			&equipamento.Fabricante,
+			&equipamento.Modelo,
+			&equipamento.NumeroSerie,
+			&equipamento.Quantidade,
+			&equipamento.Defeito,
+			&equipamento.Unidade,
+			&equipamento.Local,
+			&equipamento.Email,
+		)
+
+		if err != nil {
+			log.Fatal(err.Error())
+		}
+
+		equipamentos = append(equipamentos, equipamento)
+	}
+	return equipamentos
+}
+
 //ListaInteresseManutencao retorna uma lista com os equipamentos que a unidade tem interesse de consertar
 func ListaInteresseManutencao(email string) []string {
 	queryStr := "select id_equipamento from interessados_manutencao where email=?"
@@ -279,24 +370,31 @@ func ListaInteressadosManutencao(id string) []string {
 	return emails
 }
 
-//ListaInteressadosManutencao V2 retorna também o estado da oferta
-type returnValue struct {
+type interessadoValue struct {
 	ID        string  `json:"id"`
 	Estado    int     `json:"estado"`
 	UpdatedAt int     `json:"updatedAt"`
 	Empresa   Empresa `json:"empresa"`
 }
 
-func ListaInteressadosManutencaoV2(id string) []returnValue {
+//ListaInteressadosManutencaoV2 retorna também o estado da oferta
+//Esconde ofertas para um equipamento que já está sendo consertado
+func ListaInteressadosManutencaoV2(id string) []interessadoValue {
 	queryStr := `
 		select im.id interesseId, im.estado, ifnull(im.updated_at, 0), um.*
 		from interessados_manutencao im
 		left join unidade_manutencao um using (email)
 		where id_equipamento=? and
+		(estado > 0 or id_equipamento not in (
+			select id_equipamento
+			from interessados_manutencao
+			where id_equipamento=? and
+			estado > 0
+		)) and
 		um.email in (select email from whitelist)
 	`
 
-	rows, err := db.Query(queryStr, id)
+	rows, err := db.Query(queryStr, id, id)
 
 	if err != nil {
 		log.Fatal(err.Error())
@@ -304,7 +402,7 @@ func ListaInteressadosManutencaoV2(id string) []returnValue {
 
 	defer rows.Close()
 
-	var result []returnValue
+	var result []interessadoValue
 
 	var interesseId string
 	var estado int
@@ -319,7 +417,7 @@ func ListaInteressadosManutencaoV2(id string) []returnValue {
 
 	for rows.Next() {
 		err = rows.Scan(&interesseId, &estado, &updatedAt, &empresaId, &nome, &setor, &local, &cnpj, &telefone, &email)
-		result = append(result, returnValue{
+		result = append(result, interessadoValue{
 			interesseId,
 			estado,
 			updatedAt,

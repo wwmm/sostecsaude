@@ -12,6 +12,7 @@ import android.view.ViewGroup
 import android.widget.Filter
 import android.widget.Filterable
 import android.widget.Toast
+import androidx.core.content.ContextCompat
 import androidx.preference.PreferenceManager
 import androidx.recyclerview.widget.RecyclerView
 import com.android.volley.Request
@@ -43,7 +44,24 @@ class AdapterVerOfertas(
             1 -> "Aceito"
             2 -> "Pronto para retirada"
             3 -> "Retirado"
+            4 -> "Recebido"
+            5 -> "Triagem"
+            6 -> "Manutenção"
+            7 -> "Higienização"
+            8 -> "Saiu para entrega"
+            9 -> "Recebido"
             else -> estado.toString()
+        }
+    }
+
+    private fun getEstadoColor(estado: Int): Int {
+        return when (estado) {
+            0 -> ContextCompat.getColor(mContext, R.color.colorEstado0)
+            1 -> ContextCompat.getColor(mContext, R.color.colorEstado1)
+            2 -> ContextCompat.getColor(mContext, R.color.colorEstado1)
+            3 -> ContextCompat.getColor(mContext, R.color.colorEstado1)
+            9 -> ContextCompat.getColor(mContext, R.color.colorEstado1)
+            else -> ContextCompat.getColor(mContext, R.color.colorEstado2)
         }
     }
 
@@ -81,8 +99,20 @@ class AdapterVerOfertas(
                 "Confirmar retirada"
             )
             3 -> ButtonState(
+                true,
+                "Não retirado",
+                false,
+                ""
+            )
+            8 -> ButtonState(
                 false,
                 "",
+                true,
+                "Acusar recebimento"
+            )
+            9 -> ButtonState(
+                true,
+                "Não recebido",
                 false,
                 ""
             )
@@ -176,6 +206,9 @@ class AdapterVerOfertas(
                     "Não"
                 )
             }
+            9 -> {
+                mudaEstado(id, state)
+            }
             else -> return
         }
     }
@@ -200,6 +233,26 @@ class AdapterVerOfertas(
                     "Não está pronto para retirar?",
                     "O estado voltará para apenas \"Aceito\".\nLembre de avisar à unidade de manutenção.",
                     "Não está pronto", null,
+                    "Voltar"
+                )
+            }
+            2 -> {
+                confirmChangeState(
+                    id,
+                    state,
+                    "Equipamento não foi retirado?",
+                    "O estado voltará para \"Pronto para retirada\".",
+                    "Não foi retirado", null,
+                    "Voltar"
+                )
+            }
+            8 -> {
+                confirmChangeState(
+                    id,
+                    state,
+                    "Equipamento não foi recebido?",
+                    "O estado voltará para \"Saiu para entrega\".",
+                    "Não recebido", null,
                     "Voltar"
                 )
             }
@@ -249,6 +302,7 @@ class AdapterVerOfertas(
         holder.view.textView_telefone.text = empresa.getString("telefone")
         holder.view.textView_email.text = empresa.getString("email")
         holder.view.unidadeSaudeVerOfertasEstado.text = getEstadoString(estado)
+        holder.view.unidadeSaudeVerOfertasEstado.background.setTint(getEstadoColor(estado))
         holder.view.unidadeSaudeVerOfertasUpdatedAt.text =
             getDateStr(json.getInt("updatedAt"))
 

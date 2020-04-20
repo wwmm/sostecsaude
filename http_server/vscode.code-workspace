@@ -40,6 +40,13 @@
         "less.lint.duplicateProperties": "error",
         "less.lint.emptyRules": "error",
         "less.lint.ieHack": "error",
-        "less.lint.zeroUnits": "error"
+        "less.lint.zeroUnits": "error",
+        "sqltools.connections": [
+            {
+                "database": "./sostecsaude.sqlite3",
+                "dialect": "SQLite",
+                "name": "SOSTecSaude"
+            }
+        ]
     }
 }

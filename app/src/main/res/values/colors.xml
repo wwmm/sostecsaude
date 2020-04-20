@@ -9,5 +9,7 @@
     <color name="colorIcons">#FFFFFF</color>
     <color name="colorDivider">#BDBDBD</color>
     <color name="colorLight">#CFD8DC</color>
-    <color name="colorEstado0">#90a4ae</color>
+    <color name="colorEstado0">#90A4AE</color>
+    <color name="colorEstado1">#009688</color>
+    <color name="colorEstado2">#F57C00</color>
 </resources>

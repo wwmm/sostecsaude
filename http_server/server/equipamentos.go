@@ -114,6 +114,11 @@ func unidadeSaudePegarEquipamentos(w http.ResponseWriter, r *http.Request) {
 	if status {
 		equipamentos := mydb.ListaEquipamentosUnidadeSaude(email)
 
+		if len(equipamentos) == 0 {
+			fmt.Fprintf(w, "[]")
+			return
+		}
+
 		jsonEquipamentos, err := json.Marshal(equipamentos)
 
 		if err != nil {
@@ -136,6 +141,11 @@ func unidadeSaudePegarEquipamentosV2(w http.ResponseWriter, r *http.Request) {
 
 	if status {
 		equipamentos := mydb.ListaEquipamentosUnidadeSaudeV2(email)
+
+		if len(equipamentos) == 0 {
+			fmt.Fprintf(w, "[]")
+			return
+		}
 
 		jsonEquipamentos, err := json.Marshal(equipamentos)
 
@@ -166,6 +176,11 @@ func adminPegarEquipamentos(w http.ResponseWriter, r *http.Request) {
 
 		equipamentos := mydb.ListaEquipamentosUnidadeSaude(emailUnidade)
 
+		if len(equipamentos) == 0 {
+			fmt.Fprintf(w, "[]")
+			return
+		}
+
 		jsonEquipamentos, err := json.Marshal(equipamentos)
 
 		if err != nil {
@@ -188,6 +203,14 @@ func listaTodosEquipamentos(w http.ResponseWriter, r *http.Request) {
 			idManutencao = append(idManutencao, "-1") // nenhum id válido pode ser menor que zero
 		}
 
+		// Força arrays vazios quando serializar em json
+		if len(equipamentos) == 0 {
+			equipamentos = []mydb.Equipamento{}
+		}
+		if len(idManutencao) == 0 {
+			idManutencao = []string{}
+		}
+
 		js, err := json.Marshal([]interface{}{equipamentos, idManutencao})
 
 		if err != nil {
@@ -206,11 +229,11 @@ func AlteraEstadoOferta(w http.ResponseWriter, r *http.Request) {
 	estadoTo := jsonArray[2]
 	var tipoPerfil = perfilUnidadeManutencao
 
-	if estadoTo == "0" || estadoTo == "1" || estadoTo == "2" || estadoTo == "3" {
+	if estadoTo == "0" || estadoTo == "1" || estadoTo == "2" || estadoTo == "9" {
 		tipoPerfil = perfilUnidadeSaude
 	}
-
-	if perfil != tipoPerfil {
+	// Estados 3 e 8 são estados que podem ser definidos por ambos saúde ou manutenção
+	if estadoTo != "3" && estadoTo != "8" && perfil != tipoPerfil {
 		js, _ := json.Marshal([]interface{}{false, "perfil_invalido"})
 		fmt.Fprintf(w, "%s", js)
 		return
@@ -260,6 +283,55 @@ func unidadeManutencaoAtualizarInteresse(w http.ResponseWriter, r *http.Request)
 
 		fmt.Fprintf(w, "Interesse registrado!")
 	}
+}
+
+func unidadeManutencaoListaClientes(w http.ResponseWriter, r *http.Request) {
+	status, perfil, email, _ := verifyToken(w, r)
+
+	if perfil != perfilUnidadeManutencao {
+		fmt.Fprintf(w, "[\"perfil_invalido\"]")
+		return
+	}
+	if !status {
+		return
+	}
+
+	clientes := mydb.GetListaClientes(email)
+	if len(clientes) == 0 {
+		fmt.Fprintf(w, "[]")
+		return
+	}
+	js, err := json.Marshal(clientes)
+	if err != nil {
+		log.Println(err.Error())
+	}
+
+	fmt.Fprintf(w, "%s", js)
+}
+
+func unidadeManutencaoListaEquipamentosCliente(w http.ResponseWriter, r *http.Request) {
+	status, perfil, emailManutencao, jsonArray := verifyToken(w, r)
+
+	if perfil != perfilUnidadeManutencao {
+		fmt.Fprintf(w, "[\"perfil_invalido\"]")
+		return
+	}
+	if !status {
+		return
+	}
+
+	emailSaude := jsonArray[1]
+
+	equipamentos := mydb.GetEquipamentosCliente(emailManutencao, emailSaude)
+	if len(equipamentos) == 0 {
+		fmt.Fprintf(w, "[]")
+		return
+	}
+	js, err := json.Marshal(equipamentos)
+	if err != nil {
+		log.Println(err.Error())
+	}
+	fmt.Fprintf(w, "%s", js)
 }
 
 func listaInteressadosManutencao(w http.ResponseWriter, r *http.Request) {
@@ -332,24 +404,18 @@ func listaInteressadosManutencaoV2(w http.ResponseWriter, r *http.Request) {
 		idEquipamento := jsonArray[1]
 
 		interessados := mydb.ListaInteressadosManutencaoV2(idEquipamento)
-
-		if len(interessados) != 0 {
-			js, err := json.Marshal(interessados)
-
-			if err != nil {
-				log.Println(err.Error())
-			}
-
-			// fmt.Fprintf(os.Stdout, "%s", js)
-			fmt.Fprintf(w, "%s", js)
-		} else {
-			js, err := json.Marshal([]string{"empty"})
-
-			if err != nil {
-				log.Println(err.Error())
-			}
-
-			fmt.Fprintf(w, "%s", js)
+		if len(interessados) == 0 {
+			fmt.Fprintf(w, "[]")
+			return
 		}
+
+		js, err := json.Marshal(interessados)
+
+		if err != nil {
+			log.Println(err.Error())
+		}
+
+		// fmt.Fprintf(os.Stdout, "%s", js)
+		fmt.Fprintf(w, "%s", js)
 	}
 }

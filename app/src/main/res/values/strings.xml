@@ -30,8 +30,8 @@
     <string name="title_ofertas">Ofertas</string>
     <string name="title_ofertas_manutencao">Ofertas de Manutenção</string>
 
-    <string name="title_com_defeito">Com Defeito</string>
-    <string name="title_estou_consertando">Estou Consertando</string>
+    <string name="title_com_defeito">Lista Geral</string>
+    <string name="title_estou_consertando">Meus Reparos</string>
 
     <string name="title_email">Email</string>
     <string name="title_seu_email">Seu Email</string>
