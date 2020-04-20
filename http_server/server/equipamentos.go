@@ -229,11 +229,11 @@ func AlteraEstadoOferta(w http.ResponseWriter, r *http.Request) {
 	estadoTo := jsonArray[2]
 	var tipoPerfil = perfilUnidadeManutencao
 
-	if estadoTo == "0" || estadoTo == "1" || estadoTo == "2" || estadoTo == "3" {
+	if estadoTo == "0" || estadoTo == "1" || estadoTo == "2" || estadoTo == "9" {
 		tipoPerfil = perfilUnidadeSaude
 	}
-
-	if perfil != tipoPerfil {
+	// Estados 3 e 8 são estados que podem ser definidos por ambos saúde ou manutenção
+	if estadoTo != "3" && estadoTo != "8" && perfil != tipoPerfil {
 		js, _ := json.Marshal([]interface{}{false, "perfil_invalido"})
 		fmt.Fprintf(w, "%s", js)
 		return
