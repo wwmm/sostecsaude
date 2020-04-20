@@ -9,7 +9,7 @@ import com.android.volley.VolleyError
 import com.android.volley.toolbox.StringRequest
 import com.google.android.material.snackbar.Snackbar
 
-const val myServerURL = "http://192.168.86.100:8081"
+const val myServerURL = "http://albali.eic.cefet-rj.br:8081"
 
 fun connectionErrorMessage(view: View, volleyError: VolleyError) {
     if (volleyError is NetworkError) {
