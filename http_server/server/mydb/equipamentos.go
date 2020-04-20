@@ -259,6 +259,7 @@ func GetListaClientes(email string) []infoCliente {
 }
 
 type equipamentoCliente struct {
+	IDOferta  int `json:"idOferta"`
 	Estado    int `json:"estado"`
 	UpdatedAt int `json:"updatedAt"`
 	EquipamentoV2
@@ -266,7 +267,7 @@ type equipamentoCliente struct {
 
 func GetEquipamentosCliente(emailManutencao string, emailSaude string) []equipamentoCliente {
 	rows, err := db.Query(`
-		select im.estado, im.updated_at, e.*
+		select im.id, im.estado, im.updated_at, e.*
 		from interessados_manutencao im
 		left join equipamentos e on (e.id = im.id_equipamento)
 		where
@@ -285,6 +286,7 @@ func GetEquipamentosCliente(emailManutencao string, emailSaude string) []equipam
 		var equipamento equipamentoCliente
 
 		err = rows.Scan(
+			&equipamento.IDOferta,
 			&equipamento.Estado,
 			&equipamento.UpdatedAt,
 			&equipamento.ID,
