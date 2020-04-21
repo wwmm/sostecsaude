@@ -87,22 +87,24 @@ class StatusReparo : Fragment(), SearchView.OnQueryTextListener,
             jsonToken,
             Response.Listener { response ->
                 if (isAdded) {
-                    if (response[0] == "invalid_token" || response[0] == "perfil_invalido") {
-                        mController.navigate(R.id.action_global_fazerLogin)
-                    } else {
-                        for (n in 0 until response.length()) {
-                            val unidade = response[n] as JSONObject
-                            val nome = unidade["nome"] as String
-                            val emailCliente = unidade["email"] as String
+                    if (response.length() > 0) {
+                        if (response[0] == "invalid_token" || response[0] == "perfil_invalido") {
+                            mController.navigate(R.id.action_global_fazerLogin)
+                        } else {
+                            for (n in 0 until response.length()) {
+                                val unidade = response[n] as JSONObject
+                                val nome = unidade["nome"] as String
+                                val emailCliente = unidade["email"] as String
 
-                            listNomeUnidade.add(nome)
-                            listEmailCliente.add(emailCliente)
+                                listNomeUnidade.add(nome)
+                                listEmailCliente.add(emailCliente)
+                            }
+                            val adapter = ArrayAdapter(
+                                requireContext(),
+                                android.R.layout.simple_spinner_dropdown_item, listNomeUnidade
+                            )
+                            spinner_unidade_saude.adapter = adapter
                         }
-                        val adapter = ArrayAdapter(
-                            requireContext(),
-                            android.R.layout.simple_spinner_dropdown_item, listNomeUnidade
-                        )
-                        spinner_unidade_saude.adapter = adapter
                     }
                     progressBar.visibility = View.GONE
                 }
