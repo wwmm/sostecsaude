@@ -149,7 +149,6 @@ class ListaEquipamentos : Fragment(), SearchView.OnQueryTextListener  {
             jsonToken,
             Response.Listener { response ->
                 if (isAdded) {
-                    println(response.toString())
                     if (response.length() > 0) {
                         if (response[0] == "invalid_token") {
                             mActivityController.navigate(R.id.action_global_fazerLogin)
@@ -161,10 +160,10 @@ class ListaEquipamentos : Fragment(), SearchView.OnQueryTextListener  {
                                     adapter = mAdapterLista
                                 }
                             }
-
-                            progressBar.visibility = View.GONE
                         }
                     }
+
+                    progressBar.visibility = View.GONE
                 }
             },
             Response.ErrorListener {
