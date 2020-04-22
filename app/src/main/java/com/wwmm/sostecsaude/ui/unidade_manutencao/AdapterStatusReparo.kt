@@ -285,14 +285,37 @@ class AdapterStatusReparo(
 
         view.unidadeManutencaoOfertasDetail.visibility = View.GONE
 
-        view.unidadeManutencaoOfertasHeader.setOnClickListener {
+        view.textView_equipamento.setOnClickListener {
             TransitionManager.beginDelayedTransition(view as ViewGroup?)
+
             if (view.unidadeManutencaoOfertasDetail.visibility == View.VISIBLE) {
                 view.unidadeManutencaoOfertasDetail.visibility = View.GONE
-                view.unidadeManutencaoOfertasChevron.setImageResource(R.drawable.ic_arrow_drop_down_black_24dp)
+
+                val icon = ContextCompat.getDrawable(
+                    mContext,
+                    R.drawable.ic_arrow_drop_down_black_24dp
+                )
+
+                view.textView_equipamento.setCompoundDrawablesWithIntrinsicBounds(
+                    null,
+                    null,
+                    icon,
+                    null
+                )
             } else {
                 view.unidadeManutencaoOfertasDetail.visibility = View.VISIBLE
-                view.unidadeManutencaoOfertasChevron.setImageResource(R.drawable.ic_arrow_drop_up_black_24dp)
+
+                val icon = ContextCompat.getDrawable(
+                    mContext,
+                    R.drawable.ic_arrow_drop_up_black_24dp
+                )
+
+                view.textView_equipamento.setCompoundDrawablesWithIntrinsicBounds(
+                    null,
+                    null,
+                    icon,
+                    null
+                )
             }
         }
 

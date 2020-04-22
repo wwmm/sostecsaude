@@ -20,28 +20,16 @@
             android:orientation="vertical"
             android:padding="8dp">
 
-            <LinearLayout
-                android:id="@+id/unidadeManutencaoOfertasHeader"
+            <TextView
+                android:id="@+id/textView_equipamento"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="0dp"
+                android:layout_weight="1"
                 android:clickable="true"
-                android:gravity="center">
-
-                <TextView
-                    android:id="@+id/textView_equipamento"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:textColor="?attr/editTextColor"
-                    android:textSize="22dp" />
-
-                <ImageView
-                    android:id="@+id/unidadeManutencaoOfertasChevron"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    app:srcCompat="@drawable/ic_arrow_drop_down_black_24dp" />
-
-            </LinearLayout>
+                android:drawableEnd="@drawable/ic_arrow_drop_down_black_24dp"
+                android:textColor="?attr/editTextColor"
+                android:textSize="22sp"
+                android:focusable="true" />
 
             <LinearLayout
                 android:id="@+id/unidadeManutencaoOfertasDetail"
@@ -65,7 +53,7 @@
                         android:background="@drawable/rounded_corner"
                         android:backgroundTint="@color/colorEstado0"
                         android:textColor="?attr/editTextColor"
-                        android:textSize="18dp" />
+                        android:textSize="18sp" />
 
                     <View
                         android:layout_width="0dp"
@@ -76,7 +64,7 @@
                         android:id="@+id/unidadeManutencaoOfertasUpdatedAt"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textSize="14dp" />
+                        android:textSize="14sp" />
 
                 </LinearLayout>
 
@@ -86,7 +74,7 @@
                     android:layout_marginTop="16dp"
                     android:text="@string/title_equipamento"
                     android:textColor="?attr/editTextColor"
-                    android:textSize="18dp" />
+                    android:textSize="18sp" />
 
                 <TableLayout
                     android:layout_width="match_parent"
@@ -189,7 +177,7 @@
                     android:layout_marginTop="16dp"
                     android:text="@string/title_unidade_saude"
                     android:textColor="?attr/editTextColor"
-                    android:textSize="18dp" />
+                    android:textSize="18sp" />
 
                 <TableLayout
                     android:layout_width="match_parent"
