@@ -325,6 +325,9 @@ class AdapterStatusReparo(
         holder.view.unidadeManutencaoSaudeEndereco.text = json.getString("local")
         holder.view.unidadeManutencaoSaudeEmail.text = json.getString("email")
 
+        holder.view.unidadeManutencaoOfertasBtnOK.setOnClickListener(null)
+        holder.view.unidadeManutencaoOfertasBtnCancel.setOnClickListener(null)
+
         holder.view.unidadeManutencaoOfertasBtnOK.setOnClickListener {
             onOKPress(holder.view, json.getInt("idOferta"), estado + 1)
         }
