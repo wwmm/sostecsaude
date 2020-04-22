@@ -283,6 +283,8 @@ class AdapterStatusReparo(
         val view = LayoutInflater.from(parent.context)
             .inflate(R.layout.recyclerview_unidade_manutencao_status_reparo, parent, false)
 
+        view.unidadeManutencaoOfertasDetail.visibility = View.GONE
+
         view.unidadeManutencaoOfertasHeader.setOnClickListener {
             TransitionManager.beginDelayedTransition(view as ViewGroup?)
             if (view.unidadeManutencaoOfertasDetail.visibility == View.VISIBLE) {
