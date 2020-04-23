@@ -336,6 +336,7 @@ class Relatorio : Fragment() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, resultData: Intent?) {
         super.onActivityResult(requestCode, resultCode, resultData)
 
+
         if (requestCode == SAVE_PDF && resultCode == Activity.RESULT_OK) {
             resultData?.data?.also { uri ->
                 GlobalScope.launch(Dispatchers.IO) {
