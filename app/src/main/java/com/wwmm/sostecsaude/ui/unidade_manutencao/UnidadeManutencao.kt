@@ -43,6 +43,7 @@ class UnidadeManutencao : Fragment(), Toolbar.OnMenuItemClickListener {
         toolbar.menu.findItem(R.id.menu_search).isVisible = false
         toolbar.setOnMenuItemClickListener(this)
 
+        viewpager.isUserInputEnabled = false
         viewpager.adapter = ViewPagerAdapter(this)
 
         TabLayoutMediator(tab_layout, viewpager) { tab, tabIdx ->
@@ -55,6 +56,11 @@ class UnidadeManutencao : Fragment(), Toolbar.OnMenuItemClickListener {
                 1 -> {
                     tab.text = getString(R.string.title_estou_consertando)
                     tab.setIcon(R.drawable.ic_build)
+                }
+
+                2 -> {
+                    tab.text = getString(R.string.title_relatorio)
+                    tab.setIcon(R.drawable.ic_pdf)
                 }
             }
         }.attach()

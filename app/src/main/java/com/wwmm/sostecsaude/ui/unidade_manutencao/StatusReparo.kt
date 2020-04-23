@@ -221,10 +221,6 @@ class StatusReparo : Fragment(), SearchView.OnQueryTextListener,
         return true
     }
 
-    companion object {
-        const val LOGTAG = "StatusReparo"
-    }
-
     override fun onRefresh() {
         refreshListaConsertos(mSelectedEmail)
     }
@@ -241,5 +237,9 @@ class StatusReparo : Fragment(), SearchView.OnQueryTextListener,
         oferta.put("estado", estado)
         oferta.put("updatedAt", floor((Calendar.getInstance().timeInMillis / 1000).toDouble()))
         replaceListItem(id, oferta)
+    }
+
+    companion object {
+        const val LOGTAG = "StatusReparo"
     }
 }

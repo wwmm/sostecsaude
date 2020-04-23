@@ -8,7 +8,7 @@ import com.wwmm.sostecsaude.ui.administration.unidades_saude.ListaUnidadeSaude
 
 class ViewPagerAdapter(fragment: Fragment) : FragmentStateAdapter(fragment) {
 
-    override fun getItemCount(): Int = 2
+    override fun getItemCount(): Int = 3
 
     override fun createFragment(position: Int): Fragment {
         return when (position) {
@@ -18,6 +18,10 @@ class ViewPagerAdapter(fragment: Fragment) : FragmentStateAdapter(fragment) {
 
             1 -> {
                 StatusReparo()
+            }
+
+            2 ->{
+                Relatorio()
             }
 
             else -> {

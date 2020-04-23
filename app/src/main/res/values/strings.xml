@@ -88,6 +88,9 @@
     <string name="title_whitelist">Whitelist</string>
     <string name="title_nome">Nome</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="title_relatorio">Relatório</string>
+    <string name="title_gerar_relatorio">Gerar Relatório</string>
+    <string name="title_salvar_relatorio">Salvar Relatório</string>
+
+    <string name="title_table_status_global">Status dos equipamentos por unidade de saúde</string>
 </resources>
