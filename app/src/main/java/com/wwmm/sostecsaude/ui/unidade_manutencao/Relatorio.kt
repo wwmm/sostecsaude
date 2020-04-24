@@ -24,6 +24,11 @@ import com.android.volley.RequestQueue
 import com.android.volley.Response
 import com.android.volley.toolbox.JsonArrayRequest
 import com.android.volley.toolbox.Volley
+import com.github.mikephil.charting.components.XAxis
+import com.github.mikephil.charting.data.BarData
+import com.github.mikephil.charting.data.BarDataSet
+import com.github.mikephil.charting.data.BarEntry
+import com.github.mikephil.charting.formatter.IndexAxisValueFormatter
 import com.google.android.material.snackbar.Snackbar
 import com.wwmm.sostecsaude.R
 import com.wwmm.sostecsaude.connectionErrorMessage
@@ -35,7 +40,6 @@ import kotlinx.coroutines.launch
 import org.json.JSONArray
 import org.json.JSONObject
 import java.io.OutputStream
-import java.nio.charset.Charset
 
 class Relatorio : Fragment() {
     private lateinit var mController: NavController
@@ -84,7 +88,7 @@ class Relatorio : Fragment() {
                 }
 
                 startActivityForResult(intent, SAVE_PDF)
-            }else{
+            } else {
                 Snackbar.make(
                     layout_manutencao_relatorio,
                     "Sem permissão para salvar arquivos!",
@@ -180,6 +184,7 @@ class Relatorio : Fragment() {
                         mMapClienteEquipamentos[nomeCliente] = response
 
                         if (mMapClienteEquipamentos.size == mClientNameList.size) {
+                            createGlobalPie()
                             createGlobalTable()
                         }
 
@@ -204,6 +209,78 @@ class Relatorio : Fragment() {
         mQueue.add(request)
     }
 
+    private fun createGlobalPie() {
+        val countState = arrayOf(
+            0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f,
+            0.0f
+        )
+
+        for (unidadeNome in mClientNameList) {
+            val listaEquipamentos = mMapClienteEquipamentos[unidadeNome] as JSONArray
+
+            for (n in 0 until listaEquipamentos.length()) {
+                val json = listaEquipamentos[n] as JSONObject
+
+                countState[json.getInt("estado")]++
+            }
+
+            if (listaEquipamentos.length() == 0) {
+                countState[0]++
+            }
+        }
+
+        val labels = arrayOf(
+            "aguardando aceite", "aceito", "pronto para retirada",
+            "retirado", "recebido", "triagem", "manutenção", "higienização", "saiu para entrega",
+            "entregue"
+        )
+
+        val values = ArrayList<BarEntry>()
+
+        values.add(BarEntry(0.0f, countState[0]))
+        values.add(BarEntry(1.0f, countState[1]))
+        values.add(BarEntry(2.0f, countState[2]))
+        values.add(BarEntry(3.0f, countState[3]))
+        values.add(BarEntry(4.0f, countState[4]))
+        values.add(BarEntry(5.0f, countState[5]))
+        values.add(BarEntry(6.0f, countState[6]))
+        values.add(BarEntry(7.0f, countState[7]))
+        values.add(BarEntry(8.0f, countState[8]))
+        values.add(BarEntry(9.0f, countState[9]))
+
+        val dataSet = BarDataSet(values, "")
+
+        val myColors = mutableListOf(
+            Color.rgb(207, 248, 246), Color.rgb(148, 212, 212),
+            Color.rgb(136, 180, 187), Color.rgb(118, 174, 175),
+            Color.rgb(42, 109, 130)
+        )
+
+        dataSet.colors = myColors
+        dataSet.valueTextSize = 12f
+
+        val data = BarData(dataSet)
+
+        bar_chart_global.data = data
+        bar_chart_global.description = null
+        bar_chart_global.legend.isEnabled = false
+
+        bar_chart_global.xAxis.valueFormatter = IndexAxisValueFormatter(labels)
+//        bar_chart_global.xAxis.labelRotationAngle = -10.0f
+        bar_chart_global.xAxis.position = XAxis.XAxisPosition.BOTTOM
+        bar_chart_global.xAxis.labelCount = labels.size
+        bar_chart_global.xAxis.setDrawGridLines(false)
+        bar_chart_global.xAxis.setDrawAxisLine(false)
+
+        bar_chart_global.axisRight.setDrawLabels(false)
+        bar_chart_global.axisRight.setDrawGridLines(false)
+        bar_chart_global.axisRight.setDrawAxisLine(false)
+
+        bar_chart_global.axisLeft.setDrawLabels(false)
+        bar_chart_global.axisLeft.setDrawGridLines(false)
+        bar_chart_global.axisLeft.setDrawAxisLine(false)
+    }
+
     private fun createGlobalTable() {
         val layoutParams = TableLayout.LayoutParams()
 
@@ -225,7 +302,7 @@ class Relatorio : Fragment() {
         row.addView(buildField("manutenção", Color.LTGRAY, 14, Gravity.CENTER, false))
         row.addView(buildField("higienização", Color.GRAY, 14, Gravity.CENTER, false))
         row.addView(buildField("saiu para entrega", Color.LTGRAY, 14, Gravity.CENTER, false))
-        row.addView(buildField("recebido", Color.GRAY, 14, Gravity.CENTER, false))
+        row.addView(buildField("entregue", Color.GRAY, 14, Gravity.CENTER, false))
 
         row.gravity = Gravity.START
 
@@ -293,22 +370,37 @@ class Relatorio : Fragment() {
     }
 
     private fun exportPdf(outputStream: OutputStream) {
-        // create a new document
         val document = PdfDocument()
 
-        // crate a page description
-        val width = linear_layout_relatorio.width
-        val height = linear_layout_relatorio.height
+        // primeira página
 
-        val pageInfo = PdfDocument.PageInfo.Builder(width, height, 1).create()
+        var pageInfo = PdfDocument.PageInfo.Builder(
+            linear_layout_bar_chart_global.width,
+            linear_layout_bar_chart_global.height,
+            1
+        ).create()
 
-        // start a page
-        val page = document.startPage(pageInfo)
+        var page = document.startPage(pageInfo)
 
-        // draw something on the page
+        linear_layout_bar_chart_global.draw(page.canvas)
+
+        document.finishPage(page)
+
+        // segunda página
+
+        pageInfo = PdfDocument.PageInfo.Builder(
+            linear_layout_relatorio.width,
+            linear_layout_relatorio.height,
+            1
+        ).create()
+
+        page = document.startPage(pageInfo)
+
         linear_layout_relatorio.draw(page.canvas)
 
         document.finishPage(page)
+
+        // finalizar documento
 
         document.writeTo(outputStream)
 
@@ -336,13 +428,12 @@ class Relatorio : Fragment() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, resultData: Intent?) {
         super.onActivityResult(requestCode, resultCode, resultData)
 
-
         if (requestCode == SAVE_PDF && resultCode == Activity.RESULT_OK) {
             resultData?.data?.also { uri ->
                 GlobalScope.launch(Dispatchers.IO) {
                     val os = requireContext().contentResolver.openOutputStream(uri)
 
-                    if(os != null){
+                    if (os != null) {
                         exportPdf(os)
                     }
                 }

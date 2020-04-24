@@ -31,26 +31,57 @@
             android:layout_height="wrap_content">
 
             <LinearLayout
-                android:id="@+id/linear_layout_relatorio"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@android:color/white"
                 android:orientation="vertical">
 
-                <TextView
-                    android:id="@+id/textView_title_table_status_global"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="25dp"
-                    android:text="@string/title_table_status_global"
-                    android:textAlignment="center"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
-
-                <TableLayout
-                    android:id="@+id/table_layout_status_global"
+                <LinearLayout
+                    android:id="@+id/linear_layout_bar_chart_global"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:stretchColumns='"*"' />
+                    android:layout_margin="8dp"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/textView48"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/title_pie_global"
+                        android:textAlignment="center"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
+
+                    <view
+                        android:id="@+id/bar_chart_global"
+                        class="com.github.mikephil.charting.charts.BarChart"
+                        android:layout_width="match_parent"
+                        android:layout_height="200dp" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/linear_layout_relatorio"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_margin="8dp"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/textView_title_table_status_global"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="25dp"
+                        android:text="@string/title_table_status_global"
+                        android:textAlignment="center"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
+
+                    <TableLayout
+                        android:id="@+id/table_layout_status_global"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:stretchColumns='"*"' />
+                </LinearLayout>
+
             </LinearLayout>
         </HorizontalScrollView>
     </ScrollView>

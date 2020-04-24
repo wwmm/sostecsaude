@@ -87,16 +87,6 @@ class Registrar : Fragment(), Toolbar.OnMenuItemClickListener {
                                     mActivityController.navigate(R.id.action_global_fazerLogin)
                                 }
 
-                                "no_permission" -> {
-                                    progressBar.visibility = View.GONE
-
-                                    Snackbar.make(
-                                        main_layout_registrar,
-                                        "Você ainda não tem permissão para realizar esta operação!",
-                                        Snackbar.LENGTH_SHORT
-                                    ).show()
-                                }
-
                                 else -> {
                                     textView_nome.text.clear()
                                     textView_fabricante.text.clear()
