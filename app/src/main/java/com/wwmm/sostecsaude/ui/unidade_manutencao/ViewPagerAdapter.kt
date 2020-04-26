@@ -2,9 +2,6 @@ package com.wwmm.sostecsaude.ui.unidade_manutencao
 
 import androidx.fragment.app.Fragment
 import androidx.viewpager2.adapter.FragmentStateAdapter
-import com.wwmm.sostecsaude.ui.administration.equipamentos.ListaEquipamentos
-import com.wwmm.sostecsaude.ui.administration.unidades_manutencao.ListaUnidadeManutencao
-import com.wwmm.sostecsaude.ui.administration.unidades_saude.ListaUnidadeSaude
 
 class ViewPagerAdapter(fragment: Fragment) : FragmentStateAdapter(fragment) {
 
@@ -20,7 +17,7 @@ class ViewPagerAdapter(fragment: Fragment) : FragmentStateAdapter(fragment) {
                 StatusReparo()
             }
 
-            2 ->{
+            2 -> {
                 Relatorio()
             }
 

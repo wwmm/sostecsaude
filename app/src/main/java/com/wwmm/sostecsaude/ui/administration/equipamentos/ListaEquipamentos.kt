@@ -2,13 +2,13 @@ package com.wwmm.sostecsaude.ui.administration.equipamentos
 
 import android.os.Bundle
 import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import androidx.appcompat.widget.SearchView
+import androidx.fragment.app.Fragment
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
 import androidx.preference.PreferenceManager.getDefaultSharedPreferences
@@ -17,7 +17,6 @@ import com.android.volley.Request
 import com.android.volley.Response
 import com.android.volley.toolbox.JsonArrayRequest
 import com.android.volley.toolbox.Volley
-
 import com.wwmm.sostecsaude.R
 import com.wwmm.sostecsaude.connectionErrorMessage
 import com.wwmm.sostecsaude.myServerURL
@@ -25,7 +24,7 @@ import kotlinx.android.synthetic.main.fragment_admin_lista_equipamentos.*
 import org.json.JSONArray
 import org.json.JSONObject
 
-class ListaEquipamentos : Fragment(), SearchView.OnQueryTextListener  {
+class ListaEquipamentos : Fragment(), SearchView.OnQueryTextListener {
     private lateinit var mActivityController: NavController
     private val userList = ArrayList<String>()
     private var mAdapterLista: AdapterLista? = null
@@ -91,7 +90,7 @@ class ListaEquipamentos : Fragment(), SearchView.OnQueryTextListener  {
                             val unidades = response[0] as? JSONArray
 
                             if (unidades != null) {
-                                for(n in 0 until unidades.length()){
+                                for (n in 0 until unidades.length()) {
                                     val unidade = unidades[n] as JSONObject
                                     val usuario = unidade["Email"] as String
 
