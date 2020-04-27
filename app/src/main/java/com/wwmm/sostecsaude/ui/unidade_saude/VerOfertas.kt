@@ -115,11 +115,12 @@ class VerOfertas : Fragment(), Toolbar.OnMenuItemClickListener, SearchView.OnQue
             "$myServerURL/v2/unidade_saude_pegar_equipamentos",
             jsonToken,
             Response.Listener { response ->
-                if (response.length() > 0) {
-                    if (response[0] == "invalid_token") {
-                        mActivityController.navigate(R.id.action_global_fazerLogin)
-                    } else {
-                        if (isAdded) {
+                if (isAdded) {
+                    if (response.length() > 0) {
+                        if (response[0] == "invalid_token") {
+                            mActivityController.navigate(R.id.action_global_fazerLogin)
+                        } else {
+
                             val list = ArrayList<String>()
                             mIdList.clear()
 
@@ -136,10 +137,10 @@ class VerOfertas : Fragment(), Toolbar.OnMenuItemClickListener, SearchView.OnQue
                             )
 
                             spinner_equipamento.adapter = adapter
-
-                            progressBar.visibility = View.GONE
                         }
                     }
+
+                    progressBar.visibility = View.GONE
                 }
             },
             Response.ErrorListener {
