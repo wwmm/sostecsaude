@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">SOSTecSaúde</string>
     <string name="title_add">Registrar</string>
-    <string name="title_registrar_defeito">Registrar Defeito</string>
+    <string name="title_adicionar_equipamento">Adicionar Equipamento</string>
     <string name="title_pedidos">Pedidos</string>
     <string name="title_remove">Remover</string>
     <string name="title_unidade_saude">Unidade de Saúde</string>
@@ -29,6 +29,8 @@
     <string name="title_ver_pedidos_conserto">Pedidos Realizados</string>
     <string name="title_ofertas">Ofertas</string>
     <string name="title_ofertas_manutencao">Ofertas de Manutenção</string>
+
+    <string name="title_lista">Lista</string>
 
     <string name="title_com_defeito">Lista Geral</string>
     <string name="title_estou_consertando">Meus Reparos</string>
@@ -94,4 +96,7 @@
 
     <string name="title_table_status_global">Status dos equipamentos por unidade de saúde</string>
     <string name="title_pie_global">Status geral dos equipamentos</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

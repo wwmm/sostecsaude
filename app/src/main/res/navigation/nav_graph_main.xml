@@ -183,4 +183,20 @@
         android:name="com.wwmm.sostecsaude.ui.administration.Home"
         android:label="@string/title_administration_area"
         tools:layout="@layout/fragment_admin_home" />
+    <fragment
+        android:id="@+id/adicionarEquipamento"
+        android:name="com.wwmm.sostecsaude.ui.unidade_saude.AdicionarEquipamento"
+        android:label="fragment_unidade_saude_adicionar_equipamento"
+        tools:layout="@layout/fragment_unidade_saude_adicionar_equipamento" >
+        <action
+            android:id="@+id/action_adicionarEquipamento_to_unidadeSaude"
+            app:destination="@id/unidadeSaude" />
+    </fragment>
+    <action
+        android:id="@+id/action_global_adicionarEquipamento"
+        app:destination="@id/adicionarEquipamento"
+        app:enterAnim="@android:anim/slide_in_left"
+        app:exitAnim="@android:anim/slide_out_right"
+        app:popEnterAnim="@android:anim/slide_in_left"
+        app:popExitAnim="@android:anim/slide_out_right" />
 </navigation>

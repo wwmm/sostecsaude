@@ -4,11 +4,9 @@ import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
-import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
-import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.Fragment
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
@@ -20,9 +18,9 @@ import com.google.android.material.snackbar.Snackbar
 import com.wwmm.sostecsaude.R
 import com.wwmm.sostecsaude.connectionErrorMessage
 import com.wwmm.sostecsaude.myServerURL
-import kotlinx.android.synthetic.main.fragment_unidade_saude_relatar.*
+import kotlinx.android.synthetic.main.fragment_unidade_saude_adicionar_equipamento.*
 
-class Registrar : Fragment(), Toolbar.OnMenuItemClickListener {
+class AdicionarEquipamento : Fragment(){
     private lateinit var mActivityController: NavController
 
     override fun onCreateView(
@@ -30,18 +28,13 @@ class Registrar : Fragment(), Toolbar.OnMenuItemClickListener {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.fragment_unidade_saude_relatar, container, false)
+        return inflater.inflate(R.layout.fragment_unidade_saude_adicionar_equipamento, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         mActivityController = Navigation.findNavController(requireActivity(), R.id.nav_host_main)
-
-        toolbar.title = getString(R.string.title_equipamento)
-        toolbar.inflateMenu(R.menu.menu_toolbar)
-        toolbar.menu.findItem(R.id.menu_search).isVisible = false
-        toolbar.setOnMenuItemClickListener(this)
 
         progressBar.visibility = View.GONE
 
@@ -99,6 +92,8 @@ class Registrar : Fragment(), Toolbar.OnMenuItemClickListener {
                                         main_layout_registrar, msg,
                                         Snackbar.LENGTH_SHORT
                                     ).show()
+
+                                    mActivityController.navigate(R.id.action_adicionarEquipamento_to_unidadeSaude)
                                 }
                             }
                         }
@@ -130,37 +125,6 @@ class Registrar : Fragment(), Toolbar.OnMenuItemClickListener {
                     main_layout_registrar, "Preencha todos os campos!",
                     Snackbar.LENGTH_SHORT
                 ).show()
-            }
-        }
-    }
-
-    override fun onMenuItemClick(item: MenuItem): Boolean {
-        when (item.itemId) {
-            R.id.menu_login -> {
-                val prefs =
-                    PreferenceManager.getDefaultSharedPreferences(requireContext())
-
-                val editor = prefs.edit()
-
-                editor.putString("Token", "")
-                editor.putString("Perfil", "")
-                editor.putString("Email", "")
-
-                editor.apply()
-
-                mActivityController.navigate(R.id.action_global_fazerLogin)
-
-                return true
-            }
-
-            R.id.menu_atualizar_perfil -> {
-                mActivityController.navigate(R.id.action_global_unidadeSaude)
-
-                return true
-            }
-
-            else -> {
-                return super.onOptionsItemSelected(item)
             }
         }
     }

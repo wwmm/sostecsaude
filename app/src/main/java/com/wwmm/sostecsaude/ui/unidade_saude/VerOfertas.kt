@@ -73,8 +73,9 @@ class VerOfertas : Fragment(), Toolbar.OnMenuItemClickListener, SearchView.OnQue
 
         mController = findNavController()
 
-        toolbar.title = getString(R.string.title_ofertas_manutencao)
         toolbar.inflateMenu(R.menu.menu_toolbar)
+        toolbar.menu.findItem(R.id.menu_atualizar_perfil).isVisible = false
+        toolbar.menu.findItem(R.id.menu_login).isVisible = false
         toolbar.setOnMenuItemClickListener(this)
 
         val actionView = toolbar.menu.findItem(R.id.menu_search).actionView as
