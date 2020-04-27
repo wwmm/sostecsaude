@@ -183,7 +183,7 @@ class Relatorio : Fragment() {
                         mMapClienteEquipamentos[nomeCliente] = response
 
                         if (mMapClienteEquipamentos.size == mClientNameList.size) {
-                            createGlobalPie()
+                            createGlobalBarChart()
                             createGlobalTable()
                         }
 
@@ -208,7 +208,7 @@ class Relatorio : Fragment() {
         mQueue.add(request)
     }
 
-    private fun createGlobalPie() {
+    private fun createGlobalBarChart() {
         val countState = arrayOf(
             0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f,
             0.0f
@@ -278,6 +278,8 @@ class Relatorio : Fragment() {
         bar_chart_global.axisLeft.setDrawLabels(false)
         bar_chart_global.axisLeft.setDrawGridLines(false)
         bar_chart_global.axisLeft.setDrawAxisLine(false)
+
+        bar_chart_global.invalidate()
     }
 
     private fun createGlobalTable() {

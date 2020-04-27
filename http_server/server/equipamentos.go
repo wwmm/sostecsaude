@@ -158,6 +158,34 @@ func unidadeSaudePegarEquipamentosV2(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
+func getEstadoEquipamentos(w http.ResponseWriter, r *http.Request) {
+	status, perfil, email, _ := verifyToken(w, r)
+
+	if perfil != perfilUnidadeSaude {
+		fmt.Fprintf(w, "perfil_invalido")
+
+		return
+	}
+
+	if status {
+		listaStatus := mydb.GetEstadoEquipamentos(email)
+
+		if len(listaStatus) == 0 {
+			fmt.Fprintf(w, "[]")
+			return
+		}
+
+		jsonLista, err := json.Marshal(listaStatus)
+
+		if err != nil {
+			log.Println(err.Error())
+		}
+
+		// fmt.Fprintf(os.Stdout, "%s", jsonEquipamentos)
+		fmt.Fprintf(w, "%s", jsonLista)
+	}
+}
+
 func adminPegarEquipamentos(w http.ResponseWriter, r *http.Request) {
 	status, perfil, email, jasonArray := verifyToken(w, r)
 
@@ -360,6 +388,7 @@ func unidadeManutencaoListaEquipamentosCliente(w http.ResponseWriter, r *http.Re
 		fmt.Fprintf(w, "[\"perfil_invalido\"]")
 		return
 	}
+
 	if !status {
 		return
 	}
@@ -367,14 +396,18 @@ func unidadeManutencaoListaEquipamentosCliente(w http.ResponseWriter, r *http.Re
 	emailSaude := jsonArray[1]
 
 	equipamentos := mydb.GetEquipamentosCliente(emailManutencao, emailSaude)
+
 	if len(equipamentos) == 0 {
 		fmt.Fprintf(w, "[]")
 		return
 	}
+
 	js, err := json.Marshal(equipamentos)
+
 	if err != nil {
 		log.Println(err.Error())
 	}
+
 	fmt.Fprintf(w, "%s", js)
 }
 

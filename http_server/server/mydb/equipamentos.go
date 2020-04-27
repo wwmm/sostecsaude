@@ -42,6 +42,19 @@ type Empresa struct {
 	Email    string `json:"email"`
 }
 
+type interessadoValue struct {
+	ID        string  `json:"id"`
+	Estado    int     `json:"estado"`
+	UpdatedAt int     `json:"updatedAt"`
+	Empresa   Empresa `json:"empresa"`
+}
+
+//EstadoEquipamento estrutura usada para enviar para a unidade de saúde um json com o status de manutenção
+type EstadoEquipamento struct {
+	ID     string `json:"id"`
+	Estado int    `json:"estado"`
+}
+
 func abs(num int) int {
 	if num < 0 {
 		return -num
@@ -98,6 +111,37 @@ func UnidadeSaudeRemoverEquipamento(id string) {
 	}
 }
 
+//GetEstadoEquipamentos pega o status de manutenção dos equipamentos da unidade de saúde dada como argumento
+func GetEstadoEquipamentos(emailUnidade string) []EstadoEquipamento {
+	queryStr := `select id_equipamento,estado from interessados_manutencao where id_equipamento in 
+		(select id from equipamentos where email=?)
+	`
+
+	rows, err := db.Query(queryStr, emailUnidade)
+
+	if err != nil {
+		log.Println(err.Error())
+	}
+
+	defer rows.Close()
+
+	var output []EstadoEquipamento
+
+	for rows.Next() {
+		var status EstadoEquipamento
+
+		err = rows.Scan(&status.ID, &status.Estado)
+
+		if err != nil {
+			log.Println(err.Error())
+		}
+
+		output = append(output, status)
+	}
+
+	return output
+}
+
 //ListaEquipamentosUnidadeSaude retorna uma lista com os equipamento adicionados pela unidade
 func ListaEquipamentosUnidadeSaude(email string) []Equipamento {
 	queryStr := `select id,nome,fabricante,modelo,numero_serie,quantidade,defeito from equipamentos where email=?
@@ -107,7 +151,7 @@ func ListaEquipamentosUnidadeSaude(email string) []Equipamento {
 	rows, err := db.Query(queryStr, email)
 
 	if err != nil {
-		log.Fatal(err.Error())
+		log.Println(err.Error())
 	}
 
 	defer rows.Close()
@@ -129,13 +173,17 @@ func ListaEquipamentosUnidadeSaude(email string) []Equipamento {
 
 	return equipamentos
 }
+
 func ListaEquipamentosUnidadeSaudeV2(email string) []EquipamentoV2 {
 	// Infelizmente não dá pra typecast direto pro V2 :(
 	var equipamentosV2 []EquipamentoV2
+
 	equipamentos := ListaEquipamentosUnidadeSaude(email)
+
 	for _, equipamento := range equipamentos {
 		equipamentosV2 = append(equipamentosV2, EquipamentoV2(equipamento))
 	}
+
 	return equipamentosV2
 }
 
@@ -157,7 +205,7 @@ func ListaTodosEquipamentos() []Equipamento {
 	rows, err := db.Query(queryStr)
 
 	if err != nil {
-		log.Fatal(err.Error())
+		log.Println(err.Error())
 	}
 
 	defer rows.Close()
@@ -244,7 +292,7 @@ func GetListaClientes(email string) []infoCliente {
 	`, email)
 
 	if err != nil {
-		log.Fatal(err.Error())
+		log.Println(err.Error())
 	}
 
 	var listaClientes []infoCliente
@@ -278,10 +326,11 @@ func GetEquipamentosCliente(emailManutencao string, emailSaude string) []equipam
 	`, emailManutencao, emailSaude)
 
 	if err != nil {
-		log.Fatal(err.Error())
+		log.Println(err.Error())
 	}
 
 	var equipamentos []equipamentoCliente
+
 	for rows.Next() {
 		var equipamento equipamentoCliente
 
@@ -302,7 +351,7 @@ func GetEquipamentosCliente(emailManutencao string, emailSaude string) []equipam
 		)
 
 		if err != nil {
-			log.Fatal(err.Error())
+			log.Println(err.Error())
 		}
 
 		equipamentos = append(equipamentos, equipamento)
@@ -317,7 +366,7 @@ func ListaInteresseManutencao(email string) []string {
 	rows, err := db.Query(queryStr, email)
 
 	if err != nil {
-		log.Fatal(err.Error())
+		log.Println(err.Error())
 	}
 
 	defer rows.Close()
@@ -348,7 +397,7 @@ func ListaInteressadosManutencao(id string) []string {
 	rows, err := db.Query(queryStr, id)
 
 	if err != nil {
-		log.Fatal(err.Error())
+		log.Println(err.Error())
 	}
 
 	defer rows.Close()
@@ -368,13 +417,6 @@ func ListaInteressadosManutencao(id string) []string {
 	}
 
 	return emails
-}
-
-type interessadoValue struct {
-	ID        string  `json:"id"`
-	Estado    int     `json:"estado"`
-	UpdatedAt int     `json:"updatedAt"`
-	Empresa   Empresa `json:"empresa"`
 }
 
 //ListaInteressadosManutencaoV2 retorna também o estado da oferta
@@ -397,17 +439,17 @@ func ListaInteressadosManutencaoV2(id string) []interessadoValue {
 	rows, err := db.Query(queryStr, id, id)
 
 	if err != nil {
-		log.Fatal(err.Error())
+		log.Println(err.Error())
 	}
 
 	defer rows.Close()
 
 	var result []interessadoValue
 
-	var interesseId string
+	var interesseID string
 	var estado int
 	var updatedAt int
-	var empresaId int
+	var empresaID int
 	var nome string
 	var setor string
 	var local string
@@ -416,13 +458,13 @@ func ListaInteressadosManutencaoV2(id string) []interessadoValue {
 	var email string
 
 	for rows.Next() {
-		err = rows.Scan(&interesseId, &estado, &updatedAt, &empresaId, &nome, &setor, &local, &cnpj, &telefone, &email)
+		err = rows.Scan(&interesseID, &estado, &updatedAt, &empresaID, &nome, &setor, &local, &cnpj, &telefone, &email)
 		result = append(result, interessadoValue{
-			interesseId,
+			interesseID,
 			estado,
 			updatedAt,
 			Empresa{
-				empresaId,
+				empresaID,
 				nome,
 				setor,
 				local,
