@@ -18,6 +18,7 @@ import android.widget.TableRow
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.navigation.NavController
+import androidx.navigation.fragment.findNavController
 import androidx.preference.PreferenceManager
 import com.android.volley.Request
 import com.android.volley.RequestQueue
@@ -67,15 +68,13 @@ class Relatorio : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        mController = findNavController()
+
         mPrefs = PreferenceManager.getDefaultSharedPreferences(requireContext())
 
         mQueue = Volley.newRequestQueue(requireContext())
 
         criarRelatorio()
-
-        button_gerar_relatorio.setOnClickListener {
-            criarRelatorio()
-        }
 
         button_salvar_relatorio.setOnClickListener {
             if (mHavePermissions) {
