@@ -81,10 +81,10 @@ class VerPedidos : Fragment(), Toolbar.OnMenuItemClickListener, SearchView.OnQue
                             recyclerview.apply {
                                 adapter = mAdapterVerPedidos
                             }
-
-                            progressBar.visibility = View.GONE
                         }
                     }
+
+                    progressBar.visibility = View.GONE
                 }
             },
             Response.ErrorListener {
