@@ -125,12 +125,12 @@ class Relatorio : Fragment() {
                         } else {
                             mListaEquipamentos = response
 
-                            progressBar.visibility = View.GONE
-                            mProcessing = false
-
                             getEstadoManutencao()
                         }
                     }
+
+                    progressBar.visibility = View.GONE
+                    mProcessing = false
                 }
             },
             Response.ErrorListener {
@@ -170,13 +170,13 @@ class Relatorio : Fragment() {
                             mController.navigate(R.id.action_global_fazerLogin)
                         } else {
                             mListaStatus = response
-
-                            progressBar.visibility = View.GONE
-                            mProcessing = false
                         }
 
                         createGlobalBarChart()
                     }
+
+                    progressBar.visibility = View.GONE
+                    mProcessing = false
                 }
             },
             Response.ErrorListener {
