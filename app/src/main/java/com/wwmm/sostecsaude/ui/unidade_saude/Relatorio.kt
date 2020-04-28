@@ -50,8 +50,8 @@ class Relatorio : Fragment() {
     private var mProcessing = false
     private var mHavePermissions = false
     private var permissions: Array<String> = arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE)
-    private lateinit var mListaEquipamentos: JSONArray
-    private lateinit var mListaStatus: JSONArray
+    private var mListaEquipamentos = JSONArray()
+    private var mListaStatus = JSONArray()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -174,10 +174,10 @@ class Relatorio : Fragment() {
                         } else {
                             mListaStatus = response
                         }
-
-                        createGlobalBarChart()
-                        createGlobalTable()
                     }
+
+                    createGlobalBarChart()
+                    createGlobalTable()
 
                     progressBar.visibility = View.GONE
                     mProcessing = false
@@ -319,8 +319,6 @@ class Relatorio : Fragment() {
             val modelo = json.getString("modelo")
             val numeroSerie = json.getString("numeroSerie")
             val quantidade = json.getString("quantidade")
-
-            Log.d(LOGTAG, unidade)
 
             row = TableRow(requireContext())
 
