@@ -46,7 +46,7 @@ class UnidadeSaude : Fragment(), Toolbar.OnMenuItemClickListener {
         TabLayoutMediator(tab_layout, viewpager) { tab, tabIdx ->
             when (tabIdx) {
                 0 -> {
-                    tab.text = getString(R.string.title_lista)
+                    tab.text = getString(R.string.title_registro)
                     tab.setIcon(R.drawable.ic_view_list)
                 }
 
