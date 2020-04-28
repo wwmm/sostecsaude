@@ -9,11 +9,14 @@ import android.graphics.Color
 import android.graphics.pdf.PdfDocument
 import android.os.Bundle
 import android.util.Log
-import androidx.fragment.app.Fragment
+import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TableLayout
+import android.widget.TableRow
 import android.widget.TextView
+import androidx.fragment.app.Fragment
 import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
 import androidx.preference.PreferenceManager
@@ -28,9 +31,9 @@ import com.github.mikephil.charting.data.BarDataSet
 import com.github.mikephil.charting.data.BarEntry
 import com.github.mikephil.charting.formatter.IndexAxisValueFormatter
 import com.google.android.material.snackbar.Snackbar
-
 import com.wwmm.sostecsaude.R
 import com.wwmm.sostecsaude.connectionErrorMessage
+import com.wwmm.sostecsaude.getEstadoString
 import com.wwmm.sostecsaude.myServerURL
 import kotlinx.android.synthetic.main.fragment_unidade_saude_relatorio.*
 import kotlinx.coroutines.Dispatchers
@@ -115,7 +118,7 @@ class Relatorio : Fragment() {
 
         val request = JsonArrayRequest(
             Request.Method.POST,
-            "$myServerURL/unidade_saude_pegar_equipamentos",
+            "$myServerURL/v2/unidade_saude_pegar_equipamentos",
             jsonToken,
             Response.Listener { response ->
                 if (isAdded) {
@@ -149,7 +152,7 @@ class Relatorio : Fragment() {
         mQueue.add(request)
     }
 
-    private fun getEstadoManutencao(){
+    private fun getEstadoManutencao() {
         progressBar.visibility = View.VISIBLE
         mProcessing = true
 
@@ -173,6 +176,7 @@ class Relatorio : Fragment() {
                         }
 
                         createGlobalBarChart()
+                        createGlobalTable()
                     }
 
                     progressBar.visibility = View.GONE
@@ -197,38 +201,38 @@ class Relatorio : Fragment() {
 
     private fun createGlobalBarChart() {
         val countState = arrayOf(
-            0.0f,0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f
+            0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f
         )
 
-        if(mListaStatus.length() == 0){ // não há nenhuma oferta de manutenção
+        if (mListaStatus.length() == 0) { // não há nenhuma oferta de manutenção
             countState[0] = mListaEquipamentos.length().toFloat()
-        }else {
+        } else {
             for (n in 0 until mListaEquipamentos.length()) {
                 val json = mListaEquipamentos[n] as JSONObject
-                val idEquipamento = json.getString("ID")
+                val idEquipamento = json.getString("id")
                 var status = -1
 
                 for (j in 0 until mListaStatus.length()) {
                     val jsonStatus = mListaStatus[j] as JSONObject
                     val id = jsonStatus.getInt("id")
 
-                    if(id == idEquipamento.toInt()){
+                    if (id == idEquipamento.toInt()) {
                         status = jsonStatus.getInt("estado")
 
                         break
                     }
                 }
 
-                if(status == -1){
+                if (status == -1) {
                     countState[0]++
-                }else{
+                } else {
                     countState[status]++
                 }
             }
         }
 
         val labels = arrayOf(
-            "sem oferta","aguardando aceite", "aceito", "pronto para retirada",
+            "sem oferta", "aguardando aceite", "aceito", "pronto para retirada",
             "retirado", "recebido", "triagem", "manutenção", "higienização", "saiu para entrega",
             "entregue"
         )
@@ -281,6 +285,89 @@ class Relatorio : Fragment() {
         bar_chart_global.invalidate()
     }
 
+    private fun createGlobalTable() {
+        val layoutParams = TableLayout.LayoutParams()
+
+        layoutParams.setMargins(0, 5, 0, 5)
+
+        // column headers
+
+        var row = TableRow(requireContext())
+
+        row.layoutParams = layoutParams
+
+        row.addView(buildField("unidade", Color.WHITE, 14, Gravity.CENTER, false))
+        row.addView(buildField("equipamento", Color.GRAY, 14, Gravity.CENTER, false))
+        row.addView(buildField("modelo", Color.LTGRAY, 14, Gravity.CENTER, false))
+        row.addView(buildField("fabricante", Color.GRAY, 14, Gravity.CENTER, false))
+        row.addView(buildField("número de série", Color.LTGRAY, 14, Gravity.CENTER, false))
+        row.addView(buildField("quantidade", Color.GRAY, 14, Gravity.CENTER, false))
+        row.addView(buildField("status de manutenção", Color.LTGRAY, 14, Gravity.CENTER, false))
+
+        row.gravity = Gravity.START
+
+        table_layout_status_global.addView(row)
+
+        // linhas
+
+        for (n in 0 until mListaEquipamentos.length()) {
+            val json = mListaEquipamentos[n] as JSONObject
+
+            val unidade = json.getString("unidade")
+            val equipamento = json.getString("nome")
+            val fabricante = json.getString("fabricante")
+            val modelo = json.getString("modelo")
+            val numeroSerie = json.getString("numeroSerie")
+            val quantidade = json.getString("quantidade")
+
+            Log.d(LOGTAG, unidade)
+
+            row = TableRow(requireContext())
+
+            row.layoutParams = layoutParams
+            row.gravity = Gravity.START
+
+            row.addView(buildField(unidade, Color.WHITE, 14, Gravity.CENTER, false))
+            row.addView(buildField(equipamento, Color.WHITE, 14, Gravity.CENTER, false))
+            row.addView(buildField(modelo, Color.WHITE, 14, Gravity.CENTER, false))
+            row.addView(buildField(fabricante, Color.WHITE, 14, Gravity.CENTER, false))
+            row.addView(buildField(numeroSerie, Color.WHITE, 14, Gravity.CENTER, false))
+            row.addView(buildField(quantidade, Color.WHITE, 14, Gravity.CENTER, false))
+
+            val idEquipamento = json.getString("id")
+            var status = -1
+
+            for (j in 0 until mListaStatus.length()) {
+                val jsonStatus = mListaStatus[j] as JSONObject
+                val id = jsonStatus.getInt("id")
+
+                if (id == idEquipamento.toInt()) {
+                    status = jsonStatus.getInt("estado")
+
+                    break
+                }
+            }
+
+            if (status == -1) {
+                row.addView(
+                    buildField(
+                        "Sem ofertas de reparo", Color.WHITE, 14,
+                        Gravity.CENTER, false
+                    )
+                )
+            } else {
+                row.addView(
+                    buildField(
+                        getEstadoString(status), Color.WHITE, 14,
+                        Gravity.CENTER, false
+                    )
+                )
+            }
+
+            table_layout_status_global.addView(row)
+        }
+    }
+
     private fun buildField(
         text: String,
         color: Int,
@@ -294,7 +381,7 @@ class Relatorio : Fragment() {
 
         tv.textSize = size.toFloat()
 
-        tv.setPadding(10, 5, 10, 5)
+        tv.setPadding(20, 5, 20, 5)
 
         tv.setBackgroundColor(color)
 
@@ -323,17 +410,17 @@ class Relatorio : Fragment() {
 
         // segunda página
 
-//        pageInfo = PdfDocument.PageInfo.Builder(
-//            linear_layout_relatorio.width,
-//            linear_layout_relatorio.height,
-//            1
-//        ).create()
-//
-//        page = document.startPage(pageInfo)
+        pageInfo = PdfDocument.PageInfo.Builder(
+            linear_layout_table_global.width,
+            linear_layout_table_global.height,
+            1
+        ).create()
 
-//        linear_layout_relatorio.draw(page.canvas)
+        page = document.startPage(pageInfo)
 
-//        document.finishPage(page)
+        linear_layout_table_global.draw(page.canvas)
+
+        document.finishPage(page)
 
         // finalizar documento
 

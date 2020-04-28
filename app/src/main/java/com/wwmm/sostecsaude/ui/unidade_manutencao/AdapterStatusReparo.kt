@@ -20,6 +20,7 @@ import com.android.volley.Response
 import com.android.volley.toolbox.JsonArrayRequest
 import com.android.volley.toolbox.Volley
 import com.wwmm.sostecsaude.R
+import com.wwmm.sostecsaude.getEstadoString
 import com.wwmm.sostecsaude.myServerURL
 import com.wwmm.sostecsaude.ui.unidade_saude.VerOfertas
 import kotlinx.android.synthetic.main.recyclerview_unidade_manutencao_status_reparo.view.*
@@ -37,22 +38,6 @@ class AdapterStatusReparo(
     private val mStatusReparo = statusReparo
 
     class ViewHolder(val view: View) : RecyclerView.ViewHolder(view)
-
-    private fun getEstadoString(estado: Int): String {
-        return when (estado) {
-            0 -> "Aguardando aceite"
-            1 -> "Aceito"
-            2 -> "Pronto para retirada"
-            3 -> "Retirado"
-            4 -> "Recebido"
-            5 -> "Triagem"
-            6 -> "Manutenção"
-            7 -> "Higienização"
-            8 -> "Saiu para entrega"
-            9 -> "Recebido"
-            else -> estado.toString()
-        }
-    }
 
     private fun getEstadoColor(estado: Int): Int {
         return when (estado) {

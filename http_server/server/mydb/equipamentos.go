@@ -144,8 +144,8 @@ func GetEstadoEquipamentos(emailUnidade string) []EstadoEquipamento {
 
 //ListaEquipamentosUnidadeSaude retorna uma lista com os equipamento adicionados pela unidade
 func ListaEquipamentosUnidadeSaude(email string) []Equipamento {
-	queryStr := `select id,nome,fabricante,modelo,numero_serie,quantidade,defeito from equipamentos where email=?
-		order by nome
+	queryStr := `select id,nome,fabricante,modelo,numero_serie,quantidade,defeito,unidade,local from equipamentos 
+		where email=? order by nome
 	`
 
 	rows, err := db.Query(queryStr, email)
@@ -162,7 +162,8 @@ func ListaEquipamentosUnidadeSaude(email string) []Equipamento {
 		var equipamento Equipamento
 
 		err = rows.Scan(&equipamento.ID, &equipamento.Nome, &equipamento.Fabricante, &equipamento.Modelo,
-			&equipamento.NumeroSerie, &equipamento.Quantidade, &equipamento.Defeito)
+			&equipamento.NumeroSerie, &equipamento.Quantidade, &equipamento.Defeito, &equipamento.Unidade,
+			&equipamento.Local)
 
 		if err != nil {
 			log.Println(err.Error())

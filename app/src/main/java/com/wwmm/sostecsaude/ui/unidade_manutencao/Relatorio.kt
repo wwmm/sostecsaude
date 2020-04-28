@@ -265,7 +265,6 @@ class Relatorio : Fragment() {
         bar_chart_global.legend.isEnabled = false
 
         bar_chart_global.xAxis.valueFormatter = IndexAxisValueFormatter(labels)
-//        bar_chart_global.xAxis.labelRotationAngle = -10.0f
         bar_chart_global.xAxis.position = XAxis.XAxisPosition.BOTTOM
         bar_chart_global.xAxis.labelCount = labels.size
         bar_chart_global.xAxis.setDrawGridLines(false)
