@@ -26,7 +26,7 @@
             app:layout_constraintTop_toTopOf="parent">
 
             <EditText
-                android:id="@+id/textView_nome"
+                android:id="@+id/editText_nome"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
@@ -103,7 +103,7 @@
                 android:text="@string/title_setor"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textView_nome" />
+                app:layout_constraintTop_toBottomOf="@+id/editText_nome" />
 
             <TextView
                 android:id="@+id/textView35"

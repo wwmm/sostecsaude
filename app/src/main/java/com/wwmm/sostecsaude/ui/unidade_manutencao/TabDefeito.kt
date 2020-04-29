@@ -21,8 +21,8 @@ class TabDefeito : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         arguments.apply {
-            textView_defeito.text = this!!.getString("Defeito").toString()
-            textView_quantidade.text = this.getString("Quantidade").toString()
+            editText_defeito.text = this!!.getString("Defeito").toString()
+            editText_quantidade.text = this.getString("Quantidade").toString()
         }
     }
 }

@@ -72,7 +72,7 @@ class DadosUnidadeManutencao : Fragment(), Toolbar.OnMenuItemClickListener {
                             val cnpj = arr[3]
                             val telefone = arr[4]
 
-                            textView_nome.setText(nome)
+                            editText_nome.setText(nome)
                             editText_setor.setText(setor)
                             editText_local.setText(local)
                             editText_cnpj.setText(cnpj)
@@ -102,7 +102,7 @@ class DadosUnidadeManutencao : Fragment(), Toolbar.OnMenuItemClickListener {
 
             imm?.hideSoftInputFromWindow(requireActivity().currentFocus?.windowToken, 0)
 
-            if (textView_nome.text.isNotBlank() && editText_setor.text.isNotBlank() &&
+            if (editText_nome.text.isNotBlank() && editText_setor.text.isNotBlank() &&
                 editText_local.text.isNotBlank() && editText_cnpj.text.isNotBlank() &&
                 editText_telefone.text.isNotBlank()
             ) {
@@ -135,7 +135,7 @@ class DadosUnidadeManutencao : Fragment(), Toolbar.OnMenuItemClickListener {
                         val parameters = HashMap<String, String>()
 
                         parameters["token"] = token
-                        parameters["nome"] = textView_nome.text.toString()
+                        parameters["nome"] = editText_nome.text.toString()
                         parameters["setor"] = editText_setor.text.toString()
                         parameters["local"] = editText_local.text.toString()
                         parameters["cnpj"] = editText_cnpj.text.toString()

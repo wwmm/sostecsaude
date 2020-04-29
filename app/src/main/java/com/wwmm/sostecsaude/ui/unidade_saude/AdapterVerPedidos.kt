@@ -53,12 +53,12 @@ class AdapterVerPedidos(private val frag: VerPedidos, private val lines: JSONArr
         var quantidade = line.getString("Quantidade")
         var defeito = line.getString("Defeito")
 
-        holder.view.textView_nome.setText(nome)
-        holder.view.textView_fabricante.setText(fabricante)
-        holder.view.textView_modelo.setText(modelo)
-        holder.view.textView_numero_serie.setText(numeroSerie)
-        holder.view.textView_defeito.setText(defeito)
-        holder.view.textView_quantidade.setText(quantidade)
+        holder.view.editText_nome.setText(nome)
+        holder.view.editText_fabricante.setText(fabricante)
+        holder.view.editText_modelo.setText(modelo)
+        holder.view.editText_numero_serie.setText(numeroSerie)
+        holder.view.editText_defeito.setText(defeito)
+        holder.view.editText_quantidade.setText(quantidade)
 
         holder.view.button_remove.setOnClickListener(null)
         holder.view.button_update.setOnClickListener(null)
@@ -109,12 +109,12 @@ class AdapterVerPedidos(private val frag: VerPedidos, private val lines: JSONArr
         }
 
         holder.view.button_update.setOnClickListener {
-            nome = holder.view.textView_nome.text.toString()
-            fabricante = holder.view.textView_fabricante.text.toString()
-            modelo = holder.view.textView_modelo.text.toString()
-            numeroSerie = holder.view.textView_numero_serie.text.toString()
-            defeito = holder.view.textView_defeito.text.toString()
-            quantidade = holder.view.textView_quantidade.text.toString()
+            nome = holder.view.editText_nome.text.toString()
+            fabricante = holder.view.editText_fabricante.text.toString()
+            modelo = holder.view.editText_modelo.text.toString()
+            numeroSerie = holder.view.editText_numero_serie.text.toString()
+            defeito = holder.view.editText_defeito.text.toString()
+            quantidade = holder.view.editText_quantidade.text.toString()
 
             frag.progressBar.visibility = View.VISIBLE
 

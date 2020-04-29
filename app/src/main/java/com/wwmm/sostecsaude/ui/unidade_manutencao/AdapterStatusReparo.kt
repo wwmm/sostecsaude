@@ -325,12 +325,12 @@ class AdapterStatusReparo(
         holder.view.unidadeManutencaoOfertasEstado.text = getEstadoString(estado)
         holder.view.unidadeManutencaoOfertasEstado.background.setTint(getEstadoColor(estado))
         holder.view.unidadeManutencaoOfertasUpdatedAt.text = getDateStr(json.getInt("updatedAt"))
-        holder.view.textView_nome.text = nome
-        holder.view.textView_fabricante.text = json.getString("fabricante")
-        holder.view.textView_modelo.text = json.getString("modelo")
-        holder.view.textView_numero_serie.text = json.getString("numeroSerie")
-        holder.view.textView_quantidade.text = json.getString("quantidade")
-        holder.view.textView_defeito.text = json.getString("defeito")
+        holder.view.editText_nome.text = nome
+        holder.view.editText_fabricante.text = json.getString("fabricante")
+        holder.view.editText_modelo.text = json.getString("modelo")
+        holder.view.editText_numero_serie.text = json.getString("numeroSerie")
+        holder.view.editText_quantidade.text = json.getString("quantidade")
+        holder.view.editText_defeito.text = json.getString("defeito")
         holder.view.unidadeManutencaoSaudeNome.text = json.getString("unidade")
         holder.view.unidadeManutencaoSaudeEndereco.text = json.getString("local")
         holder.view.unidadeManutencaoSaudeEmail.text = json.getString("email")

@@ -42,7 +42,7 @@
                 app:layout_constraintTop_toBottomOf="@+id/textView9" />
 
             <TextView
-                android:id="@+id/textView_nome"
+                android:id="@+id/editText_nome"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
@@ -56,7 +56,7 @@
                 app:layout_constraintTop_toBottomOf="@+id/textView5" />
 
             <TextView
-                android:id="@+id/textView_defeito"
+                android:id="@+id/editText_defeito"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
@@ -77,10 +77,10 @@
                 android:layout_marginTop="16dp"
                 android:text="@string/title_quantidade"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textView_numero_serie" />
+                app:layout_constraintTop_toBottomOf="@+id/editText_numero_serie" />
 
             <TextView
-                android:id="@+id/textView_quantidade"
+                android:id="@+id/editText_quantidade"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
@@ -99,10 +99,10 @@
                 android:layout_marginTop="16dp"
                 android:text="@string/title_fabricante"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textView_nome" />
+                app:layout_constraintTop_toBottomOf="@+id/editText_nome" />
 
             <TextView
-                android:id="@+id/textView_fabricante"
+                android:id="@+id/editText_fabricante"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
@@ -122,10 +122,10 @@
                 android:layout_marginTop="16dp"
                 android:text="@string/title_modelo"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textView_fabricante" />
+                app:layout_constraintTop_toBottomOf="@+id/editText_fabricante" />
 
             <TextView
-                android:id="@+id/textView_modelo"
+                android:id="@+id/editText_modelo"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
@@ -145,10 +145,10 @@
                 android:layout_marginTop="16dp"
                 android:text="@string/title_numero_serie"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textView_modelo" />
+                app:layout_constraintTop_toBottomOf="@+id/editText_modelo" />
 
             <TextView
-                android:id="@+id/textView_numero_serie"
+                android:id="@+id/editText_numero_serie"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"

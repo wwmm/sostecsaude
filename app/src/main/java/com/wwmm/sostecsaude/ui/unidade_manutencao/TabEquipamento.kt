@@ -22,9 +22,9 @@ class TabEquipamento : Fragment() {
 
         arguments.apply {
             textView_equipamento.text = this!!.getString("Nome").toString()
-            textView_fabricante.text = this.getString("Fabricante").toString()
-            textView_modelo.text = this.getString("Modelo").toString()
-            textView_numero_serie.text = this.getString("NumeroSerie").toString()
+            editText_fabricante.text = this.getString("Fabricante").toString()
+            editText_modelo.text = this.getString("Modelo").toString()
+            editText_numero_serie.text = this.getString("NumeroSerie").toString()
         }
     }
 }

@@ -107,6 +107,13 @@ class DadosUnidadeSaude : Fragment(), Toolbar.OnMenuItemClickListener {
                             if (msg == "invalid_token") {
                                 controller.navigate(R.id.action_global_fazerLogin)
                             } else {
+                                val editor = prefs.edit()
+
+                                editor.putString("UnidadeSaude_nome", editText_unidade_saude.text.toString())
+                                editor.putString("UnidadeSaude_local", editText_local.text.toString())
+
+                                editor.apply()
+
                                 Snackbar.make(
                                     main_layout_unidade_saude, msg,
                                     Snackbar.LENGTH_SHORT

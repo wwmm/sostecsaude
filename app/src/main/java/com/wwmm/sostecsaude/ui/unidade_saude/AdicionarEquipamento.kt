@@ -1,6 +1,7 @@
 package com.wwmm.sostecsaude.ui.unidade_saude
 
 import android.content.Context
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -11,6 +12,7 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
 import androidx.preference.PreferenceManager
+import com.android.volley.RequestQueue
 import com.android.volley.Response
 import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
@@ -20,15 +22,21 @@ import com.wwmm.sostecsaude.connectionErrorMessage
 import com.wwmm.sostecsaude.myServerURL
 import kotlinx.android.synthetic.main.fragment_unidade_saude_adicionar_equipamento.*
 
-class AdicionarEquipamento : Fragment(){
+class AdicionarEquipamento : Fragment() {
     private lateinit var mActivityController: NavController
+    private lateinit var mQueue: RequestQueue
+    private lateinit var mPrefs: SharedPreferences
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.fragment_unidade_saude_adicionar_equipamento, container, false)
+        return inflater.inflate(
+            R.layout.fragment_unidade_saude_adicionar_equipamento,
+            container,
+            false
+        )
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -36,14 +44,23 @@ class AdicionarEquipamento : Fragment(){
 
         mActivityController = Navigation.findNavController(requireActivity(), R.id.nav_host_main)
 
+        mPrefs = PreferenceManager.getDefaultSharedPreferences(requireContext())
+
+        mQueue = Volley.newRequestQueue(requireContext())
+
         progressBar.visibility = View.GONE
 
+        initFields()
+
         button_add.setOnClickListener {
-            val nome = textView_nome.text.toString()
-            val fabricante = textView_fabricante.text.toString()
-            val modelo = textView_modelo.text.toString()
-            val numeroSerie = textView_numero_serie.text.toString()
-            val defeito = textView_defeito.text.toString()
+            val nome = editText_nome.text.toString()
+            val fabricante = editText_fabricante.text.toString()
+            val modelo = editText_modelo.text.toString()
+            val numeroSerie = editText_numero_serie.text.toString()
+            val defeito = editText_defeito.text.toString()
+            val quantidade = editText_quantidade.text.toString()
+            val unidade = editText_unidade_saude.text.toString()
+            val local = editText_local.text.toString()
 
             val imm =
                 requireActivity().getSystemService(Context.INPUT_METHOD_SERVICE) as
@@ -56,18 +73,11 @@ class AdicionarEquipamento : Fragment(){
 
             if (nome.isNotBlank() && fabricante.isNotBlank() && modelo.isNotBlank()
                 && numeroSerie.isNotBlank() && defeito.isNotBlank() &&
-                textView_quantidade.text.isNotBlank()
+                quantidade.isNotBlank() && unidade.isNotBlank() && local.isNotBlank()
             ) {
-                val quantidade = textView_quantidade.text.toString()
-
                 progressBar.visibility = View.VISIBLE
 
-                val prefs =
-                    PreferenceManager.getDefaultSharedPreferences(requireContext())
-
-                val token = prefs.getString("Token", "")!!
-
-                val queue = Volley.newRequestQueue(requireContext())
+                val token = mPrefs.getString("Token", "")!!
 
                 val request = object : StringRequest(
                     Method.POST, "$myServerURL/unidade_saude_adicionar_equipamento",
@@ -79,13 +89,6 @@ class AdicionarEquipamento : Fragment(){
                                 }
 
                                 else -> {
-                                    textView_nome.text.clear()
-                                    textView_fabricante.text.clear()
-                                    textView_modelo.text.clear()
-                                    textView_numero_serie.text.clear()
-                                    textView_quantidade.text.clear()
-                                    textView_defeito.text.clear()
-
                                     progressBar.visibility = View.GONE
 
                                     Snackbar.make(
@@ -114,12 +117,14 @@ class AdicionarEquipamento : Fragment(){
                         parameters["numero_serie"] = numeroSerie
                         parameters["quantidade"] = quantidade
                         parameters["defeito"] = defeito
+                        parameters["unidade"] = unidade
+                        parameters["local"] = local
 
                         return parameters
                     }
                 }
 
-                queue.add(request)
+                mQueue.add(request)
             } else {
                 Snackbar.make(
                     main_layout_registrar, "Preencha todos os campos!",
@@ -129,7 +134,62 @@ class AdicionarEquipamento : Fragment(){
         }
     }
 
+    private fun initFields() {
+        var unidade = mPrefs.getString("UnidadeSaude_nome", "")!!
+        var local = mPrefs.getString("UnidadeSaude_local", "")!!
+
+        if (unidade.isBlank() || local.isBlank()) {
+            val token = mPrefs.getString("Token", "")!!
+
+            val requestGet = object : StringRequest(
+                Method.POST, "$myServerURL/get_unidade",
+                Response.Listener { response ->
+                    val msg = response.toString()
+
+                    if (msg == "invalid_token") {
+                        mActivityController.navigate(R.id.action_global_fazerLogin)
+                    } else {
+                        val arr = msg.split("<&>")
+
+                        if (arr.size == 2) {
+                            unidade = arr[0]
+                            local = arr[1]
+
+                            editText_unidade_saude.setText(unidade)
+                            editText_local.setText(local)
+
+                            val editor = mPrefs.edit()
+
+                            editor.putString("UnidadeSaude_nome", unidade)
+                            editor.putString("UnidadeSaude_local", local)
+
+                            editor.apply()
+                        }
+                    }
+                },
+                Response.ErrorListener {
+                    Log.d(LOGTAG, "failed request: $it")
+
+                    connectionErrorMessage(main_layout_registrar, it)
+                }
+            ) {
+                override fun getParams(): MutableMap<String, String> {
+                    val parameters = HashMap<String, String>()
+
+                    parameters["token"] = token
+
+                    return parameters
+                }
+            }
+
+            mQueue.add(requestGet)
+        } else {
+            editText_unidade_saude.setText(unidade)
+            editText_local.setText(local)
+        }
+    }
+
     companion object {
-        const val LOGTAG = "relatar defeito"
+        const val LOGTAG = "AdicionarEquipamento"
     }
 }

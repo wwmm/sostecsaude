@@ -56,7 +56,7 @@ class AdapterLista(
         val local = line.getString("Local")
         val email = line.getString("Email")
 
-        holder.view.textView_nome.text = nome
+        holder.view.editText_nome.text = nome
         holder.view.textView_local.text = local
         holder.view.textView_email.text = email
 

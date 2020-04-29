@@ -31,10 +31,10 @@ func unidadeSaudeAdicionarEquipamento(w http.ResponseWriter, r *http.Request) {
 		numeroSerie := r.FormValue("numero_serie")
 		quantidade := r.FormValue("quantidade")
 		defeito := r.FormValue("defeito")
+		unidade := r.FormValue("unidade")
+		local := r.FormValue("local")
 
 		n, _ := strconv.Atoi(quantidade)
-
-		unidade, local := mydb.GetUnidadeSaude(email)
 
 		mydb.UnidadeSaudeAdicionarEquipamento(nome, fabricante, modelo, numeroSerie, n, defeito, unidade, local, email)
 

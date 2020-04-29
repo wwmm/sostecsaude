@@ -38,12 +38,12 @@ class AdapterLista(private val lines: JSONArray) :
         val quantidade = line.getString("Quantidade")
         val defeito = line.getString("Defeito")
 
-        holder.view.textView_nome.text = nome
-        holder.view.textView_fabricante.text = fabricante
-        holder.view.textView_modelo.text = modelo
-        holder.view.textView_numero_serie.text = numeroSerie
-        holder.view.textView_defeito.text = defeito
-        holder.view.textView_quantidade.text = quantidade
+        holder.view.editText_nome.text = nome
+        holder.view.editText_fabricante.text = fabricante
+        holder.view.editText_modelo.text = modelo
+        holder.view.editText_numero_serie.text = numeroSerie
+        holder.view.editText_defeito.text = defeito
+        holder.view.editText_quantidade.text = quantidade
     }
 
     override fun getItemCount() = mFilterArray.length()
