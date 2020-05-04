@@ -425,3 +425,49 @@ func removerUsuario(w http.ResponseWriter, r *http.Request) {
 		}
 	}
 }
+
+func alterarSenha(w http.ResponseWriter, r *http.Request) {
+	status, perfil, email, _ := verifyToken(w, r)
+
+	if status {
+		err := r.ParseForm()
+
+		if err != nil {
+			log.Println(logTag + err.Error())
+		}
+
+		if perfil == perfilAdministrador {
+			// emailUnidade := r.FormValue("email")
+
+			// fmt.Fprintf(w, nome+"<&>"+local)
+		} else {
+			senhaAtual := r.FormValue("senha_atual")
+
+			hashSenhaAtual := mydb.GetSenha(email)
+
+			if bcrypt.CompareHashAndPassword([]byte(hashSenhaAtual), []byte(senhaAtual)) != nil {
+				fmt.Fprintf(w, "senha_atual_invalida")
+
+				return
+			}
+
+			novaSenha := r.FormValue("nova_senha")
+
+			if len(novaSenha) < 6 {
+				fmt.Fprintf(w, "A senha deve ter pelo menos 6 characteres!")
+
+				return
+			}
+
+			hashBytes, err := bcrypt.GenerateFromPassword([]byte(novaSenha), 10)
+
+			if err != nil {
+				log.Fatal(logTag + err.Error())
+			}
+
+			mydb.AtualizarSenha(email, string(hashBytes))
+
+			fmt.Fprintf(w, "Senha alterada!")
+		}
+	}
+}

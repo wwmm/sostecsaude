@@ -95,6 +95,17 @@ func Cadastrar(perfil string, email string, senha string) {
 	}
 }
 
+//AtualizarSenha atualiza a senha do usuário
+func AtualizarSenha(email string, novaSenha string) {
+	queryStr := "update usuarios set senha=? where email=?"
+
+	_, err := db.Exec(queryStr, novaSenha, email)
+
+	if err != nil {
+		log.Fatal(err.Error())
+	}
+}
+
 //UpdateUnidadeSaude atualiza dados cadastrais das unidade de saúde
 func UpdateUnidadeSaude(nome string, local string, email string) {
 	queryStr := "update unidade_saude set nome=?,local=? where email=?"

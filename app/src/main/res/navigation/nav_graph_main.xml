@@ -199,4 +199,22 @@
         app:exitAnim="@android:anim/slide_out_right"
         app:popEnterAnim="@android:anim/slide_in_left"
         app:popExitAnim="@android:anim/slide_out_right" />
+    <fragment
+        android:id="@+id/alterarSenha"
+        android:name="com.wwmm.sostecsaude.ui.login.AlterarSenha"
+        android:label="fragment_alterar_senha"
+        tools:layout="@layout/fragment_alterar_senha" >
+        <action
+            android:id="@+id/action_alterarSenha_to_checkCredentials"
+            app:destination="@id/checkCredentials"
+            app:popUpTo="@id/nav_graph_main"
+            app:popUpToInclusive="true" />
+    </fragment>
+    <action
+        android:id="@+id/action_global_alterarSenha"
+        app:destination="@id/alterarSenha"
+        app:enterAnim="@android:anim/slide_in_left"
+        app:exitAnim="@android:anim/slide_out_right"
+        app:popEnterAnim="@android:anim/slide_in_left"
+        app:popExitAnim="@android:anim/slide_out_right" />
 </navigation>

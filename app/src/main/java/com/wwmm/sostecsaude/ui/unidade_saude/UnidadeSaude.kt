@@ -87,6 +87,12 @@ class UnidadeSaude : Fragment(), Toolbar.OnMenuItemClickListener {
                 return true
             }
 
+            R.id.menu_alterar_senha -> {
+                mController.navigate(R.id.action_global_alterarSenha)
+
+                return true
+            }
+
             else -> {
                 return super.onOptionsItemSelected(item)
             }

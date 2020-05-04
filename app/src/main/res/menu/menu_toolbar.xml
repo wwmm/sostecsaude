@@ -5,10 +5,14 @@
         android:id="@+id/menu_search"
         android:icon="@drawable/ic_search_white"
         app:showAsAction="always|collapseActionView"
-        app:actionViewClass="androidx.appcompat.widget.SearchView" />
+        app:actionViewClass="androidx.appcompat.widget.SearchView"
+        android:title="@string/title_search" />
     <item
         android:id="@+id/menu_atualizar_perfil"
         android:title="@string/title_dados_unidade" />
+    <item
+        android:id="@+id/menu_alterar_senha"
+        android:title="@string/title_alterar_senha" />
     <item
         android:id="@+id/menu_login"
         android:title="@string/title_sair" />

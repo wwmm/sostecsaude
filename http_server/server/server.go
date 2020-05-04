@@ -32,6 +32,7 @@ func Start() {
 
 	http.HandleFunc("/login", login)
 	http.HandleFunc("/cadastrar", cadastrar)
+	http.HandleFunc("/alterar_senha", alterarSenha)
 	http.HandleFunc("/check_credentials", checkCredentials)
 	http.HandleFunc("/check_write_permission", checkWritePermission)
 	http.HandleFunc("/update_fb_token", updateFBtoken)
