@@ -164,9 +164,13 @@ func cadastrar(w http.ResponseWriter, r *http.Request) {
 	if perfil == perfilUnidadeSaude {
 		sendFirebaseMessageToTopic(messageTopicAdministration, "Nova unidade de saúde", "E-mail: "+email,
 			messageGroupAdministration)
+
+		//sendEmailToOurselves("Nova unidade de saúde", "E-mail: "+email)
 	} else if perfil == perfilUnidadeManutencao {
 		sendFirebaseMessageToTopic(messageTopicAdministration, "Nova unidade de manutenção", "E-mail: "+email,
 			messageGroupAdministration)
+
+		//sendEmailToOurselves("Nova unidade de manutenção", "E-mail: "+email)
 	}
 }
 
