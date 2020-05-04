@@ -50,6 +50,9 @@
     <string name="title_enviar">Enviar</string>
     <string name="title_senha">Senha</string>
     <string name="title_senha_confirmar">Confirmar Senha</string>
+    <string name="title_senha_atual">Senha Atual</string>
+    <string name="title_senha_nova">Nova Senha</string>
+    <string name="title_senha_confirmar_nova_senha">Confirmar Nova Senha</string>
     <string name="title_update">Atualizar</string>
     <string name="title_save">Salvar</string>
 
