@@ -303,6 +303,35 @@ func GetFBtokenUnidadeSaudeByOfertaID(id string) string {
 	return token
 }
 
+//GetListaUsuarios retorna uma lista com o email de todos os usuarios
+func GetListaUsuarios() []string {
+	queryStr := "select email from usuarios order by email"
+
+	rows, err := db.Query(queryStr)
+
+	if err != nil {
+		log.Fatal(err.Error())
+	}
+
+	defer rows.Close()
+
+	var emails []string
+
+	for rows.Next() {
+		var email string
+
+		err = rows.Scan(&email)
+
+		if err != nil {
+			log.Fatal(err.Error())
+		}
+
+		emails = append(emails, email)
+	}
+
+	return emails
+}
+
 //GetListaUnidadeSaude retorna uma lista com as unidade de saúde
 func GetListaUnidadeSaude() []UnidadeSaude {
 	queryStr := "select nome,local,email from unidade_saude"

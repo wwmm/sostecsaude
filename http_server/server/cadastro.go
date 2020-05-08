@@ -328,6 +328,25 @@ func isAdministrator(email string, senha string, w http.ResponseWriter) bool {
 	return false
 }
 
+func listaUsuarios(w http.ResponseWriter, r *http.Request) {
+	status, perfil, email, _ := verifyToken(w, r)
+
+	if status {
+		if perfil == perfilAdministrador && email == cfg.AdminEmail {
+			emails := mydb.GetListaUsuarios()
+
+			js, err := json.Marshal(emails)
+
+			if err != nil {
+				log.Println(err.Error())
+			}
+
+			// fmt.Fprintf(os.Stdout, "%s", js)
+			fmt.Fprintf(w, "%s", js)
+		}
+	}
+}
+
 func listaUnidadeSaude(w http.ResponseWriter, r *http.Request) {
 	status, perfil, email, _ := verifyToken(w, r)
 
@@ -437,9 +456,25 @@ func alterarSenha(w http.ResponseWriter, r *http.Request) {
 		}
 
 		if perfil == perfilAdministrador {
-			// emailUnidade := r.FormValue("email")
+			emailUsuario := r.FormValue("email_usuario")
 
-			// fmt.Fprintf(w, nome+"<&>"+local)
+			novaSenha := r.FormValue("nova_senha")
+
+			if len(novaSenha) < 6 {
+				fmt.Fprintf(w, "A senha deve ter pelo menos 6 characteres!")
+
+				return
+			}
+
+			hashBytes, err := bcrypt.GenerateFromPassword([]byte(novaSenha), 10)
+
+			if err != nil {
+				log.Fatal(logTag + err.Error())
+			}
+
+			mydb.AtualizarSenha(emailUsuario, string(hashBytes))
+
+			fmt.Fprintf(w, "Senha alterada!")
 		} else {
 			senhaAtual := r.FormValue("senha_atual")
 
