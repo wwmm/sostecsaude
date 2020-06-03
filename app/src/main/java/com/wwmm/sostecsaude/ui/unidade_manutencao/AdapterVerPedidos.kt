@@ -42,6 +42,7 @@ class ViewPagerAdapterVerPedidos(fragment: Fragment, private val line: JSONObjec
                     putString("Fabricante", line.getString("Fabricante"))
                     putString("Modelo", line.getString("Modelo"))
                     putString("NumeroSerie", line.getString("NumeroSerie"))
+                    putString("ID", line.getString("ID"))
                 }
 
                 return fragment
@@ -210,8 +211,13 @@ class AdapterVerPedidos(
                     val filteredArray = JSONArray()
 
                     for (n in 0 until equipamentos.length()) {
+                        val line = equipamentos[n] as JSONObject
+
+                        val id = line.getString("ID")
+                        val idSistema = "EQ$id"
+
                         if (equipamentos[n].toString().toLowerCase(Locale.ENGLISH)
-                                .contains(constraint)
+                                .contains(constraint) || constraint == idSistema
                         ) {
                             filteredArray.put(equipamentos[n])
                         }

@@ -58,7 +58,6 @@ class AdapterVerPedidos(private val frag: VerPedidos, private val lines: JSONArr
         holder.view.editText_modelo.setText(modelo)
         holder.view.editText_numero_serie.setText(numeroSerie)
         holder.view.editText_defeito.setText(defeito)
-        holder.view.editText_quantidade.setText(quantidade)
 
         holder.view.button_remove.setOnClickListener(null)
         holder.view.button_update.setOnClickListener(null)
@@ -114,7 +113,6 @@ class AdapterVerPedidos(private val frag: VerPedidos, private val lines: JSONArr
             modelo = holder.view.editText_modelo.text.toString()
             numeroSerie = holder.view.editText_numero_serie.text.toString()
             defeito = holder.view.editText_defeito.text.toString()
-            quantidade = holder.view.editText_quantidade.text.toString()
 
             frag.progressBar.visibility = View.VISIBLE
 
@@ -168,7 +166,7 @@ class AdapterVerPedidos(private val frag: VerPedidos, private val lines: JSONArr
                     parameters["fabricante"] = fabricante
                     parameters["modelo"] = modelo
                     parameters["numero_serie"] = numeroSerie
-                    parameters["quantidade"] = quantidade
+                    parameters["quantidade"] = "1" // um dia essa varável será removida
                     parameters["defeito"] = defeito
 
                     return parameters

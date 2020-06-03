@@ -25,6 +25,7 @@ import com.wwmm.sostecsaude.myServerURL
 import com.wwmm.sostecsaude.ui.unidade_saude.VerOfertas
 import kotlinx.android.synthetic.main.recyclerview_unidade_manutencao_status_reparo.view.*
 import org.json.JSONArray
+import org.json.JSONObject
 import java.util.*
 
 class AdapterStatusReparo(
@@ -329,11 +330,12 @@ class AdapterStatusReparo(
         holder.view.editText_fabricante.text = json.getString("fabricante")
         holder.view.editText_modelo.text = json.getString("modelo")
         holder.view.editText_numero_serie.text = json.getString("numeroSerie")
-        holder.view.editText_quantidade.text = json.getString("quantidade")
         holder.view.editText_defeito.text = json.getString("defeito")
         holder.view.unidadeManutencaoSaudeNome.text = json.getString("unidade")
         holder.view.unidadeManutencaoSaudeEndereco.text = json.getString("local")
         holder.view.unidadeManutencaoSaudeEmail.text = json.getString("email")
+
+        holder.view.textView_id_sistema.text = "EQ${json.getString("id")}"
 
         holder.view.unidadeManutencaoOfertasBtnOK.setOnClickListener(null)
         holder.view.unidadeManutencaoOfertasBtnCancel.setOnClickListener(null)
@@ -361,7 +363,13 @@ class AdapterStatusReparo(
                     val filteredArray = JSONArray()
 
                     for (n in 0 until lines.length()) {
-                        if (lines[n].toString().toLowerCase(Locale.ENGLISH).contains(constraint)) {
+                        val line = lines[n] as JSONObject
+
+                        val id = line.getString("id")
+                        val idSistema = "EQ$id"
+
+                        if (lines[n].toString().toLowerCase(Locale.ENGLISH).contains(constraint) ||
+                            constraint == idSistema) {
                             filteredArray.put(lines[n])
                         }
                     }

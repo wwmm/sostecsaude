@@ -21,10 +21,13 @@ class TabEquipamento : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         arguments.apply {
+            val id = this?.getString("ID").toString()
+
             textView_equipamento.text = this!!.getString("Nome").toString()
             editText_fabricante.text = this.getString("Fabricante").toString()
             editText_modelo.text = this.getString("Modelo").toString()
             editText_numero_serie.text = this.getString("NumeroSerie").toString()
+            textView_id_sistema.text = "EQ$id"
         }
     }
 }

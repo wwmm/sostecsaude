@@ -47,31 +47,11 @@
                 android:id="@+id/textView3"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="32dp"
+                android:layout_marginTop="16dp"
                 android:text="@string/title_defeito"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textView4" />
-
-            <TextView
-                android:id="@+id/textView4"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="16dp"
-                android:text="@string/title_quantidade"
-                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/editText_numero_serie" />
-
-            <EditText
-                android:id="@+id/editText_quantidade"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:ems="10"
-                android:inputType="number"
-                app:layout_constraintBaseline_toBaselineOf="@+id/textView4"
-                app:layout_constraintStart_toEndOf="@+id/textView4" />
 
             <EditText
                 android:id="@+id/editText_defeito"
@@ -176,15 +156,6 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/textView15" />
-
-            <TextView
-                android:id="@+id/textView8"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/title_unidades_minusculo"
-                app:layout_constraintBaseline_toBaselineOf="@+id/editText_quantidade"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/editText_quantidade" />
 
             <TextView
                 android:id="@+id/textView53"

@@ -58,7 +58,6 @@ class AdicionarEquipamento : Fragment() {
             val modelo = editText_modelo.text.toString()
             val numeroSerie = editText_numero_serie.text.toString()
             val defeito = editText_defeito.text.toString()
-            val quantidade = editText_quantidade.text.toString()
             val unidade = editText_unidade_saude.text.toString()
             val local = editText_local.text.toString()
 
@@ -73,7 +72,7 @@ class AdicionarEquipamento : Fragment() {
 
             if (nome.isNotBlank() && fabricante.isNotBlank() && modelo.isNotBlank()
                 && numeroSerie.isNotBlank() && defeito.isNotBlank() &&
-                quantidade.isNotBlank() && unidade.isNotBlank() && local.isNotBlank()
+                unidade.isNotBlank() && local.isNotBlank()
             ) {
                 progressBar.visibility = View.VISIBLE
 
@@ -115,7 +114,7 @@ class AdicionarEquipamento : Fragment() {
                         parameters["fabricante"] = fabricante
                         parameters["modelo"] = modelo
                         parameters["numero_serie"] = numeroSerie
-                        parameters["quantidade"] = quantidade
+                        parameters["quantidade"] = "1" // um dia essa varável será removida
                         parameters["defeito"] = defeito
                         parameters["unidade"] = unidade
                         parameters["local"] = local

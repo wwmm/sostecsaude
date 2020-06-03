@@ -59,4 +59,15 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textColor="?attr/editTextColor" />
+
+    <TextView
+        android:id="@+id/textView4"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/title_id_sistema" />
+
+    <TextView
+        android:id="@+id/textView_id_sistema"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
 </LinearLayout>

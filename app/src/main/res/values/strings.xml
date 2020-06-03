@@ -16,6 +16,7 @@
     <string name="title_fabricante">Fabricante</string>
     <string name="title_modelo">Modelo</string>
     <string name="title_numero_serie">Número de Série</string>
+    <string name="title_id_sistema">Identificação no Sistema</string>
 
     <string name="title_empresa">Empresa</string>
     <string name="title_equipamentos">Equipamentos</string>
