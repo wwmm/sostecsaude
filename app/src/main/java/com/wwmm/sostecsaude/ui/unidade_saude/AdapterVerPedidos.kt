@@ -18,6 +18,11 @@ import com.wwmm.sostecsaude.connectionErrorMessage
 import com.wwmm.sostecsaude.myServerURL
 import kotlinx.android.synthetic.main.fragment_unidade_saude_ver_pedidos.*
 import kotlinx.android.synthetic.main.recyclerview_unidade_saude_ver_pedidos.view.*
+import kotlinx.android.synthetic.main.recyclerview_unidade_saude_ver_pedidos.view.editText_defeito
+import kotlinx.android.synthetic.main.recyclerview_unidade_saude_ver_pedidos.view.editText_fabricante
+import kotlinx.android.synthetic.main.recyclerview_unidade_saude_ver_pedidos.view.editText_modelo
+import kotlinx.android.synthetic.main.recyclerview_unidade_saude_ver_pedidos.view.editText_nome
+import kotlinx.android.synthetic.main.recyclerview_unidade_saude_ver_pedidos.view.editText_numero_serie
 import org.json.JSONArray
 import org.json.JSONObject
 import java.util.*
@@ -50,8 +55,9 @@ class AdapterVerPedidos(private val frag: VerPedidos, private val lines: JSONArr
         var fabricante = line.getString("Fabricante")
         var modelo = line.getString("Modelo")
         var numeroSerie = line.getString("NumeroSerie")
-        var quantidade = line.getString("Quantidade")
         var defeito = line.getString("Defeito")
+
+        holder.view.textView_title_equipamento.text = "Equipamento EQ$id"
 
         holder.view.editText_nome.setText(nome)
         holder.view.editText_fabricante.setText(fabricante)
@@ -135,7 +141,7 @@ class AdapterVerPedidos(private val frag: VerPedidos, private val lines: JSONArr
                                 obj.put("Modelo", modelo)
                                 obj.put("NumeroSerie", numeroSerie)
                                 obj.put("Defeito", defeito)
-                                obj.put("Quantidade", quantidade)
+                                obj.put("Quantidade", "1") // essa variável será retirada um dia...
 
                                 lines.put(j, obj)
 

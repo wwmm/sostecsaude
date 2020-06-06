@@ -127,8 +127,10 @@ class VerOfertas : Fragment(), Toolbar.OnMenuItemClickListener, SearchView.OnQue
                             for (n in 0 until response.length()) {
                                 val obj = response[n] as JSONObject
 
-                                list.add(obj.getString("nome"))
-                                mIdList.add(obj.getString("id"))
+                                val id = obj.getString("id")
+
+                                list.add(obj.getString("nome") + " EQ$id")
+                                mIdList.add(id)
                             }
 
                             val adapter = ArrayAdapter(

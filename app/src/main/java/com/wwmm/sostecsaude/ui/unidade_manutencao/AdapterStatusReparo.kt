@@ -322,7 +322,7 @@ class AdapterStatusReparo(
             if (cancelVisible) View.VISIBLE else View.GONE
         holder.view.unidadeManutencaoOfertasBtnCancel.text = cancelText
 
-        holder.view.textView_equipamento.text = nome
+        holder.view.textView_equipamento.text = nome + " EQ${json.getString("id")}"
         holder.view.unidadeManutencaoOfertasEstado.text = getEstadoString(estado)
         holder.view.unidadeManutencaoOfertasEstado.background.setTint(getEstadoColor(estado))
         holder.view.unidadeManutencaoOfertasUpdatedAt.text = getDateStr(json.getInt("updatedAt"))
@@ -334,8 +334,6 @@ class AdapterStatusReparo(
         holder.view.unidadeManutencaoSaudeNome.text = json.getString("unidade")
         holder.view.unidadeManutencaoSaudeEndereco.text = json.getString("local")
         holder.view.unidadeManutencaoSaudeEmail.text = json.getString("email")
-
-        holder.view.textView_id_sistema.text = "EQ${json.getString("id")}"
 
         holder.view.unidadeManutencaoOfertasBtnOK.setOnClickListener(null)
         holder.view.unidadeManutencaoOfertasBtnCancel.setOnClickListener(null)
