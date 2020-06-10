@@ -216,8 +216,8 @@ class AdapterVerPedidos(
                         val id = line.getString("ID")
                         val idSistema = "EQ$id"
 
-                        if (equipamentos[n].toString().toLowerCase(Locale.ENGLISH)
-                                .contains(constraint) || constraint == idSistema
+                        if (equipamentos[n].toString().contains(constraint,true) ||
+                            constraint == idSistema
                         ) {
                             filteredArray.put(equipamentos[n])
                         }

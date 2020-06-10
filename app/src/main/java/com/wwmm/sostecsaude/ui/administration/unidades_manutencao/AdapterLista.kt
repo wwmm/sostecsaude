@@ -187,8 +187,7 @@ class AdapterLista(
                     val filteredArray = JSONArray()
 
                     for (n in 0 until unidades.length()) {
-                        if (unidades[n].toString().toLowerCase(Locale.ENGLISH)
-                                .contains(constraint)
+                        if (unidades[n].toString().contains(constraint,true)
                         ) {
                             filteredArray.put(unidades[n])
                         }

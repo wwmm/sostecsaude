@@ -366,7 +366,7 @@ class AdapterStatusReparo(
                         val id = line.getString("id")
                         val idSistema = "EQ$id"
 
-                        if (lines[n].toString().toLowerCase(Locale.ENGLISH).contains(constraint) ||
+                        if (lines[n].toString().contains(constraint,true) ||
                             constraint == idSistema) {
                             filteredArray.put(lines[n])
                         }

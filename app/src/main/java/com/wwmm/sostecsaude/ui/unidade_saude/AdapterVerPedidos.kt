@@ -197,7 +197,7 @@ class AdapterVerPedidos(private val frag: VerPedidos, private val lines: JSONArr
                     val filteredArray = JSONArray()
 
                     for (n in 0 until lines.length()) {
-                        if (lines[n].toString().toLowerCase(Locale.ENGLISH).contains(constraint)) {
+                        if (lines[n].toString().contains(constraint, true)) {
                             filteredArray.put(lines[n])
                         }
                     }
