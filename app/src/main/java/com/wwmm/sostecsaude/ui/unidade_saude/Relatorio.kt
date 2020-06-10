@@ -297,11 +297,11 @@ class Relatorio : Fragment() {
         row.layoutParams = layoutParams
 
         row.addView(buildField("unidade", Color.WHITE, 14, Gravity.CENTER, false))
-        row.addView(buildField("equipamento", Color.GRAY, 14, Gravity.CENTER, false))
+        row.addView(buildField("equipamento", Color.LTGRAY, 14, Gravity.CENTER, false))
+        row.addView(buildField("nome", Color.GRAY, 14, Gravity.CENTER, false))
         row.addView(buildField("modelo", Color.LTGRAY, 14, Gravity.CENTER, false))
         row.addView(buildField("fabricante", Color.GRAY, 14, Gravity.CENTER, false))
         row.addView(buildField("número de série", Color.LTGRAY, 14, Gravity.CENTER, false))
-        row.addView(buildField("quantidade", Color.GRAY, 14, Gravity.CENTER, false))
         row.addView(buildField("status de manutenção", Color.LTGRAY, 14, Gravity.CENTER, false))
 
         row.gravity = Gravity.START
@@ -314,11 +314,11 @@ class Relatorio : Fragment() {
             val json = mListaEquipamentos[n] as JSONObject
 
             val unidade = json.getString("unidade")
-            val equipamento = json.getString("nome")
+            val equipamento = "EQ${json.getString("id")}"
+            val nome = json.getString("nome")
             val fabricante = json.getString("fabricante")
             val modelo = json.getString("modelo")
             val numeroSerie = json.getString("numeroSerie")
-            val quantidade = json.getString("quantidade")
 
             row = TableRow(requireContext())
 
@@ -327,10 +327,10 @@ class Relatorio : Fragment() {
 
             row.addView(buildField(unidade, Color.WHITE, 14, Gravity.CENTER, false))
             row.addView(buildField(equipamento, Color.WHITE, 14, Gravity.CENTER, false))
+            row.addView(buildField(nome, Color.WHITE, 14, Gravity.CENTER, false))
             row.addView(buildField(modelo, Color.WHITE, 14, Gravity.CENTER, false))
             row.addView(buildField(fabricante, Color.WHITE, 14, Gravity.CENTER, false))
             row.addView(buildField(numeroSerie, Color.WHITE, 14, Gravity.CENTER, false))
-            row.addView(buildField(quantidade, Color.WHITE, 14, Gravity.CENTER, false))
 
             val idEquipamento = json.getString("id")
             var status = -1
